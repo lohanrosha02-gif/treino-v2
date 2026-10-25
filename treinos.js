@@ -275,7 +275,7 @@
     mount.innerHTML='<div class="training-guide">'
       +'<nav class="train-day-nav" aria-label="Escolha a sessão">'+['A','B','C','D'].map(function(key){
         var done=getDayRecord(key).complete===true,day=plans[key];
-        var shortName={A:'Superior',B:'Inferiores',C:'Superior',D:'Mobilidade'}[key];
+        var shortName={A:'Superior',B:'Inferiores',C:'Superior',D:'Inferiores'}[key];
         return '<button type="button" class="train-day-btn'+(dayChoice===key?' active':'')+(done?' completed':'')+'" data-day="'+key+'" aria-pressed="'+(dayChoice===key)+'"><span class="day-topline"><strong>'+key+'</strong><span class="train-done">'+(done?'✓':'')+'</span></span><small>'+shortName+'</small><span class="day-weekday">'+day.interval+'</span></button>';
       }).join('')+'</nav>'
       +'<section class="panel train-panel" aria-labelledby="trainingDetailTitle"><div class="train-panel-head"><div>'
