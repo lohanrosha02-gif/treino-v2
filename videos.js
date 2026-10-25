@@ -1,6 +1,6 @@
-/* Anatomical demonstrations matching the visual references; adapted movements without matching clips remain explicit. */
+/* Meu Treino v2: vídeos de mobilidade e exercícios; animações 3D instrutivas e demonstrações originais.
+   Vídeos locais em assets/videos; não substituem instrução presencial para joelhos sintomáticos. */
 window.MeuTreinoVideos=Object.freeze({
-  "version": 2,
   "clips": {
     "a1": {
       "type": "local",
@@ -115,26 +115,17 @@ window.MeuTreinoVideos=Object.freeze({
       "name": "Wide Grip Cable Lat Pulldown",
       "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/cable-bar-lateral-pulldown-wide-shoulder-grip.mp4"
     },
-    "c5": {
-      "type": "local",
-      "url": "./assets/videos/cable-rear-delt-row-with-rope.mp4",
-      "poster": "./assets/videos/cable-rear-delt-row-with-rope.webp",
-      "name": "Cable Rear Delt Row (with rope)",
-      "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/cable-rear-delt-row-with-rope.mp4"
-    },
-    "c6": {
-      "type": "local",
-      "url": "./assets/videos/cable-one-arm-curl.mp4",
-      "poster": "./assets/videos/cable-one-arm-curl.webp",
-      "name": "Cable One Arm Curl",
-      "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/cable-one-arm-curl.mp4"
-    },
     "c7": {
       "type": "local",
       "url": "./assets/videos/cable-pushdown-rope-attachment.mp4",
       "poster": "./assets/videos/cable-pushdown-rope-attachment.webp",
       "name": "Cable Rope Triceps Pushdown",
       "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/cable-pushdown-rope-attachment.mp4"
+    },
+    "c8": {
+      "type": "local",
+      "url": "./assets/videos/prancha-antebracos.mp4",
+      "name": "Prancha de antebraços"
     },
     "cardioA": {
       "type": "local",
@@ -159,41 +150,33 @@ window.MeuTreinoVideos=Object.freeze({
     },
     "cardioD": {
       "type": "local",
-      "url": "./assets/videos/stationary-bike.mp4",
-      "poster": "./assets/videos/stationary-bike.webp",
-      "name": "Stationary Bike",
-      "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/stationary-bike.mp4"
+      "url": "./assets/videos/d-esteira-caminhada.mp4",
+      "name": "Caminhada na esteira (ilustrativa)"
     },
-    "d1": {
+    "d10": {
+      "type": "local",
+      "url": "./assets/videos/prancha-antebracos.mp4",
+      "name": "Prancha de antebraços"
+    },
+    "d6": {
+      "type": "local",
+      "url": "./assets/videos/d-stiff-barra.mp4",
+      "name": "Stiff com barra livre"
+    },
+    "d7": {
+      "type": "local",
+      "url": "./assets/videos/d-agachamento-banco.mp4",
+      "name": "Sentar e levantar de banco alto"
+    },
+    "d8": {
       "type": "local",
       "url": "./assets/videos/lever-seated-hip-abduction.mp4",
-      "poster": "./assets/videos/lever-seated-hip-abduction.webp",
-      "name": "Lever Seated Hip Abduction",
-      "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/lever-seated-hip-abduction.mp4"
+      "name": "Abdução na máquina"
     },
-    "d2": {
+    "d9": {
       "type": "local",
-      "url": "./assets/videos/lever-standing-hip-extension.mp4",
-      "poster": "./assets/videos/lever-standing-hip-extension.webp",
-      "name": "Lever Standing Hip Extension",
-      "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/lever-standing-hip-extension.mp4"
-    },
-    "d3": {
-      "type": "local",
-      "url": "./assets/videos/dumbbell-seated-calf-raise.mp4",
-      "poster": "./assets/videos/dumbbell-seated-calf-raise.webp",
-      "name": "Dumbbell Seated Calf Raise",
-      "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/dumbbell-seated-calf-raise.mp4"
-    },
-    "d4": {
-      "status": "pending",
-      "name": "Isometria de glúteos (animação 3D)",
-      "reason": "Vídeo anatômico específico pendente. Consulte as instruções desta ficha."
-    },
-    "d5": {
-      "status": "pending",
-      "name": "Mobilização ativa do joelho (animação 3D)",
-      "reason": "Vídeo anatômico específico pendente. Consulte as instruções desta ficha."
+      "url": "./assets/videos/lever-seated-calf-raise.mp4",
+      "name": "Panturrilha na máquina sentada"
     },
     "mA1": {
       "type": "local",
@@ -232,40 +215,34 @@ window.MeuTreinoVideos=Object.freeze({
       "reason": "O vídeo anterior mostrava uma variação deitada; não corresponde à ficha."
     },
     "mC1": {
-      "status": "pending",
-      "name": "Rotação torácica sentado (animação 3D)",
-      "reason": "Vídeo anatômico específico pendente. Consulte as instruções desta ficha."
+      "type": "local",
+      "url": "./assets/videos/c-toracica-4apoios.mp4",
+      "name": "Rotação torácica em quatro apoios"
     },
     "mC2": {
-      "status": "pending",
-      "name": "Deslizamento de braços na parede (animação 3D)",
-      "reason": "Vídeo anatômico específico pendente. Consulte as instruções desta ficha."
+      "type": "local",
+      "url": "./assets/videos/c-braco-por-baixo.mp4",
+      "name": "Rotação com braço passando por baixo"
     },
     "mC3": {
       "type": "local",
-      "url": "./assets/videos/stretching-seated-shoulder-flexor-depresor-retractor.mp4",
-      "poster": "./assets/videos/stretching-seated-shoulder-flexor-depresor-retractor.webp",
-      "name": "Seated Shoulder Flexor, Depressor, Retractor Stretch",
-      "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/stretching-seated-shoulder-flexor-depresor-retractor.mp4"
+      "url": "./assets/videos/c-alcance.mp4",
+      "name": "Alongamento em quatro apoios com alcance"
     },
-    "mD1": {
+    "mD4": {
       "type": "local",
-      "url": "./assets/videos/stretching-feet-and-ankles-rotation-stretch.mp4",
-      "poster": "./assets/videos/stretching-feet-and-ankles-rotation-stretch.webp",
-      "name": "Feet and Ankles Rotation Stretch",
-      "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/stretching-feet-and-ankles-rotation-stretch.mp4"
+      "url": "./assets/videos/d-joelhos-sentar-levantar.mp4",
+      "name": "Sentar e levantar ajoelhado"
     },
-    "mD2": {
-      "status": "pending",
-      "name": "Rotação torácica sentado (animação 3D)",
-      "reason": "Vídeo anatômico específico pendente. Consulte as instruções desta ficha."
-    },
-    "mD3": {
+    "mD5": {
       "type": "local",
-      "url": "./assets/videos/stretching-band-warm-up-shoulder-stretch.mp4",
-      "poster": "./assets/videos/stretching-band-warm-up-shoulder-stretch.webp",
-      "name": "Band Shoulder Warm-Up Stretch",
-      "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/stretching-band-warm-up-shoulder-stretch.mp4"
+      "url": "./assets/videos/d-posterior-sentado.mp4",
+      "name": "Alongamento posterior sentado"
+    },
+    "mD6": {
+      "type": "local",
+      "url": "./assets/videos/d-joelhos-bola.mp4",
+      "name": "Flexão e extensão de joelhos com bola"
     }
   }
 });
