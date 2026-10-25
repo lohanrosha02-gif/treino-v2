@@ -195,30 +195,33 @@
   }
   function seriesProgressNote(id){
     var earlier=previousSeries(id);
+    var ex=plans[dayChoice].exercises.find(function(x){return x.id===id;});
+    var isTimed=ex&&ex.unit==='seconds';
     if(!earlier)return '';
     var entries=earlier.series.map(function(s,i){
       if(!s||(s.load===undefined||s.load==='')&&(s.reps===undefined||s.reps===''))return '';
       var parts=[];
       if(s.load!==undefined&&s.load!=='')parts.push(String(s.load).replace('.',',')+' kg');
-      if(s.reps!==undefined&&s.reps!=='')parts.push(s.reps+' rep.');
+      if(s.reps!==undefined&&s.reps!=='')parts.push(s.reps+(isTimed?' s':' rep.'));
       return 'S'+(i+1)+' '+parts.join(' · ');
     }).filter(Boolean);
     return entries.length?'<p class="series-history">Semana '+earlier.week+': '+escapeHtml(entries.join('  |  '))+'</p>':'';
   }
   function seriesRows(exercise,entry){
     var count=setCount(exercise),existing=Array.isArray(entry.series)?entry.series:[];
+    var timed=exercise.unit==='seconds';
     var rows=Array.from({length:count},function(_,i){
       var record=existing[i]&&typeof existing[i]==='object'?existing[i]:{};
       var number=i+1;
-      return '<div class="series-row" data-series-row="'+number+'">'
+      return '<div class="series-row'+(timed?' timed-series-row':'')+'" data-series-row="'+number+'">'
         +'<strong class="series-number">Série '+number+'</strong>'
-        +'<label class="series-input"><span>Carga (kg)</span><input type="text" inputmode="decimal" autocomplete="off" maxlength="8" id="load-'+exercise.id+'-'+number+'" data-exercise="'+exercise.id+'" data-series="'+i+'" data-exfield="load" aria-label="Carga em quilos da série '+number+'" placeholder="kg" value="'+escapeHtml(record.load===undefined?'':record.load)+'"></label>'
-        +'<label class="series-input"><span>Repetições</span><input type="number" inputmode="numeric" min="0" max="200" step="1" id="reps-'+exercise.id+'-'+number+'" data-exercise="'+exercise.id+'" data-series="'+i+'" data-exfield="reps" aria-label="Repetições da série '+number+'" placeholder="reps" value="'+escapeHtml(record.reps===undefined?'':record.reps)+'"></label>'
+        +(timed?'':'<label class="series-input"><span>Carga (kg)</span><input type="text" inputmode="decimal" autocomplete="off" maxlength="8" id="load-'+exercise.id+'-'+number+'" data-exercise="'+exercise.id+'" data-series="'+i+'" data-exfield="load" aria-label="Carga em quilos da série '+number+'" placeholder="kg" value="'+escapeHtml(record.load===undefined?'':record.load)+'"></label>')
+        +'<label class="series-input"><span>'+(timed?'Tempo (segundos)':'Repetições')+'</span><input type="number" inputmode="numeric" min="0" max="200" step="1" id="reps-'+exercise.id+'-'+number+'" data-exercise="'+exercise.id+'" data-series="'+i+'" data-exfield="reps" aria-label="'+(timed?'Segundos':'Repetições')+' da série '+number+'" placeholder="'+(timed?'40 s':'reps')+'" value="'+escapeHtml(record.reps===undefined?'':record.reps)+'"></label>'
         +'<label class="series-done"><input type="checkbox" data-exercise="'+exercise.id+'" data-series="'+i+'" data-exfield="done" aria-label="Série '+number+' concluída" '+(record.done?'checked':'')+'><span>Feita</span></label>'
         +'</div>';
     }).join('');
     var old=(entry.load||entry.reps)&&!Array.isArray(entry.series)
-      ?'<p class="series-legacy">Registro antigo: '+escapeHtml([entry.load?(entry.load+' kg'):'',entry.reps?(entry.reps+' repetições'):''].filter(Boolean).join(' · '))+'</p>':'';
+      ?'<p class="series-legacy">Registro anterior: '+escapeHtml([entry.load?(entry.load+' kg'):'',entry.reps?(entry.reps+(timed?' segundos':' repetições')):''].filter(Boolean).join(' · '))+'</p>':'';
     return '<div class="series-tracker"><div class="series-tracker-title"><strong>Séries</strong><span data-series-progress="'+exercise.id+'">'+completedSets(exercise,entry)+'/'+count+' feitas</span></div>'
       +rows+old+seriesProgressNote(exercise.id)+'</div>';
   }
