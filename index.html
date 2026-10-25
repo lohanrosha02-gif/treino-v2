@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta name="app-build" content="2.0.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f7f3">
+  <meta name="description" content="Meu Treino: seu plano de 8 semanas, demonstrações em vídeo e registro de cada série em um só lugar.">
+  <title>Meu Treino · Seu ritmo, sua evolução</title>
+  <link rel="stylesheet" href="./app.css?v=2.0.0">
+  <link rel="stylesheet" href="./treinos.css?v=2.0.0">
+</head>
+<body>
+<a class="skip-link" href="#mainContent">Pular para o conteúdo</a>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <div class="brand-icon" aria-hidden="true">
+        <svg viewBox="0 0 32 32" fill="none"><path d="M5 20.5 11.8 11l5.2 6.2 9-10" stroke="#E2F1D3" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M21.5 7.2H26v4.5" stroke="#E2F1D3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div><div class="brand-title">meu treino<span style="color:#528b67">.</span></div><div class="brand-sub">SEU RITMO. SUA EVOLUÇÃO.</div></div>
+    </div>
+    <div class="header-tools"><span class="top-pill"><span class="dot"></span> Plano de 8 semanas</span>
+      <details class="backup-menu"><summary aria-label="Gerenciar backup"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 15v5h16v-5"/></svg><span>Meus dados</span></summary>
+      <div class="backup-options"><button type="button" id="exportBackup">Baixar backup</button><button type="button" id="importBackup">Restaurar backup</button><small>Salvo somente neste navegador.</small></div></details>
+      <input type="file" id="backupFile" accept="application/json,.json" hidden></div>
+  </div>
+</header>
+
+<div class="container app">
+  <div class="page-head">
+    <div>
+      <div class="eyebrow" id="pageEyebrow">ACOMPANHAMENTO PESSOAL</div><h1 id="pageTitle">Seu ponto de partida.</h1><p class="lead" id="pageLead">Uma avaliação inicial. Oito semanas de evolução.</p>
+    </div>
+    
+  </div>
+
+  <div class="layout">
+    <aside class="sidebar" aria-label="Menu de acompanhamento">
+      <nav class="nav-panel" role="tablist" aria-label="Áreas do site">
+        <div class="side-label">Menu principal</div>
+        <button type="button" class="nav-item active" id="tabEvaluation" role="tab" aria-controls="evaluationTab" aria-selected="true" tabindex="0">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3.5h6M9 10h6M9 14h6"/></svg>
+          Avaliação inicial
+        </button>
+        <button type="button" class="nav-item" id="tabTraining" role="tab" aria-controls="trainingTab" aria-selected="false" tabindex="-1">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18"/></svg>
+          Meus treinos
+        </button>
+      </nav>
+      <div class="side-progress">
+        <div>
+          <div class="small-heading">Avaliação inicial</div>
+          <div class="big-progress"><span id="weeksCompleted">0</span><span> / 12</span></div>
+          
+        </div>
+        <div class="track" role="progressbar" aria-label="Medidas da avaliação preenchidas" aria-valuemin="0" aria-valuemax="12" aria-valuenow="0" id="overallProgress"><div id="overallBar"></div></div>
+      </div>
+      
+      <div class="side-plan"><div class="small-heading">Seu plano completo</div><strong id="planProgressText">0 <span>/ 32 sessões</span></strong><div class="track" role="progressbar" aria-label="Sessões concluídas no plano" aria-valuemin="0" aria-valuemax="32" aria-valuenow="0" id="planProgress"><div id="planBar"></div></div><p>Constância, um treino de cada vez.</p></div>
+    </aside>
+
+    <main class="main" id="mainContent" tabindex="-1">
+
+
+      <div class="tab-content" id="evaluationTab" role="tabpanel" aria-labelledby="tabEvaluation">
+      <section class="panel" id="initialPanel" aria-labelledby="formHeading">
+        <div class="form-head">
+          <div><div class="eyebrow">Avaliação inicial</div><h2 id="formHeading">Vamos conhecer seu início.</h2><p>Preencha uma vez e consulte quando precisar.</p></div>
+
+        </div>
+        <div class="info-strip">
+          <div><div class="info-main">Avaliação antropométrica</div><div class="info-sub" id="filledLabel">0 de 12 campos preenchidos</div></div>
+          <div class="week-complete"><span class="mini-circle" id="filledCircle">0/12</span></div>
+        </div>
+        <form id="measureForm" novalidate>
+          <div class="date-row">
+            <label for="measureDate">Data da avaliação <span style="color:#a4aea5;font-weight:500">(opcional)</span></label>
+            <input type="date" id="measureDate" name="date">
+          </div>
+          
+          <div id="measureFields"></div>
+          <div class="actions">
+            <button class="primary-btn" type="submit" id="saveButton">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
+              Salvar medidas
+            </button>
+            <button type="button" class="outline-btn" id="nextWeek">Ver treinos <span aria-hidden="true">→</span></button>
+            <button type="button" class="plain-btn" id="clearWeek">Limpar avaliação inicial</button>
+          </div>
+        </form>
+        <div class="save-msg" id="saveStatus" role="status" aria-live="polite">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
+          <span id="saveStatusText">Os dados são salvos neste navegador.</span>
+        </div>
+      </section>
+      <section class="panel indicators-panel" aria-labelledby="indicatorsHeading">
+        
+        <h2 id="indicatorsHeading" style="margin:7px 0 7px;font-size:22px;letter-spacing:-.7px">Indicadores</h2>
+        
+        <div class="indicator-grid">
+          <article class="indicator-card">
+            <span class="indicator-title">Índice de massa corporal (IMC)</span>
+            <div class="indicator-value" id="indicatorBmi" aria-live="polite">—</div>
+             <div class="indicator-status" id="indicatorBmiStatus" aria-live="polite"></div>
+            <p id="indicatorBmiHelp">Informe peso e altura.</p>
+
+          </article>
+          <article class="indicator-card">
+            <span class="indicator-title">Relação cintura / altura</span>
+            <div class="indicator-value" id="indicatorWaistHeight" aria-live="polite">—</div>
+             <div class="indicator-status" id="indicatorWaistHeightStatus" aria-live="polite"></div>
+            <p id="indicatorWaistHeightHelp">Informe cintura e altura.</p>
+
+          </article>
+          <article class="indicator-card">
+            <span class="indicator-title">Relação cintura / quadril</span>
+            <div class="indicator-value" id="indicatorWaistHip" aria-live="polite">—</div>
+             <div class="indicator-status" id="indicatorWaistHipStatus" aria-live="polite"></div>
+            <p id="indicatorWaistHipHelp">Informe cintura e quadril.</p>
+
+          </article>
+        </div>
+
+        <p class="indicator-disclaimer">Indicadores de triagem, não diagnósticos. IMC não distingue músculo de gordura.</p>
+      </section>
+      <section class="panel bodies-panel" aria-labelledby="bodiesHeading">
+        
+        <h2 class="bodies-heading" id="bodiesHeading">Faixas de IMC</h2>
+        
+        <div class="bodies-grid" id="bodiesGrid" aria-label="Representações padronizadas de cinco faixas do IMC"></div>
+        <div class="bodies-result" id="bodiesResult" role="status" aria-live="polite">Preencha o peso e a altura para destacar a faixa de IMC.</div>
+        <p class="bodies-note">Silhuetas ilustrativas. O IMC não representa a aparência real.</p>
+      </section>
+      <section class="panel comparison-panel" aria-labelledby="comparisonHeading">
+        
+        <h2 id="comparisonHeading" style="margin:6px 0 8px;font-size:22px;letter-spacing:-.6px">Medidas × referência</h2>
+        
+        <div class="comparison-meta" id="comparisonDate">Avaliação inicial · sem data</div>
+        <div class="compare-table-wrap">
+          <table class="compare-table">
+            <thead><tr><th scope="col">Medida</th><th scope="col">Atual</th><th scope="col">Situação</th><th scope="col">Referência / objetivo</th></tr></thead>
+            <tbody id="comparisonRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      </div>
+
+      <div class="tab-content" id="trainingTab" role="tabpanel" aria-labelledby="tabTraining" hidden>
+      <section class="workout-hero" aria-label="Resumo da semana"><div><span class="hero-kicker" id="heroWeek">SEMANA 01 / 08</span><h2>Um treino de cada vez.</h2><p id="heroProgress">Seu próximo passo começa aqui.</p></div><div class="week-ring" id="weekRing" style="--progress:0%"><div><strong id="weekSessionCount">0<span>/4</span></strong><small>SESSÕES</small></div></div></section>
+      <section class="week-panel" aria-labelledby="weeksHeading">
+        <div class="section-head"><h3 id="weeksHeading">Sua semana</h3><span id="navCaption">Semana 1 de 8</span></div>
+        <div class="week-list" id="weekList" aria-label="Selecionar semana"></div>
+      </section>
+
+      <div id="trainingMount" aria-label="Plano completo de treino A a D"></div>
+      </div>
+
+
+      <footer class="footer"><span>Meu Treino · Seu plano de 8 semanas</span><span><span class="footer-dot"></span> Salvo no navegador</span></footer>
+    </main>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="./app.js?v=2.0.0" defer></script>
+<script src="./videos.js?v=2.0.0" defer></script>
+<script src="./treinos.js?v=2.0.0" defer></script>
+<script src="./experience.js?v=2.0.0" defer></script>
+</body>
+</html>

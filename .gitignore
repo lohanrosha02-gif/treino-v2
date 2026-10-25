@@ -1,0 +1,6 @@
+.openai/
+qa.html
+scripts/upgrade.py
+scripts/render_demos.py
+__pycache__/
+dist/
