@@ -18,24 +18,17 @@ Os dados continuam na mesma chave `meu-treino-v2` do navegador. Os caminhos `/tr
 
 No repositório, abra **Settings → Pages** e selecione **Deploy from a branch → main → / (root) → Save**. Não há instalação nem compilação obrigatória. O site original no repositório `treino` não foi alterado.
 
-## Vídeos específicos pendentes
+## Atualização dos treinos C e D
 
-Há **30 atividades com vídeo anatômico**, reutilizando 21 arquivos. As 11 atividades abaixo mantêm o passo a passo, sem mostrar animação de outro estilo nem associar um movimento diferente:
+- **C:** três mobilidades em quatro apoios, quatro movimentos de peito/costas, tríceps e prancha 3 × 40 s.
+- **D:** mobilidades de joelhos/posterior/bola, stiff com barra livre 3 × 10, sentar-levantar 3 × 10, abdutora 2 × 12, panturrilha 2 × 15, prancha 3 × 40 s e caminhada em esteira com 15 minutos de inclinação individualizada.
+- Novos arquivos em `assets/videos/`, com versões em vídeo 3D ilustrativo. Não são gravações reais de pessoas e não substituem avaliação do movimento.
+- A prancha permite registrar **segundos por série** sem coluna de carga. Registros antigos ficam guardados, mas uma ficha modificada precisa ser concluída novamente.
+- Cuidado: com dor crônica nos joelhos, a inclinação da esteira e a amplitude de agachamento devem ser ajustadas ou suspensas caso provoquem sintomas.
 
-| Atividade | IDs |
-| --- | --- |
-| Rotação torácica / de tronco sentado | mA2, mC1, mD2 |
-| Deslizamento de braços na parede | mA3, mC2 |
-| Quadríceps isométrico no leg press | b7 |
-| Glúteos isométricos unilaterais sentado | b9 |
-| Extensão de joelho com caneleira e isometria | b10 |
-| Contração isométrica de glúteos sentado | d4 |
-| Mobilização ativa confortável do joelho | d5 |
-| Alongamento de posterior de coxa em pé | mB5 |
+## Vídeos ainda pendentes
 
-A biblioteca consultada não forneceu clipes anatômicos correspondentes a esses movimentos. O vídeo anterior de mB5 mostrava um alongamento deitado. O vídeo da rosca unilateral foi corrigido para `cable-one-arm-curl` e a orientação da polia da remada posterior foi alinhada à demonstração.
-
-Para adicionar um vídeo: coloque o MP4 e o pôster WebP em `assets/videos/`, atualize a entrada correspondente em `videos.js` e remova `status: "pending"`. Preserve exercício, equipamento e tipo de contração da ficha.
+Algumas demonstrações fora dos treinos C e D ainda carecem de correspondência anatômica específica (`mA2`, `mA3`, `b7`, `b9`, `b10`, `mB5`). Não se devem vincular vídeos de exercícios diferentes apenas para preencher esses espaços.
 
 ## Desenvolvimento
 
