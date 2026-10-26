@@ -46,13 +46,13 @@
       cardio:{name:'Bicicleta ergométrica',dose:'8–12 min · leve',suggestion:'Selim ajustado e baixa resistência. Pedalar apenas se não aumentar a dor nos joelhos ou provocar travamento.',kind:'cardio'}
     },
     C:{
-      title:'Costas + peito + core',
-      subtitle:'Peito, costas, tríceps e estabilidade de tronco.',
+      title:'Costas + peito + tríceps + prancha',
+      subtitle:'Segundo estímulo superior e estabilidade do tronco.',
       duration:'60–70 min',interval:'Quinta-feira',recover:'~72 h depois do treino A',
       mobility:[
-        {id:'mC1',name:'Rotação torácica em quatro apoios',dose:'1 × 8 por lado',kind:'rotate',steps:['Apoie mãos e joelhos no colchonete, alinhando ombros e quadris.','Coloque uma mão atrás da cabeça e rode o tronco levando o cotovelo suavemente para baixo, depois abra o peito elevando-o.','Mantenha o quadril estável; volte devagar e troque o lado.']},
-        {id:'mC2',name:'Rotação com braço passando por baixo',dose:'1 × 8 por lado',kind:'rotate',steps:['Em quatro apoios, mantenha uma mão firme no chão.','Passe o outro braço por baixo do peito, aproximando suavemente o ombro do colchonete.','Retorne e abra o braço para cima, sem girar o quadril; repita no outro lado.']},
-        {id:'mC3',name:'Alongamento em quatro apoios com alcance',dose:'1 × 8 lentas',kind:'mobility',steps:['Em quatro apoios, afaste as mãos para a frente sobre o colchonete.','Leve o quadril em direção aos calcanhares apenas até a amplitude confortável, mantendo os braços estendidos.','Respire com tranquilidade, sustente brevemente e volte sem forçar os joelhos.']}
+        {id:'mC1',name:'Rotação torácica em quatro apoios',dose:'1 × 8 por lado',kind:'rotate',steps:['Em quatro apoios sobre um colchonete, alinhe mãos e joelhos e coloque uma mão atrás da cabeça.','Leve o cotovelo em direção ao chão e depois abra o peito girando a região torácica, mantendo o quadril estável.','Retorne lentamente. Não force o pescoço ou os joelhos.'],cue:'Use apoio acolchoado. Se a posição ajoelhada provocar dor, interrompa e substitua por mobilidade sentada.'},
+        {id:'mC2',name:'Rotação com braço passando por baixo',dose:'1 × 8 por lado',kind:'rotate',steps:['Em quatro apoios, mantenha uma das mãos apoiada com o quadril estável.','Passe o outro braço por baixo do peito, girando suavemente até o ombro se aproximar do chão sem forçar.','Retorne e abra o braço para cima; acompanhe com o olhar apenas se for confortável.'],cue:'Não apoiar o peso no pescoço; interromper se os joelhos doerem.'},
+        {id:'mC3',name:'Alongamento em quatro apoios com alcance',dose:'1 × 8 movimentos lentos',kind:'mobility',steps:['Em quatro apoios sobre colchonete, mantenha os joelhos confortavelmente apoiados.','Deslize as mãos para a frente enquanto leva o quadril lentamente em direção aos calcanhares, sem dor.','Sustente brevemente e volte à posição inicial com controle, respirando sem prender o ar.'],cue:'Se não tolerar ajoelhar ou dobrar o joelho, não executar.'}
       ],
       exercises:[
         {id:'c1',name:'Supino inclinado na máquina',dose:'3 × 8–12',rest:'90–120 s',muscle:'Peito · tríceps',kind:'press',hotel:'Supino inclinado com halteres e banco estável.',steps:['Ajuste o encosto para apoiar completamente as costas.','Empurre as alças na direção indicada pela máquina.','Retorne com controle sem descer além do conforto.']},
@@ -60,9 +60,9 @@
         {id:'c3',name:'Crucifixo no peck deck',dose:'2 × 12–15',rest:'60–90 s',muscle:'Peitoral',kind:'fly',hotel:'Crucifixo com halteres leves e amplitude curta, se orientado.',steps:['Ajuste o banco na altura adequada dos ombros.','Aproxime as alças à frente do peito em movimento controlado.','Abra os braços até uma amplitude confortável.']},
         {id:'c4',name:'Puxada alta na polia',dose:'2 × 10–12',rest:'75–90 s',muscle:'Dorsais · bíceps',kind:'pull',hotel:'Polia alta, se disponível.',steps:['Segure a barra com pegada confortável.','Puxe para a parte superior do peito, sem inclinar excessivamente o tronco.','Devolva a barra de forma lenta.']},
         {id:'c7',name:'Tríceps na polia com corda',dose:'2 × 10–15',rest:'60 s',muscle:'Tríceps',kind:'press',hotel:'Extensão de tríceps com halter leve e apoio adequado.',steps:['Mantenha os cotovelos ao lado do tronco.','Estenda os cotovelos para abaixar a corda.','Retorne lentamente sem movimentar os ombros.']},
-        {id:'c8',name:'Prancha sobre os antebraços',dose:'3 × 40 s',rest:'60–90 s',muscle:'Core · estabilização',kind:'isometric',unit:'seconds',hotel:'Colchonete no quarto ou academia.',steps:['Apoie os antebraços sob os ombros e estenda o corpo, mantendo uma linha confortável da cabeça aos pés.','Ative suavemente abdômen e glúteos e respire sem prender o ar durante o tempo planejado.','Interrompa se houver dor lombar, abdominal ou nos joelhos; reduza o tempo ou apoie os joelhos se necessário.'],cue:'Esclarecer a cirurgia abdominal antes de realizar esforços prolongados; 40 s é a meta, não uma obrigação.',caution:true}
+        {id:'c8',name:'Prancha com apoio de antebraços',dose:'3 × 40 s',rest:'60–90 s',muscle:'Abdômen · estabilizadores do tronco',kind:'isometric',timeBased:true,hotel:'Prancha em colchonete, se tolerada.',steps:['De bruços, apoie os antebraços e alinhe os cotovelos abaixo dos ombros.','Eleve o tronco mantendo cabeça, quadril e calcanhares em linha, sem afundar a lombar.','Respire normalmente por até 40 segundos e descanse antes de repetir.'],cue:'Verificar histórico de cirurgia abdominal e tolerância ao esforço. Reduzir duração se perder a postura ou causar dor.'}
       ],
-      cardio:{name:'Bicicleta ergométrica',dose:'5–8 min · leve',suggestion:'Selim ajustado e pedalada suave, apenas se os joelhos tolerarem.',kind:'cardio'}
+      cardio:{name:'Bicicleta ergométrica',dose:'8–12 min · leve',suggestion:'Pedalada confortável, selim ajustado e resistência baixa, apenas se não piorar a dor nos joelhos.',kind:'cardio'}
     },
     D:{
       title:'Posteriores + inferiores + core',
@@ -110,6 +110,10 @@
       if(row.complete===true)row.oldPlanCompletedAt=row.completedAt||'';
       row.complete=false;row.completedAt='';row.planVersion='CD-v2-20261024';
     }
+    if(dayChoice==='C'&&row.cPlanRevision!=='C-20261026-v1-sync'){
+      if(row.complete===true)row.oldPlanCompletedAt=row.completedAt||'';
+      row.complete=false;row.completedAt='';row.cPlanRevision='C-20261026-v1-sync';
+    }
     if(!row.exercises||typeof row.exercises!=='object')row.exercises={};
     return row;
   }
@@ -121,6 +125,11 @@
   function teachingVideo(id){
     var cfg=window.MeuTreinoVideos||{};
     var clip=cfg.clips&&cfg.clips[id];
+    if(clip&&clip.type==='image'&&/^\.\/assets\/images\/[a-z0-9-]+\.webp$/.test(clip.url)){
+      return '<figure class="teaching-video teaching-image" data-video-exercise="'+escapeHtml(id)+'">'
+        +'<div class="image-stage"><img src="'+escapeHtml(clip.url)+'" alt="'+escapeHtml(clip.name||'Posição ilustrativa do exercício')+'" width="1439" height="810" loading="lazy" decoding="async"></div>'
+        +'<figcaption><span>Ilustração anatômica · posição de referência</span></figcaption></figure>';
+    }
     if(clip&&clip.status==='pending'){
       return '<div class="video-pending" role="note"><span class="pending-icon" aria-hidden="true">▷</span><div><strong>Vídeo anatômico específico pendente</strong><p>Consulte o passo a passo abaixo para este movimento adaptado.</p></div></div>';
     }
@@ -161,7 +170,7 @@
     return '<div class="train-step-row">'+items.map(function(m,index){
       return '<details class="train-step"><summary><span class="train-step-index">'+(index+1)+'</span>'
         +'<span class="train-step-content"><strong>'+escapeHtml(m.name)+'</strong><small>'+escapeHtml(m.dose)+'</small></span></summary>'
-        +'<div class="train-step-body">'+teachingVideo(m.id)+stepsList(m.steps)+'</div></details>';
+        +'<div class="train-step-body">'+teachingVideo(m.id)+stepsList(m.steps)+(m.cue?'<p class="exercise-note caution">'+escapeHtml(m.cue)+'</p>':'')+'</div></details>';
     }).join('')+'</div>';
   }
 
@@ -187,7 +196,7 @@
     for(var number=bridge.getWeek()-2;number>=0;number--){
       var data=weeks[number]&&weeks[number].training&&weeks[number].training[dayChoice];
       var value=data&&data.exercises&&data.exercises[id];
-      if(value&&Array.isArray(value.series)&&value.series.some(function(s){return s&&(s.load||s.reps||s.done);})){
+      if(value&&Array.isArray(value.series)&&value.series.some(function(s){return s&&(s.load||s.reps||s.seconds||s.done);})){
         return {week:number+1,series:value.series};
       }
     }
@@ -196,27 +205,27 @@
   function seriesProgressNote(id){
     var earlier=previousSeries(id);
     var ex=plans[dayChoice].exercises.find(function(x){return x.id===id;});
-    var isTimed=ex&&ex.unit==='seconds';
+    var isTimed=ex&&(ex.unit==='seconds'||ex.timeBased===true);
     if(!earlier)return '';
     var entries=earlier.series.map(function(s,i){
-      if(!s||(s.load===undefined||s.load==='')&&(s.reps===undefined||s.reps===''))return '';
+      if(!s||(s.load===undefined||s.load==='')&&(s.reps===undefined||s.reps==='')&&(s.seconds===undefined||s.seconds===''))return '';
       var parts=[];
-      if(s.load!==undefined&&s.load!=='')parts.push(String(s.load).replace('.',',')+' kg');
-      if(s.reps!==undefined&&s.reps!=='')parts.push(s.reps+(isTimed?' s':' rep.'));
+      if(isTimed){var seconds=s.seconds===undefined?s.reps:s.seconds;if(seconds!==undefined&&seconds!=='')parts.push(seconds+' s');}
+      else{if(s.load!==undefined&&s.load!=='')parts.push(String(s.load).replace('.',',')+' kg');if(s.reps!==undefined&&s.reps!=='')parts.push(s.reps+' rep.');}
       return 'S'+(i+1)+' '+parts.join(' · ');
     }).filter(Boolean);
     return entries.length?'<p class="series-history">Semana '+earlier.week+': '+escapeHtml(entries.join('  |  '))+'</p>':'';
   }
   function seriesRows(exercise,entry){
     var count=setCount(exercise),existing=Array.isArray(entry.series)?entry.series:[];
-    var timed=exercise.unit==='seconds';
+    var timed=exercise.unit==='seconds'||exercise.timeBased===true;
     var rows=Array.from({length:count},function(_,i){
       var record=existing[i]&&typeof existing[i]==='object'?existing[i]:{};
       var number=i+1;
       return '<div class="series-row'+(timed?' timed-series-row':'')+'" data-series-row="'+number+'">'
         +'<strong class="series-number">Série '+number+'</strong>'
         +(timed?'':'<label class="series-input"><span>Carga (kg)</span><input type="text" inputmode="decimal" autocomplete="off" maxlength="8" id="load-'+exercise.id+'-'+number+'" data-exercise="'+exercise.id+'" data-series="'+i+'" data-exfield="load" aria-label="Carga em quilos da série '+number+'" placeholder="kg" value="'+escapeHtml(record.load===undefined?'':record.load)+'"></label>')
-        +'<label class="series-input"><span>'+(timed?'Tempo (segundos)':'Repetições')+'</span><input type="number" inputmode="numeric" min="0" max="200" step="1" id="reps-'+exercise.id+'-'+number+'" data-exercise="'+exercise.id+'" data-series="'+i+'" data-exfield="reps" aria-label="'+(timed?'Segundos':'Repetições')+' da série '+number+'" placeholder="'+(timed?'40 s':'reps')+'" value="'+escapeHtml(record.reps===undefined?'':record.reps)+'"></label>'
+        +'<label class="series-input"><span>'+(timed?'Tempo (segundos)':'Repetições')+'</span><input type="number" inputmode="numeric" min="0" max="'+(timed?'600':'200')+'" step="1" id="'+(timed?'seconds':'reps')+'-'+exercise.id+'-'+number+'" data-exercise="'+exercise.id+'" data-series="'+i+'" data-exfield="'+(timed?'seconds':'reps')+'" aria-label="'+(timed?'Segundos':'Repetições')+' da série '+number+'" placeholder="'+(timed?'40':'reps')+'" value="'+escapeHtml(timed?(record.seconds===undefined?(record.reps===undefined?'':record.reps):record.seconds):(record.reps===undefined?'':record.reps))+'"></label>'
         +'<label class="series-done"><input type="checkbox" data-exercise="'+exercise.id+'" data-series="'+i+'" data-exfield="done" aria-label="Série '+number+' concluída" '+(record.done?'checked':'')+'><span>Feita</span></label>'
         +'</div>';
     }).join('');
@@ -341,7 +350,7 @@
       var key=target.getAttribute('data-exfield');
       var idxText=target.getAttribute('data-series');
       var exercise=plans[dayChoice].exercises.find(function(x){return x.id===id;});
-      if(!exercise||!['load','reps','done'].includes(key))return;
+      if(!exercise||!['load','reps','seconds','done'].includes(key))return;
       if(idxText===null)return;
       var seriesNumber=Number(idxText);
       if(!Number.isInteger(seriesNumber)||seriesNumber<0||seriesNumber>=setCount(exercise))return;
@@ -360,6 +369,11 @@
           if(typeof target.setCustomValidity==='function')target.setCustomValidity(validLoad?'':'Digite uma carga válida em kg');
           if(!validLoad)return;
           set.load=value.slice(0,8);
+        }else if(key==='seconds'){
+          var validSeconds=value===''||(/^\d{1,3}$/.test(value)&&Number(value)<=600);
+          if(typeof target.setCustomValidity==='function')target.setCustomValidity(validSeconds?'':'Use de 0 a 600 segundos');
+          if(!validSeconds)return;
+          set.seconds=value;
         }else{
           var validReps=value===''||(/^\d{1,3}$/.test(value)&&Number(value)<=200);
           if(typeof target.setCustomValidity==='function')target.setCustomValidity(validReps?'':'Use de 0 a 200 repetições');

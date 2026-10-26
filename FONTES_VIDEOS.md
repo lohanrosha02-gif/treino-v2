@@ -5,16 +5,23 @@
 - Origem das referências já usadas no site original: https://github.com/buzops9/exercisedb
 - Catálogo consultado: `data/exercises.json` (317 exercícios).
 - URLs originais de cada vídeo preservadas no campo `source` de `videos.js`.
-- 21 MP4 distintos utilizados em 30 atividades. Personagem anatômico cinza, músculos destacados em laranja e fundo branco.
+- Os vídeos anatômicos são utilizados em 23 atividades da ficha atual. Personagem anatômico cinza, músculos destacados em laranja e fundo branco.
 - Cópias locais normalizadas com FFmpeg para 960 × 540, 24 fps, H.264, `yuv420p`, sem áudio e com `faststart`. Pôsteres WebP locais.
 - Não foram usadas imagens estáticas como se fossem vídeos de execução.
 
 ## Correspondência com a ficha
 
 - As animações locais antigas com manequim de outro estilo foram removidas da v2.
-- 11 atividades adaptadas permanecem sem vídeo anatômico específico; a lista está no README. Seus exercícios e registros foram preservados.
+- Todas as atividades têm mídia: os movimentos sem vídeo anatômico específico usam imagens originais realistas identificadas como ilustrações.
 - A rosca unilateral na polia usa `cable-one-arm-curl`, em vez de uma rosca bilateral com os braços elevados.
-- O antigo vídeo do alongamento posterior mostrava uma pessoa deitada, enquanto a ficha descreve a posição em pé; ficou pendente até existir um clipe correspondente.
+- O alongamento posterior em pé agora usa uma imagem própria, sem associar a demonstração deitada à ficha em pé.
+
+## Imagens originais
+
+- 16 imagens criadas com a ferramenta integrada `image_gen.imagegen`, aplicadas em 17 atividades, inclusive mobilidades, isometrias, prancha e movimentos adaptados.
+- Estilo baseado nas duas referências do usuário: anatomia em cinza, destaques laranja, fundo branco e acabamento realista.
+- Arquivos WebP em `assets/images/`; prompts completos em `docs/illustration-prompts.json`.
+- As imagens são posições de referência, não gravações humanas ou animações de execução. O site identifica o tipo de mídia corretamente.
 
 ## Licença do projeto da biblioteca
 

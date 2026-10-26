@@ -1,5 +1,4 @@
-/* Meu Treino v2: vídeos de mobilidade e exercícios; animações 3D instrutivas e demonstrações originais.
-   Vídeos locais em assets/videos; não substituem instrução presencial para joelhos sintomáticos. */
+/* Anatomical videos and original realistic illustrations. Static images are identified in the interface. */
 window.MeuTreinoVideos=Object.freeze({
   "clips": {
     "a1": {
@@ -59,9 +58,10 @@ window.MeuTreinoVideos=Object.freeze({
       "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/lever-seated-hip-abduction.mp4"
     },
     "b10": {
-      "status": "pending",
-      "name": "Extensão de joelho com apoio e caneleira (3D instrutivo)",
-      "reason": "Vídeo anatômico específico pendente. Consulte as instruções desta ficha."
+      "type": "image",
+      "url": "./assets/images/knee-extension-ankleweight.webp",
+      "name": "Extensão de joelho sentado com caneleira e apoio protegido",
+      "origin": "original-ai-illustration"
     },
     "b11": {
       "type": "local",
@@ -71,9 +71,10 @@ window.MeuTreinoVideos=Object.freeze({
       "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/lever-seated-calf-raise.mp4"
     },
     "b7": {
-      "status": "pending",
-      "name": "Isometria do quadríceps no leg press (3D instrutivo)",
-      "reason": "Vídeo anatômico específico pendente. Consulte as instruções desta ficha."
+      "type": "image",
+      "url": "./assets/images/legpress-hold.webp",
+      "name": "Posição de referência para isometria do quadríceps no leg press",
+      "origin": "original-ai-illustration"
     },
     "b8": {
       "type": "local",
@@ -83,9 +84,10 @@ window.MeuTreinoVideos=Object.freeze({
       "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/lever-lying-leg-curl.mp4"
     },
     "b9": {
-      "status": "pending",
-      "name": "Isometria unilateral de glúteos (3D instrutivo)",
-      "reason": "Vídeo anatômico específico pendente. Consulte as instruções desta ficha."
+      "type": "image",
+      "url": "./assets/images/glute-hold-seated.webp",
+      "name": "Postura sentada para contração isométrica de glúteos",
+      "origin": "original-ai-illustration"
     },
     "c1": {
       "type": "local",
@@ -123,9 +125,10 @@ window.MeuTreinoVideos=Object.freeze({
       "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/cable-pushdown-rope-attachment.mp4"
     },
     "c8": {
-      "type": "local",
-      "url": "./assets/videos/prancha-antebracos.mp4",
-      "name": "Prancha de antebraços"
+      "type": "image",
+      "url": "./assets/images/forearm-plank.webp",
+      "name": "Prancha com apoio de antebraços",
+      "origin": "original-ai-illustration"
     },
     "cardioA": {
       "type": "local",
@@ -149,24 +152,28 @@ window.MeuTreinoVideos=Object.freeze({
       "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/stationary-bike.mp4"
     },
     "cardioD": {
-      "type": "local",
-      "url": "./assets/videos/d-esteira-caminhada.mp4",
-      "name": "Caminhada na esteira (ilustrativa)"
+      "type": "image",
+      "url": "./assets/images/incline-walking.webp",
+      "name": "Caminhada leve em esteira",
+      "origin": "original-ai-illustration"
     },
     "d10": {
-      "type": "local",
-      "url": "./assets/videos/prancha-antebracos.mp4",
-      "name": "Prancha de antebraços"
+      "type": "image",
+      "url": "./assets/images/forearm-plank.webp",
+      "name": "Prancha com apoio de antebraços",
+      "origin": "original-ai-illustration"
     },
     "d6": {
-      "type": "local",
-      "url": "./assets/videos/d-stiff-barra.mp4",
-      "name": "Stiff com barra livre"
+      "type": "image",
+      "url": "./assets/images/barbell-stiff.webp",
+      "name": "Stiff com barra, posição de referência do movimento",
+      "origin": "original-ai-illustration"
     },
     "d7": {
-      "type": "local",
-      "url": "./assets/videos/d-agachamento-banco.mp4",
-      "name": "Sentar e levantar de banco alto"
+      "type": "image",
+      "url": "./assets/images/chair-squat.webp",
+      "name": "Agachamento em banco alto, sentar e levantar",
+      "origin": "original-ai-illustration"
     },
     "d8": {
       "type": "local",
@@ -186,14 +193,16 @@ window.MeuTreinoVideos=Object.freeze({
       "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/stretching-band-warm-up-shoulder-stretch.mp4"
     },
     "mA2": {
-      "status": "pending",
-      "name": "Rotação torácica sentado (animação 3D)",
-      "reason": "Vídeo anatômico específico pendente. Consulte as instruções desta ficha."
+      "type": "image",
+      "url": "./assets/images/seated-rotation.webp",
+      "name": "Rotação torácica sentado",
+      "origin": "original-ai-illustration"
     },
     "mA3": {
-      "status": "pending",
-      "name": "Deslizamento de braços na parede (animação 3D)",
-      "reason": "Vídeo anatômico específico pendente. Consulte as instruções desta ficha."
+      "type": "image",
+      "url": "./assets/images/wall-slide.webp",
+      "name": "Deslizamento dos braços na parede",
+      "origin": "original-ai-illustration"
     },
     "mB1": {
       "type": "local",
@@ -210,39 +219,47 @@ window.MeuTreinoVideos=Object.freeze({
       "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/stretching-seated-calf-stretch.mp4"
     },
     "mB5": {
-      "status": "pending",
-      "name": "Alongamento de posterior de coxa em pé",
-      "reason": "O vídeo anterior mostrava uma variação deitada; não corresponde à ficha."
+      "type": "image",
+      "url": "./assets/images/hamstring-standing.webp",
+      "name": "Alongamento de posterior de coxa em pé com apoio",
+      "origin": "original-ai-illustration"
     },
     "mC1": {
-      "type": "local",
-      "url": "./assets/videos/c-toracica-4apoios.mp4",
-      "name": "Rotação torácica em quatro apoios"
+      "type": "image",
+      "url": "./assets/images/thoracic-quadruped.webp",
+      "name": "Rotação torácica em quatro apoios com mão atrás da cabeça",
+      "origin": "original-ai-illustration"
     },
     "mC2": {
-      "type": "local",
-      "url": "./assets/videos/c-braco-por-baixo.mp4",
-      "name": "Rotação com braço passando por baixo"
+      "type": "image",
+      "url": "./assets/images/thread-needle.webp",
+      "name": "Rotação com o braço passando por baixo do peito",
+      "origin": "original-ai-illustration"
     },
     "mC3": {
-      "type": "local",
-      "url": "./assets/videos/c-alcance.mp4",
-      "name": "Alongamento em quatro apoios com alcance"
+      "type": "image",
+      "url": "./assets/images/quadruped-reach.webp",
+      "name": "Alongamento em quatro apoios com alcance à frente",
+      "origin": "original-ai-illustration"
     },
     "mD4": {
-      "type": "local",
-      "url": "./assets/videos/d-joelhos-sentar-levantar.mp4",
-      "name": "Sentar e levantar ajoelhado"
+      "type": "image",
+      "url": "./assets/images/kneeling-rock-back.webp",
+      "name": "Movimento ajoelhado de sentar e levantar com apoio",
+      "origin": "original-ai-illustration"
     },
     "mD5": {
-      "type": "local",
-      "url": "./assets/videos/d-posterior-sentado.mp4",
-      "name": "Alongamento posterior sentado"
+      "type": "image",
+      "url": "./assets/images/hamstring-seated.webp",
+      "name": "Alongamento de posterior de coxa sentado no banco",
+      "origin": "original-ai-illustration"
     },
     "mD6": {
-      "type": "local",
-      "url": "./assets/videos/d-joelhos-bola.mp4",
-      "name": "Flexão e extensão de joelhos com bola"
+      "type": "image",
+      "url": "./assets/images/knee-ball-roll.webp",
+      "name": "Flexão e extensão dos joelhos deitado com calcanhares sobre bola",
+      "origin": "original-ai-illustration"
     }
-  }
+  },
+  "version": "2.2.0"
 });
