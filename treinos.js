@@ -136,12 +136,23 @@
     if(!clip||!/^\.\/assets\/videos\/[a-z0-9-]+\.mp4$/.test(clip.url)){
       return '<p class="video-unavailable">Demonstração indisponível.</p>';
     }
-    return '<figure class="teaching-video" data-video-exercise="'+escapeHtml(id)+'">'
-      +'<div class="video-stage"><video class="loop-video" muted loop playsinline preload="none" poster="'+escapeHtml(clip.poster)+'" data-src="'+escapeHtml(clip.url)+'" aria-label="Demonstração anatômica do exercício"></video>'
-      +'<button type="button" class="video-retry" data-video-retry hidden>Reproduzir demonstração</button>'
+    var animated=clip.kind==='animated-reference';
+    var mediaLabel=animated?'ilustração animada':'demonstração';
+    var poster=clip.poster&&/^\.\/assets\/(?:videos|images)\/[a-z0-9-]+\.webp$/.test(clip.poster)?' poster="'+escapeHtml(clip.poster)+'"':'';
+    return '<figure class="teaching-video'+(animated?' animated-reference':'')+'" data-video-exercise="'+escapeHtml(id)+'">'
+      +'<div class="video-stage"><video class="loop-video" muted loop playsinline preload="none"'+poster+' data-src="'+escapeHtml(clip.url)+'" aria-label="'+escapeHtml(animated?'Ilustração anatômica animada: '+clip.name:'Demonstração anatômica do exercício')+'"></video>'
+      +'<button type="button" class="video-retry" data-video-retry hidden>Reproduzir '+mediaLabel+'</button>'
       +'<span class="video-error" hidden>Não foi possível carregar. Confira as instruções abaixo.</span></div>'
-      +'<figcaption><span><span class="live-dot"></span> Demonstração em loop</span><button type="button" data-video-toggle aria-label="Pausar demonstração">Pausar <span aria-hidden="true">Ⅱ</span></button></figcaption>'
+      +'<figcaption><span><span class="live-dot" aria-hidden="true"></span> '+(animated?'Ilustração animada · referência':'Demonstração em loop')+'</span><button type="button" data-video-toggle aria-label="Reproduzir '+mediaLabel+'">Reproduzir <span aria-hidden="true">▷</span></button></figcaption>'
       +'</figure>';
+  }
+  function updatePlaybackButton(video,playing){
+    var figure=video.closest('figure');
+    var button=figure&&figure.querySelector('[data-video-toggle]');
+    if(!button)return;
+    var label=figure.classList.contains('animated-reference')?'ilustração animada':'demonstração';
+    button.innerHTML=playing?'Pausar <span aria-hidden="true">Ⅱ</span>':'Reproduzir <span aria-hidden="true">▷</span>';
+    button.setAttribute('aria-label',(playing?'Pausar ':'Reproduzir ')+label);
   }
   function autoLoopIn(details){
     if(!details||typeof details.querySelectorAll!=='function')return;
@@ -422,8 +433,8 @@
     var details=event.target;
     if(details&&details.tagName==='DETAILS')autoLoopIn(details);
   },true);
-  mount.addEventListener('play',function(event){var v=event.target;if(v.tagName!=='VIDEO')return;var f=v.closest('figure');f.querySelector('[data-video-retry]').hidden=true;var b=f.querySelector('[data-video-toggle]');b.innerHTML='Pausar <span aria-hidden="true">Ⅱ</span>';b.setAttribute('aria-label','Pausar demonstração');},true);
-  mount.addEventListener('pause',function(event){var v=event.target;if(v.tagName!=='VIDEO')return;var b=v.closest('figure').querySelector('[data-video-toggle]');b.innerHTML='Reproduzir <span aria-hidden="true">▷</span>';b.setAttribute('aria-label','Reproduzir demonstração');},true);
+  mount.addEventListener('play',function(event){var v=event.target;if(v.tagName!=='VIDEO')return;var f=v.closest('figure');f.querySelector('[data-video-retry]').hidden=true;updatePlaybackButton(v,true);},true);
+  mount.addEventListener('pause',function(event){var v=event.target;if(v.tagName==='VIDEO')updatePlaybackButton(v,false);},true);
   mount.addEventListener('error',function(event){var v=event.target;if(v.tagName==='VIDEO')v.closest('figure').querySelector('.video-error').hidden=false;},true);
   document.addEventListener('visibilitychange',function(){if(document.hidden)mount.querySelectorAll('video').forEach(function(v){v.pause();});else mount.querySelectorAll('details[open]').forEach(autoLoopIn);});
   mount.addEventListener('input',function(event){recordInput(event.target);});

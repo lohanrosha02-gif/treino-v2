@@ -12,16 +12,18 @@
 ## Correspondência com a ficha
 
 - As animações locais antigas com manequim de outro estilo foram removidas da v2.
-- Todas as atividades têm mídia: os movimentos sem vídeo anatômico específico usam imagens originais realistas identificadas como ilustrações.
+- Todas as atividades têm mídia em vídeo: os movimentos sem demonstração anatômica específica usam ilustrações realistas animadas e identificadas como referências.
 - A rosca unilateral na polia usa `cable-one-arm-curl`, em vez de uma rosca bilateral com os braços elevados.
-- O alongamento posterior em pé agora usa uma imagem própria, sem associar a demonstração deitada à ficha em pé.
+- O alongamento posterior em pé usa uma referência animada própria, correspondente à posição da ficha.
 
 ## Imagens originais
 
-- 16 imagens criadas com a ferramenta integrada `image_gen.imagegen`, aplicadas em 17 atividades, inclusive mobilidades, isometrias, prancha e movimentos adaptados.
+- 16 imagens criadas com a ferramenta integrada `image_gen.imagegen`, agora animadas e aplicadas em 17 atividades, inclusive mobilidades, isometrias, prancha e movimentos adaptados.
 - Estilo baseado nas duas referências do usuário: anatomia em cinza, destaques laranja, fundo branco e acabamento realista.
 - Arquivos WebP em `assets/images/`; prompts completos em `docs/illustration-prompts.json`.
-- As imagens são posições de referência, não gravações humanas ou animações de execução. O site identifica o tipo de mídia corretamente.
+- Os novos MP4 estão em `assets/videos/animated-*.mp4`, com 4 segundos, 960 × 540, 24 fps e sem áudio.
+- A animação local de respiração move suavemente apenas regiões do tronco. Não é uma gravação humana nem demonstra um ciclo completo de execução. O site identifica cada uma como **Ilustração animada · referência**.
+- Especificações e instruções de geração em `docs/animation-spec.json`, `docs/ANIMACOES.md` e `scripts/animate_images.py`.
 
 ## Licença do projeto da biblioteca
 

@@ -1,4 +1,4 @@
-/* Anatomical videos and original realistic illustrations. Static images are identified in the interface. */
+/* Anatomical exercise videos and animated raster reference illustrations, identified in the interface. */
 window.MeuTreinoVideos=Object.freeze({
   "clips": {
     "a1": {
@@ -58,10 +58,13 @@ window.MeuTreinoVideos=Object.freeze({
       "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/lever-seated-hip-abduction.mp4"
     },
     "b10": {
-      "type": "image",
-      "url": "./assets/images/knee-extension-ankleweight.webp",
+      "type": "local",
+      "url": "./assets/videos/animated-knee-extension-ankleweight.mp4",
       "name": "Extensão de joelho sentado com caneleira e apoio protegido",
-      "origin": "original-ai-illustration"
+      "origin": "original-raster-animation",
+      "poster": "./assets/images/knee-extension-ankleweight.webp",
+      "kind": "animated-reference",
+      "durationSeconds": 4
     },
     "b11": {
       "type": "local",
@@ -71,10 +74,13 @@ window.MeuTreinoVideos=Object.freeze({
       "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/lever-seated-calf-raise.mp4"
     },
     "b7": {
-      "type": "image",
-      "url": "./assets/images/legpress-hold.webp",
+      "type": "local",
+      "url": "./assets/videos/animated-legpress-hold.mp4",
       "name": "Posição de referência para isometria do quadríceps no leg press",
-      "origin": "original-ai-illustration"
+      "origin": "original-raster-animation",
+      "poster": "./assets/images/legpress-hold.webp",
+      "kind": "animated-reference",
+      "durationSeconds": 4
     },
     "b8": {
       "type": "local",
@@ -84,10 +90,13 @@ window.MeuTreinoVideos=Object.freeze({
       "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/lever-lying-leg-curl.mp4"
     },
     "b9": {
-      "type": "image",
-      "url": "./assets/images/glute-hold-seated.webp",
+      "type": "local",
+      "url": "./assets/videos/animated-glute-hold-seated.mp4",
       "name": "Postura sentada para contração isométrica de glúteos",
-      "origin": "original-ai-illustration"
+      "origin": "original-raster-animation",
+      "poster": "./assets/images/glute-hold-seated.webp",
+      "kind": "animated-reference",
+      "durationSeconds": 4
     },
     "c1": {
       "type": "local",
@@ -125,10 +134,13 @@ window.MeuTreinoVideos=Object.freeze({
       "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/cable-pushdown-rope-attachment.mp4"
     },
     "c8": {
-      "type": "image",
-      "url": "./assets/images/forearm-plank.webp",
+      "type": "local",
+      "url": "./assets/videos/animated-forearm-plank.mp4",
       "name": "Prancha com apoio de antebraços",
-      "origin": "original-ai-illustration"
+      "origin": "original-raster-animation",
+      "poster": "./assets/images/forearm-plank.webp",
+      "kind": "animated-reference",
+      "durationSeconds": 4
     },
     "cardioA": {
       "type": "local",
@@ -152,28 +164,40 @@ window.MeuTreinoVideos=Object.freeze({
       "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/stationary-bike.mp4"
     },
     "cardioD": {
-      "type": "image",
-      "url": "./assets/images/incline-walking.webp",
+      "type": "local",
+      "url": "./assets/videos/animated-incline-walking.mp4",
       "name": "Caminhada leve em esteira",
-      "origin": "original-ai-illustration"
+      "origin": "original-raster-animation",
+      "poster": "./assets/images/incline-walking.webp",
+      "kind": "animated-reference",
+      "durationSeconds": 4
     },
     "d10": {
-      "type": "image",
-      "url": "./assets/images/forearm-plank.webp",
+      "type": "local",
+      "url": "./assets/videos/animated-forearm-plank.mp4",
       "name": "Prancha com apoio de antebraços",
-      "origin": "original-ai-illustration"
+      "origin": "original-raster-animation",
+      "poster": "./assets/images/forearm-plank.webp",
+      "kind": "animated-reference",
+      "durationSeconds": 4
     },
     "d6": {
-      "type": "image",
-      "url": "./assets/images/barbell-stiff.webp",
+      "type": "local",
+      "url": "./assets/videos/animated-barbell-stiff.mp4",
       "name": "Stiff com barra, posição de referência do movimento",
-      "origin": "original-ai-illustration"
+      "origin": "original-raster-animation",
+      "poster": "./assets/images/barbell-stiff.webp",
+      "kind": "animated-reference",
+      "durationSeconds": 4
     },
     "d7": {
-      "type": "image",
-      "url": "./assets/images/chair-squat.webp",
+      "type": "local",
+      "url": "./assets/videos/animated-chair-squat.mp4",
       "name": "Agachamento em banco alto, sentar e levantar",
-      "origin": "original-ai-illustration"
+      "origin": "original-raster-animation",
+      "poster": "./assets/images/chair-squat.webp",
+      "kind": "animated-reference",
+      "durationSeconds": 4
     },
     "d8": {
       "type": "local",
@@ -193,16 +217,22 @@ window.MeuTreinoVideos=Object.freeze({
       "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/stretching-band-warm-up-shoulder-stretch.mp4"
     },
     "mA2": {
-      "type": "image",
-      "url": "./assets/images/seated-rotation.webp",
+      "type": "local",
+      "url": "./assets/videos/animated-seated-rotation.mp4",
       "name": "Rotação torácica sentado",
-      "origin": "original-ai-illustration"
+      "origin": "original-raster-animation",
+      "poster": "./assets/images/seated-rotation.webp",
+      "kind": "animated-reference",
+      "durationSeconds": 4
     },
     "mA3": {
-      "type": "image",
-      "url": "./assets/images/wall-slide.webp",
+      "type": "local",
+      "url": "./assets/videos/animated-wall-slide.mp4",
       "name": "Deslizamento dos braços na parede",
-      "origin": "original-ai-illustration"
+      "origin": "original-raster-animation",
+      "poster": "./assets/images/wall-slide.webp",
+      "kind": "animated-reference",
+      "durationSeconds": 4
     },
     "mB1": {
       "type": "local",
@@ -219,47 +249,68 @@ window.MeuTreinoVideos=Object.freeze({
       "source": "https://pub-585d42eb1aa64a67aedf483ec328d3fe.r2.dev/exercise-videos/male/stretching-seated-calf-stretch.mp4"
     },
     "mB5": {
-      "type": "image",
-      "url": "./assets/images/hamstring-standing.webp",
+      "type": "local",
+      "url": "./assets/videos/animated-hamstring-standing.mp4",
       "name": "Alongamento de posterior de coxa em pé com apoio",
-      "origin": "original-ai-illustration"
+      "origin": "original-raster-animation",
+      "poster": "./assets/images/hamstring-standing.webp",
+      "kind": "animated-reference",
+      "durationSeconds": 4
     },
     "mC1": {
-      "type": "image",
-      "url": "./assets/images/thoracic-quadruped.webp",
+      "type": "local",
+      "url": "./assets/videos/animated-thoracic-quadruped.mp4",
       "name": "Rotação torácica em quatro apoios com mão atrás da cabeça",
-      "origin": "original-ai-illustration"
+      "origin": "original-raster-animation",
+      "poster": "./assets/images/thoracic-quadruped.webp",
+      "kind": "animated-reference",
+      "durationSeconds": 4
     },
     "mC2": {
-      "type": "image",
-      "url": "./assets/images/thread-needle.webp",
+      "type": "local",
+      "url": "./assets/videos/animated-thread-needle.mp4",
       "name": "Rotação com o braço passando por baixo do peito",
-      "origin": "original-ai-illustration"
+      "origin": "original-raster-animation",
+      "poster": "./assets/images/thread-needle.webp",
+      "kind": "animated-reference",
+      "durationSeconds": 4
     },
     "mC3": {
-      "type": "image",
-      "url": "./assets/images/quadruped-reach.webp",
+      "type": "local",
+      "url": "./assets/videos/animated-quadruped-reach.mp4",
       "name": "Alongamento em quatro apoios com alcance à frente",
-      "origin": "original-ai-illustration"
+      "origin": "original-raster-animation",
+      "poster": "./assets/images/quadruped-reach.webp",
+      "kind": "animated-reference",
+      "durationSeconds": 4
     },
     "mD4": {
-      "type": "image",
-      "url": "./assets/images/kneeling-rock-back.webp",
+      "type": "local",
+      "url": "./assets/videos/animated-kneeling-rock-back.mp4",
       "name": "Movimento ajoelhado de sentar e levantar com apoio",
-      "origin": "original-ai-illustration"
+      "origin": "original-raster-animation",
+      "poster": "./assets/images/kneeling-rock-back.webp",
+      "kind": "animated-reference",
+      "durationSeconds": 4
     },
     "mD5": {
-      "type": "image",
-      "url": "./assets/images/hamstring-seated.webp",
+      "type": "local",
+      "url": "./assets/videos/animated-hamstring-seated.mp4",
       "name": "Alongamento de posterior de coxa sentado no banco",
-      "origin": "original-ai-illustration"
+      "origin": "original-raster-animation",
+      "poster": "./assets/images/hamstring-seated.webp",
+      "kind": "animated-reference",
+      "durationSeconds": 4
     },
     "mD6": {
-      "type": "image",
-      "url": "./assets/images/knee-ball-roll.webp",
+      "type": "local",
+      "url": "./assets/videos/animated-knee-ball-roll.mp4",
       "name": "Flexão e extensão dos joelhos deitado com calcanhares sobre bola",
-      "origin": "original-ai-illustration"
+      "origin": "original-raster-animation",
+      "poster": "./assets/images/knee-ball-roll.webp",
+      "kind": "animated-reference",
+      "durationSeconds": 4
     }
   },
-  "version": "2.2.0"
+  "version": "2.3.0"
 });

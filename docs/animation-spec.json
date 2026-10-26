@@ -1,0 +1,393 @@
+{
+  "version": 1,
+  "description": "Animações leves das ilustrações originais: respiração sutil com a posição de referência preservada.",
+  "method": "Deformação suave e localizada no tronco do desenho raster; câmera fixa; sem simular um ciclo completo do exercício.",
+  "resolution": [
+    960,
+    540
+  ],
+  "fps": 24,
+  "durationSeconds": 4,
+  "amplitudeReferenceSize": [
+    1439,
+    810
+  ],
+  "coreFormat": [
+    "centerX",
+    "centerY",
+    "radiusX",
+    "radiusY",
+    "amplitudeX",
+    "amplitudeY"
+  ],
+  "assets": [
+    {
+      "name": "barbell-stiff",
+      "source": "assets/images/barbell-stiff.webp",
+      "output": "assets/videos/animated-barbell-stiff.mp4",
+      "cores": [
+        [
+          0.565,
+          0.3,
+          0.07,
+          0.13,
+          10,
+          10
+        ],
+        [
+          0.525,
+          0.42,
+          0.05,
+          0.08,
+          10,
+          8
+        ]
+      ]
+    },
+    {
+      "name": "chair-squat",
+      "source": "assets/images/chair-squat.webp",
+      "output": "assets/videos/animated-chair-squat.mp4",
+      "cores": [
+        [
+          0.485,
+          0.27,
+          0.055,
+          0.08,
+          12,
+          7
+        ],
+        [
+          0.5,
+          0.39,
+          0.055,
+          0.085,
+          11,
+          7
+        ]
+      ]
+    },
+    {
+      "name": "forearm-plank",
+      "source": "assets/images/forearm-plank.webp",
+      "output": "assets/videos/animated-forearm-plank.mp4",
+      "cores": [
+        [
+          0.44475330090340515,
+          0.5308641975308642,
+          0.10076441973592773,
+          0.12345679012345678,
+          6,
+          22
+        ],
+        [
+          0.37178596247394025,
+          0.4382716049382716,
+          0.09728978457261987,
+          0.12345679012345678,
+          4,
+          9
+        ]
+      ]
+    },
+    {
+      "name": "glute-hold-seated",
+      "source": "assets/images/glute-hold-seated.webp",
+      "output": "assets/videos/animated-glute-hold-seated.mp4",
+      "cores": [
+        [
+          0.52,
+          0.29,
+          0.055,
+          0.12,
+          12,
+          7
+        ],
+        [
+          0.56,
+          0.43,
+          0.05,
+          0.07,
+          10,
+          6
+        ]
+      ]
+    },
+    {
+      "name": "hamstring-seated",
+      "source": "assets/images/hamstring-seated.webp",
+      "output": "assets/videos/animated-hamstring-seated.mp4",
+      "cores": [
+        [
+          0.46,
+          0.29,
+          0.055,
+          0.12,
+          11,
+          8
+        ],
+        [
+          0.48,
+          0.4,
+          0.045,
+          0.08,
+          10,
+          7
+        ]
+      ]
+    },
+    {
+      "name": "hamstring-standing",
+      "source": "assets/images/hamstring-standing.webp",
+      "output": "assets/videos/animated-hamstring-standing.mp4",
+      "cores": [
+        [
+          0.475,
+          0.28,
+          0.06,
+          0.13,
+          11,
+          8
+        ],
+        [
+          0.525,
+          0.385,
+          0.05,
+          0.055,
+          10,
+          7
+        ]
+      ]
+    },
+    {
+      "name": "incline-walking",
+      "source": "assets/images/incline-walking.webp",
+      "output": "assets/videos/animated-incline-walking.mp4",
+      "cores": [
+        [
+          0.455,
+          0.27,
+          0.055,
+          0.12,
+          12,
+          7
+        ],
+        [
+          0.47,
+          0.4,
+          0.045,
+          0.075,
+          10,
+          7
+        ]
+      ]
+    },
+    {
+      "name": "knee-ball-roll",
+      "source": "assets/images/knee-ball-roll.webp",
+      "output": "assets/videos/animated-knee-ball-roll.mp4",
+      "cores": [
+        [
+          0.75,
+          0.7,
+          0.07,
+          0.07,
+          6,
+          15
+        ],
+        [
+          0.65,
+          0.72,
+          0.07,
+          0.07,
+          6,
+          19
+        ]
+      ]
+    },
+    {
+      "name": "knee-extension-ankleweight",
+      "source": "assets/images/knee-extension-ankleweight.webp",
+      "output": "assets/videos/animated-knee-extension-ankleweight.mp4",
+      "cores": [
+        [
+          0.62,
+          0.28,
+          0.045,
+          0.13,
+          12,
+          7
+        ],
+        [
+          0.615,
+          0.415,
+          0.05,
+          0.075,
+          10,
+          7
+        ]
+      ]
+    },
+    {
+      "name": "kneeling-rock-back",
+      "source": "assets/images/kneeling-rock-back.webp",
+      "output": "assets/videos/animated-kneeling-rock-back.mp4",
+      "cores": [
+        [
+          0.52,
+          0.33,
+          0.065,
+          0.105,
+          11,
+          8
+        ],
+        [
+          0.58,
+          0.45,
+          0.055,
+          0.07,
+          10,
+          7
+        ]
+      ]
+    },
+    {
+      "name": "legpress-hold",
+      "source": "assets/images/legpress-hold.webp",
+      "output": "assets/videos/animated-legpress-hold.mp4",
+      "cores": [
+        [
+          0.705,
+          0.355,
+          0.06,
+          0.095,
+          11,
+          11
+        ],
+        [
+          0.65,
+          0.47,
+          0.055,
+          0.075,
+          10,
+          10
+        ]
+      ]
+    },
+    {
+      "name": "quadruped-reach",
+      "source": "assets/images/quadruped-reach.webp",
+      "output": "assets/videos/animated-quadruped-reach.mp4",
+      "cores": [
+        [
+          0.54,
+          0.43,
+          0.08,
+          0.08,
+          6,
+          15
+        ],
+        [
+          0.44,
+          0.5,
+          0.065,
+          0.08,
+          6,
+          18
+        ]
+      ]
+    },
+    {
+      "name": "seated-rotation",
+      "source": "assets/images/seated-rotation.webp",
+      "output": "assets/videos/animated-seated-rotation.mp4",
+      "cores": [
+        [
+          0.55,
+          0.26,
+          0.055,
+          0.1,
+          12,
+          7
+        ],
+        [
+          0.53,
+          0.42,
+          0.045,
+          0.08,
+          11,
+          7
+        ]
+      ]
+    },
+    {
+      "name": "thoracic-quadruped",
+      "source": "assets/images/thoracic-quadruped.webp",
+      "output": "assets/videos/animated-thoracic-quadruped.mp4",
+      "cores": [
+        [
+          0.635,
+          0.39,
+          0.065,
+          0.12,
+          11,
+          12
+        ],
+        [
+          0.55,
+          0.505,
+          0.055,
+          0.075,
+          9,
+          11
+        ]
+      ]
+    },
+    {
+      "name": "thread-needle",
+      "source": "assets/images/thread-needle.webp",
+      "output": "assets/videos/animated-thread-needle.mp4",
+      "cores": [
+        [
+          0.51,
+          0.43,
+          0.08,
+          0.11,
+          7,
+          15
+        ],
+        [
+          0.44,
+          0.54,
+          0.065,
+          0.075,
+          6,
+          15
+        ]
+      ]
+    },
+    {
+      "name": "wall-slide",
+      "source": "assets/images/wall-slide.webp",
+      "output": "assets/videos/animated-wall-slide.mp4",
+      "cores": [
+        [
+          0.45,
+          0.31,
+          0.045,
+          0.12,
+          12,
+          7
+        ],
+        [
+          0.46,
+          0.46,
+          0.035,
+          0.075,
+          10,
+          7
+        ]
+      ]
+    }
+  ]
+}
