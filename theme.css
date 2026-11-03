@@ -273,3 +273,37 @@ html[data-theme="dark"] .rest-button,html[data-theme="dark"] .workout-actions bu
 html[data-theme="dark"] .rest-button:hover{background:#44304f}
 html[data-theme="dark"] .workout-actions .save,html[data-theme="dark"] .primary-btn{background:#76508f;color:#fff;border-color:#8b66a3}
 html[data-theme="dark"] .toast{background:#76508f;color:#fff}
+
+
+/* Cartões dos exercícios no tema escuro, sem os tons verdes. */
+html[data-theme="dark"] .train-step,
+html[data-theme="dark"] .train-exercise,
+html[data-theme="dark"] .train-log{
+  background:#211a26;
+  border-color:#4c3b54;
+}
+html[data-theme="dark"] .train-step summary:hover,
+html[data-theme="dark"] .train-exercise summary:hover{background:#30213a}
+html[data-theme="dark"] .train-step[open]>summary,
+html[data-theme="dark"] .train-exercise[open]>summary,
+html[data-theme="dark"] .train-log>summary{
+  background:#30213a;
+  border-color:#4c3b54;
+}
+html[data-theme="dark"] .train-step summary:after,
+html[data-theme="dark"] .exercise-caret{color:#c99fe0}
+html[data-theme="dark"] .train-step-body,
+html[data-theme="dark"] .train-exercise-body{color:#ded6e5}
+html[data-theme="dark"] .exercise-note,
+html[data-theme="dark"] .series-tracker,
+html[data-theme="dark"] .video-pending{
+  background:#211a26;
+  color:#ded2e4;
+  border-color:#4c3b54;
+}
+html[data-theme="dark"] .teaching-video figcaption{
+  background:#2b2132;
+  color:#e2d6ea;
+  border-color:#4c3b54;
+}
+html[data-theme="dark"] .teaching-video figcaption button{color:#d8b8e7}
