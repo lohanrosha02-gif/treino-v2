@@ -310,7 +310,49 @@ window.MeuTreinoVideos=Object.freeze({
       "poster": "./assets/images/knee-ball-roll.webp",
       "kind": "animated-reference",
       "durationSeconds": 4
+    },
+    "teacher-bodyweight-squat": {
+      "type": "local",
+      "url": "./assets/videos/teacher-bodyweight-squat.mp4",
+      "name": "Agachamento (peso corporal)",
+      "poster": "./assets/images/teacher-bodyweight-squat.webp",
+      "kind": "animated-reference"
+    },
+    "teacher-dumbbell-biceps-curl": {
+      "type": "local",
+      "url": "./assets/videos/teacher-dumbbell-biceps-curl.mp4",
+      "name": "Rosca direta (halter)",
+      "poster": "./assets/images/teacher-dumbbell-biceps-curl.webp",
+      "kind": "animated-reference"
+    },
+    "teacher-seated-cable-row": {
+      "type": "local",
+      "url": "./assets/videos/teacher-seated-cable-row.mp4",
+      "name": "Remada sentada com barra (cabo)",
+      "poster": "./assets/images/teacher-seated-cable-row.webp",
+      "kind": "animated-reference"
+    },
+    "teacher-iso-lateral-chest-press": {
+      "type": "local",
+      "url": "./assets/videos/teacher-iso-lateral-chest-press.mp4",
+      "name": "Supino iso-lateral (máquina)",
+      "poster": "./assets/images/teacher-iso-lateral-chest-press.webp",
+      "kind": "animated-reference"
+    },
+    "teacher-seated-leg-curl": {
+      "type": "local",
+      "url": "./assets/videos/teacher-seated-leg-curl.mp4",
+      "name": "Cadeira flexora (máquina)",
+      "poster": "./assets/images/teacher-seated-leg-curl.webp",
+      "kind": "animated-reference"
+    },
+    "teacher-superman": {
+      "type": "local",
+      "url": "./assets/videos/teacher-superman.mp4",
+      "name": "Super-homem",
+      "poster": "./assets/images/teacher-superman.webp",
+      "kind": "animated-reference"
     }
   },
-  "version": "2.3.0"
+  "version": "2.4.0"
 });
