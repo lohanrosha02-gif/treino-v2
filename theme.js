@@ -12,7 +12,7 @@
     document.documentElement.setAttribute('data-theme', theme);
     document.documentElement.style.colorScheme = theme;
     var bar = document.querySelector('meta[name="theme-color"]');
-    if (bar) bar.setAttribute('content', theme === 'dark' ? '#17221b' : '#f6f7f3');
+    if (bar) bar.setAttribute('content', theme === 'dark' ? '#000000' : '#f6f7f3');
     var button = document.getElementById('themeToggle');
     if (!button) return;
     var label = theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro';

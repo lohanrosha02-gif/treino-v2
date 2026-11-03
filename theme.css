@@ -11,7 +11,7 @@ html[data-theme="dark"] .theme-toggle-icon--moon{display:none}
 /* As fichas continuam com o fundo branco dos vídeos/imagens de demonstração. */
 html[data-theme="dark"]{
   color-scheme:dark;
-  --bg:#101914;
+  --bg:#000000;
   --surface:#1a2820;
   --ink:#e9f3ea;
   --muted:#b0c2b4;
@@ -22,8 +22,8 @@ html[data-theme="dark"]{
   --warm:#2c4330;
   --shadow:0 10px 28px rgba(0,0,0,.15);
 }
-html[data-theme="dark"] body{background:var(--bg);color:var(--ink)}
-html[data-theme="dark"] .topbar{background:#17221b;border-color:var(--line)}
+html[data-theme="dark"],html[data-theme="dark"] body{background:#000000;color:var(--ink)}
+html[data-theme="dark"] .topbar{background:#000000;border-color:var(--line)}
 html[data-theme="dark"] .brand-sub,
 html[data-theme="dark"] .top-pill,
 html[data-theme="dark"] .page-head .eyebrow,
