@@ -33,6 +33,12 @@
 <div class="login-actions"><button class="primary-btn" type="submit">Entrar</button><button class="outline-btn" type="button" id="signUp">Criar conta</button><button class="plain-btn" type="button" id="resetPassword">Esqueci minha senha</button></div>
 </form><small>Na primeira vez, use “Criar conta” com o mesmo e-mail informado ao professor e confirme o e-mail recebido.</small>
 </section>
+<section class="panel login-panel" id="resetForm" hidden>
+<h2>Definir nova senha</h2><p>Use uma senha de pelo menos oito caracteres para recuperar sua conta.</p>
+<form id="newPasswordForm" class="portal-form">
+<label for="newPassword">Nova senha</label><input id="newPassword" type="password" minlength="8" required autocomplete="new-password">
+<button class="primary-btn" type="submit">Salvar nova senha</button>
+</form></section>
 <section id="portalContent" hidden>
 <div class="welcome panel"><div><div class="eyebrow">ÁREA DO CLIENTE</div><h2 id="clientName">Bem-vindo!</h2><p>Estas informações são publicadas pelo seu professor e não podem ser editadas aqui.</p></div><span class="read-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg> Somente leitura</span></div>
 <section id="notice" class="portal-notice" hidden><strong id="noticeTitle"></strong><p id="noticeText"></p></section>

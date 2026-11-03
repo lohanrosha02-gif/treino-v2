@@ -10,7 +10,7 @@ function validConfig(){
   const config=window.MEU_TREINO_SUPABASE||{};
   return /^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(config.url||'')&&typeof config.publishableKey==='string'&&config.publishableKey.length>15;
 }
-function view(mode){$('login').hidden=mode!=='login';$('portalContent').hidden=mode!=='content';$('logout').hidden=mode!=='content';$('setup').hidden=mode!=='setup';}
+function view(mode){$('login').hidden=mode!=='login';$('portalContent').hidden=mode!=='content';$('logout').hidden=mode!=='content';$('setup').hidden=mode!=='setup';$('resetForm').hidden=mode!=='reset';}
 function localDate(value){
   if(!/^\d{4}-\d{2}-\d{2}$/.test(value||''))return '';
   const a=value.split('-');return a[2]+'/'+a[1]+'/'+a[0];
@@ -101,6 +101,9 @@ async function initialize(){
   const cfg=window.MEU_TREINO_SUPABASE||{};
   if(!validConfig()||!window.supabase){view('setup');status('A integração com o Supabase precisa ser ativada pelo administrador.',true);return;}
   db=window.supabase.createClient(cfg.url,cfg.publishableKey);
+  db.auth.onAuthStateChange(function(event){
+    if(event==='PASSWORD_RECOVERY'){view('reset');status('Escolha uma nova senha para recuperar sua conta.');}
+  });
   try{const user=check(await db.auth.getUser()).user;if(user)await loadClient(user);else{view('login');status('Faça login para visualizar suas informações.');}}
   catch(err){view('login');error(err);}
 }
@@ -126,6 +129,15 @@ $('resetPassword').addEventListener('click',async()=>{
   if(!email){status('Informe seu e-mail para redefinir a senha.',true);return;}
   try{check(await db.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname}));status('Se o e-mail existir, as instruções de recuperação serão enviadas.');}
   catch(err){error(err);}
+});
+$('newPasswordForm').addEventListener('submit',async function(e){
+  e.preventDefault();if(!db)return;
+  const password=$('newPassword').value;
+  if(password.length<8){status('A senha precisa ter pelo menos oito caracteres.',true);return;}
+  try{
+    check(await db.auth.updateUser({password:password}));
+    $('newPassword').value='';await db.auth.signOut();view('login');status('Senha atualizada! Entre novamente.');
+  }catch(err){error(err);}
 });
 $('logout').addEventListener('click',async()=>{
   if(!db)return;
