@@ -307,3 +307,12 @@ html[data-theme="dark"] .teaching-video figcaption{
   border-color:#4c3b54;
 }
 html[data-theme="dark"] .teaching-video figcaption button{color:#d8b8e7}
+
+
+/* Nome do cliente ao lado da marca, em tamanho pequeno e tom neutro. */
+.brand-copy{min-width:0}
+.brand-name-line{display:flex;align-items:baseline;gap:8px;min-width:0}
+.brand-name-line .brand-title{white-space:nowrap}
+.brand-client-name{display:block;min-width:0;max-width:210px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:11px;font-weight:550;line-height:1.2;letter-spacing:0}
+@media(max-width:540px){.brand{min-width:0;gap:9px}.brand-copy,.brand-name-line{min-width:0}.brand-name-line{gap:6px}.brand-client-name{font-size:10px;max-width:clamp(44px,26vw,110px)}}
+@media(max-width:340px){.brand-client-name{max-width:54px}}

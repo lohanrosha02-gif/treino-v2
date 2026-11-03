@@ -10,8 +10,9 @@
     $('authShell').hidden=mode==='content';
     $('clientPortal').hidden=mode!=='content';
     $('logout').hidden=!db||mode==='login'||mode==='signup'||mode==='reset'||mode==='setup';
-    const backup=document.querySelector('.backup-menu');
-    if(backup)backup.hidden=mode!=='content';
+    const clientName=$('headerClientName');
+    const name=mode==='content'?String(window.MeuTreinoStudentName||'').trim():'';
+    if(clientName){clientName.textContent=name;clientName.hidden=!name;}
   }
   function notice(message,problem=false){
     $('feedback').textContent=message;
@@ -211,7 +212,7 @@
     // Carrega avaliação, ficha individual, demonstrações e ferramentas de treino.
     await loadScript('./app.js?v=20261103-medidas-sem-busto-cintura-3.7');
     await loadScript('./treinos.js?v=20261103-sessoes-legiveis-3.4');
-    await loadScript('./experience.js?v=20261103-medidas-professora-3.4');
+    await loadScript('./experience.js?v=20261103-header-cliente-3.5');
     mounted=true;
     mountedClientId=client.id;
     show('content');
