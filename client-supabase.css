@@ -56,3 +56,4 @@
 html[data-theme="dark"] .teacher-measurement-group{background:#16231a}
 html[data-theme="dark"] .teacher-measurement-item{background:#1a2820}
 @media(max-width:620px){.evaluation-intro{padding:16px}.teacher-measurement-groups{grid-template-columns:1fr}.teacher-measurements-summary{align-items:flex-start;flex-direction:column;gap:4px}}
+@media(min-width:761px){.single-indicator-grid{grid-template-columns:minmax(0,440px)}}

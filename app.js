@@ -12,7 +12,7 @@
   function planKeys(){return Array.isArray(window.MeuTreinoPlanKeys)?window.MeuTreinoPlanKeys:['A','B','C','D'];}
   var groups=[
     {name:'Dados básicos',icon:'◌',items:[['idade','Idade','anos'],['peso','Peso','kg'],['altura','Altura','cm']]},
-    {name:'Tronco',icon:'▣',items:[['cintura','Cintura','cm'],['abdomen','Abdômen','cm'],['hip','Quadril','cm'],['busto','Busto','cm'],['chest','Peito / tórax','cm'],['shoulder','Ombro','cm']]},
+    {name:'Tronco',icon:'▣',items:[['abdomen','Abdômen','cm'],['hip','Quadril','cm'],['chest','Peito / tórax','cm'],['shoulder','Ombro','cm']]},
     {name:'Braços',icon:'⌁',items:[['bicepsLeft','Bíceps esquerdo','cm'],['bicepsRight','Bíceps direito','cm'],['armRelaxedLeft','Braço relaxado esquerdo','cm'],['armRelaxedRight','Braço relaxado direito','cm']]},
     {name:'Pernas',icon:'◇',items:[['thighLeft','Coxa esquerda','cm'],['thighRight','Coxa direita','cm'],['calfLeft','Panturrilha esquerda','cm'],['calfRight','Panturrilha direita','cm']]}
   ];
@@ -150,17 +150,10 @@
   }
   function updateIndicators(){
     var weight=measurement('peso'),heightCm=measurement('altura');
-    var waist=measurement('cintura'),hip=measurement('hip');
     // Altura é informada em centímetros, e IMC requer metros.
     var bmi=weight!==null&&heightCm!==null?weight/Math.pow(heightCm/100,2):null;
-    var waistHeight=waist!==null&&heightCm!==null?waist/heightCm:null;
-    var waistHip=waist!==null&&hip!==null?waist/hip:null;
     resultNumber('indicatorBmi','indicatorBmiHelp',bmi,1,'Informe peso e altura.');
-    resultNumber('indicatorWaistHeight','indicatorWaistHeightHelp',waistHeight,2,'Informe cintura e altura.');
-    resultNumber('indicatorWaistHip','indicatorWaistHipHelp',waistHip,2,'Informe cintura e quadril.');
     el('indicatorBmiStatus').innerHTML=statusMarkup(classifyBmi(bmi));
-    el('indicatorWaistHeightStatus').innerHTML=statusMarkup(classifyWaistHeight(waistHeight));
-    el('indicatorWaistHipStatus').innerHTML=statusMarkup(waistHip===null?status('A medir','neutral'):status('Acompanhar','neutral'));
     renderBodyFigures(bmi);
   }
 
@@ -222,26 +215,16 @@
     if(value<30)return status('Atenção · sobrepeso','attention');
     return status('Atenção · obesidade','alert');
   }
-  function classifyWaistHeight(value){
-    if(value===null||!Number.isFinite(value)||value<=0)return status('A calcular','neutral');
-    if(value<0.4)return status('Abaixo da faixa','neutral');
-    if(value<0.5)return status('Bom','good');
-    if(value<0.6)return status('Atenção','attention');
-    return status('Alerta','alert');
-  }
   function statusMarkup(item){return '<span class="status-badge '+escapeHtml(item.tone)+'">'+escapeHtml(item.label)+'</span>';}
   function ptNumber(value,decimals){return value.toLocaleString('pt-BR',{minimumFractionDigits:decimals,maximumFractionDigits:decimals});}
   function updateComparison(){
     var height=measurement('altura'),weight=measurement('peso');
-    var waist=measurement('cintura'),hip=measurement('hip');
     var refs={
       idade:'Sem meta',
       peso:'Meta individual',
       altura:'Sem meta',
-      cintura:height!==null?'Abaixo de '+ptNumber(height/2,1)+' cm':'Abaixo de metade da altura',
       abdomen:'Comparar evolução',
       hip:'Comparar evolução',
-      busto:'Comparar evolução',
       chest:'Comparar evolução',
       shoulder:'Comparar evolução',
       bicepsLeft:'Comparar evolução',
@@ -255,13 +238,11 @@
     };
     var rows=groups.flatMap(function(group){return group.items;}).map(function(item){
       var value=measurement(item[0]);
-      var state=value===null?status('A medir','neutral'):item[0]==='cintura'&&height!==null?classifyWaistHeight(value/height):status('Acompanhar','neutral');
+      var state=value===null?status('A medir','neutral'):status('Acompanhar','neutral');
       return {name:item[1],current:value===null?'A medir':ptNumber(value,item[0]==='idade'?0:1)+' '+item[2],reference:refs[item[0]]||'Avaliar individualmente',state:state};
     });
     rows=rows.concat([
-      {name:'IMC',current:weight!==null&&height!==null?ptNumber(weight/Math.pow(height/100,2),1)+' kg/m²':'A calcular',reference:'18,5 a 24,9 kg/m²',state:classifyBmi(weight!==null&&height!==null?weight/Math.pow(height/100,2):null)},
-      {name:'Cintura / altura',current:waist!==null&&height!==null?ptNumber(waist/height,2):'A calcular',reference:'Preferível abaixo de 0,50',state:classifyWaistHeight(waist!==null&&height!==null?waist/height:null)},
-      {name:'Cintura / quadril',current:waist!==null&&hip!==null?ptNumber(waist/hip,2):'A calcular',reference:'Meta individual',state:status(waist!==null&&hip!==null?'Acompanhar':'A calcular','neutral')}
+      {name:'IMC',current:weight!==null&&height!==null?ptNumber(weight/Math.pow(height/100,2),1)+' kg/m²':'A calcular',reference:'18,5 a 24,9 kg/m²',state:classifyBmi(weight!==null&&height!==null?weight/Math.pow(height/100,2):null)}
     ]);
     el('comparisonRows').innerHTML=rows.map(function(row,index){
       var missing=row.current==='A medir'||row.current==='A calcular';
