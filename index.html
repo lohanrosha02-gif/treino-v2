@@ -12,9 +12,24 @@
   <link rel="stylesheet" href="./treinos.css?v=3.4-medidas-professora-20261103">
   <link rel="stylesheet" href="./site-announcement.css?v=3.0">
   <link rel="stylesheet" href="./client-supabase.css?v=portal-medidas-sem-busto-cintura-3.7">
-  <link rel="stylesheet" href="./theme.css?v=20261103-header-cliente-3.7">
+  <link rel="stylesheet" href="./theme.css?v=20261103-pele-cinza-3.8">
 </head>
 <body>
+<svg class="visual-filter-defs" aria-hidden="true" focusable="false">
+  <filter id="anatomy-gray-skin" color-interpolation-filters="sRGB">
+    <feColorMatrix type="saturate" values="0" result="anatomyGray"/>
+    <feColorMatrix in="SourceGraphic" type="matrix" values="
+      0 0 0 0 0
+      0 0 0 0 0
+      0 0 0 0 0
+      1.8 -1.6 -0.2 0 -0.35" result="orangeMask"/>
+    <feComponentTransfer in="orangeMask" result="orangeMaskBoost">
+      <feFuncA type="linear" slope="4" intercept="0"/>
+    </feComponentTransfer>
+    <feComposite in="SourceGraphic" in2="orangeMaskBoost" operator="in" result="orangeHighlights"/>
+    <feComposite in="orangeHighlights" in2="anatomyGray" operator="over"/>
+  </filter>
+</svg>
 <a class="skip-link" href="#mainContent">Pular para o conteúdo</a>
 <header class="topbar">
   <div class="container topbar-inner">

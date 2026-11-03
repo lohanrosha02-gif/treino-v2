@@ -316,3 +316,9 @@ html[data-theme="dark"] .teaching-video figcaption button{color:#d8b8e7}
 .brand-client-name{display:block;min-width:0;max-width:210px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:11px;font-weight:550;line-height:1.2;letter-spacing:0}
 @media(max-width:540px){.brand{min-width:0;gap:9px}.brand-copy,.brand-name-line{min-width:0}.brand-name-line{gap:6px}.brand-client-name{font-size:10px;max-width:clamp(44px,26vw,110px)}}
 @media(max-width:340px){.brand-client-name{max-width:54px}}
+
+
+/* Ilustrações anatômicas: neutraliza tons de pele e mantém os músculos em laranja. */
+.teaching-video video,
+.teaching-image img{filter:url(#anatomy-gray-skin)}
+.visual-filter-defs{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
