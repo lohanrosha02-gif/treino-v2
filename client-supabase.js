@@ -10,7 +10,7 @@ function validConfig(){
   const config=window.MEU_TREINO_SUPABASE||{};
   return /^https:\/\/[a-z0-9-]+\.supabase\.co$/.test(config.url||'')&&typeof config.publishableKey==='string'&&config.publishableKey.length>15;
 }
-function view(mode){$('login').hidden=mode!=='login';$('portalContent').hidden=mode!=='content';$('logout').hidden=mode!=='content';$('setup').hidden=mode!=='setup';$('resetForm').hidden=mode!=='reset';}
+function view(mode){$('login').hidden=mode!=='login';$('portalContent').hidden=mode!=='content';$('logout').hidden=mode!=='content'&&mode!=='pending';$('setup').hidden=mode!=='setup';$('resetForm').hidden=mode!=='reset';$('signupFormSection').hidden=mode!=='signup';$('pendingSection').hidden=mode!=='pending';}
 function localDate(value){
   if(!/^\d{4}-\d{2}-\d{2}$/.test(value||''))return '';
   const a=value.split('-');return a[2]+'/'+a[1]+'/'+a[0];
@@ -77,10 +77,15 @@ async function loadSiteNotice(){
   if(visible){$('noticeTitle').textContent=n.title||'Aviso';$('noticeText').textContent=n.message;}
 }
 async function loadClient(user){
-  const linked=check(await db.rpc('claim_treino_client'));
-  if(!linked){view('login');status('Sua conta está autenticada, mas ainda não possui um cadastro liberado pelo professor. Confirme seu e-mail e peça ao professor para usar o mesmo endereço.',true);return;}
-  const client=check(await db.from('clients').select('id,full_name,email').eq('id',linked).maybeSingle());
+  const linked=check(await db.rpc('register_treino_client'));
+  if(!linked){view('login');status('Confirme seu e-mail antes de solicitar aprovação. Se já confirmou, saia e entre novamente.',true);return;}
+  const client=check(await db.from('clients').select('id,full_name,email,approval_status').eq('id',linked).maybeSingle());
   if(!client){view('login');status('Cadastro não encontrado. Entre em contato com seu professor.',true);return;}
+  if(client.approval_status!=='approved'){
+    activeClient=null;activePlan={days:[]};view('pending');
+    status('Cadastro recebido! Aguardando aprovação do professor.');
+    return;
+  }
   activeClient=client;
   const [m,p,n]=await Promise.all([
     db.from('client_measurements').select('measurement_date,values_cm').eq('client_id',client.id).maybeSingle(),
@@ -115,13 +120,30 @@ $('loginForm').addEventListener('submit',async e=>{
     $('password').value='';await loadClient(result.user);
   }catch(err){error(err);}
 });
-$('signUp').addEventListener('click',async()=>{
-  if(!db)return;const email=$('email').value.trim().toLowerCase(),password=$('password').value;
-  if(!email||password.length<8){status('Informe e-mail e senha com pelo menos 8 caracteres antes de criar a conta.',true);return;}
-  try{const result=check(await db.auth.signUp({email,password,options:{emailRedirectTo:location.origin+location.pathname}}));
-    $('password').value='';
-    if(!result.session){status('Conta solicitada. Confirme o e-mail enviado pelo Supabase e depois entre.');return;}
+$('signUp').addEventListener('click',function(){
+  $('signupEmail').value=$('email').value.trim();
+  $('signupName').value='';$('signupPassword').value='';
+  view('signup');status('Crie sua conta para solicitar acesso ao professor.');
+});
+$('backToLogin').addEventListener('click',function(){view('login');status('Entre com sua conta.');});
+$('signupForm').addEventListener('submit',async function(event){
+  event.preventDefault();if(!db)return;
+  const name=$('signupName').value.trim(),email=$('signupEmail').value.trim().toLowerCase(),password=$('signupPassword').value;
+  if(name.length<2||password.length<8){status('Preencha seu nome e use uma senha com no mínimo 8 caracteres.',true);return;}
+  try{
+    const result=check(await db.auth.signUp({
+      email:email,password:password,
+      options:{emailRedirectTo:location.origin+location.pathname,data:{full_name:name}}
+    }));
+    $('signupPassword').value='';
+    if(!result.session){view('login');$('email').value=email;status('Solicitação enviada! Confirme o e-mail recebido e entre para acompanhar a aprovação.');return;}
     await loadClient(result.user);
+  }catch(err){error(err);}
+});
+$('refreshApproval').addEventListener('click',async function(){
+  if(!db)return;
+  try{const u=check(await db.auth.getUser()).user;
+    if(u)await loadClient(u);else{view('login');status('Entre novamente para acompanhar sua aprovação.');}
   }catch(err){error(err);}
 });
 $('resetPassword').addEventListener('click',async()=>{

@@ -26,12 +26,25 @@
 <p class="portal-feedback" id="feedback" role="status" aria-live="polite">Verificando acesso...</p>
 <section class="panel portal-setup" id="setup" hidden><h2>Site em configuração</h2><p>O acesso dos clientes será ativado após a conexão do Supabase e a configuração de segurança pelo administrador.</p></section>
 <section class="panel login-panel" id="login" hidden>
-<h2>Entrar na sua área</h2><p>Use o e-mail cadastrado pelo professor e sua senha para consultar seus dados.</p>
+<h2>Entrar na sua área</h2><p>Crie sua conta e aguarde a aprovação do professor para consultar seus treinos.</p>
 <form id="loginForm" class="portal-form">
 <label for="email">E-mail</label><input id="email" type="email" required autocomplete="email">
 <label for="password">Senha</label><input id="password" type="password" required autocomplete="current-password" minlength="8">
 <div class="login-actions"><button class="primary-btn" type="submit">Entrar</button><button class="outline-btn" type="button" id="signUp">Criar conta</button><button class="plain-btn" type="button" id="resetPassword">Esqueci minha senha</button></div>
-</form><small>Na primeira vez, use “Criar conta” com o mesmo e-mail informado ao professor e confirme o e-mail recebido.</small>
+</form><small>Primeiro acesso? Clique em “Criar conta”. Você poderá consultar suas informações somente depois da aprovação.</small>
+</section>
+<section class="panel login-panel" id="signupFormSection" hidden>
+<h2>Criar minha conta</h2><p>Preencha seu nome, e-mail e senha. O professor analisará sua solicitação após você confirmar o e-mail.</p>
+<form id="signupForm" class="portal-form">
+<label for="signupName">Nome completo</label><input id="signupName" type="text" autocomplete="name" minlength="2" maxlength="120" required>
+<label for="signupEmail">E-mail</label><input id="signupEmail" type="email" autocomplete="email" required>
+<label for="signupPassword">Senha (mínimo 8 caracteres)</label><input id="signupPassword" type="password" minlength="8" autocomplete="new-password" required>
+<div class="login-actions"><button class="primary-btn" type="submit">Enviar cadastro</button><button class="outline-btn" type="button" id="backToLogin">Voltar</button></div>
+</form></section>
+<section class="panel login-panel" id="pendingSection" hidden>
+<h2>Cadastro aguardando aprovação</h2>
+<p>Seu e-mail foi confirmado. O professor precisa liberar seu acesso. Até lá, suas medidas e treinos ficam protegidos.</p>
+<button class="outline-btn" type="button" id="refreshApproval">Verificar aprovação</button>
 </section>
 <section class="panel login-panel" id="resetForm" hidden>
 <h2>Definir nova senha</h2><p>Use uma senha de pelo menos oito caracteres para recuperar sua conta.</p>
