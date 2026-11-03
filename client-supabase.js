@@ -209,7 +209,7 @@
       announcement:{enabled:announcement?.enabled===true,title:announcement?.title||'',message:announcement?.message||''}
     }});
     // Carrega avaliação, ficha individual, demonstrações e ferramentas de treino.
-    await loadScript('./app.js?v=20261103-medidas-professora-3.4');
+    await loadScript('./app.js?v=20261103-medidas-braco-relaxado-3.5');
     await loadScript('./treinos.js?v=20261103-loop-video-3.3');
     await loadScript('./experience.js?v=20261103-medidas-professora-3.4');
     mounted=true;
