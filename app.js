@@ -2,7 +2,7 @@
 (function(){
   'use strict';
 
-  // A avaliação é independente dos treinos. A chave antiga permanece intacta.
+  // O histórico anterior é preservado nos backups, mas a avaliação publicada é editada só pela professora.
   var userSuffix=String(window.MeuTreinoStorageSuffix||'sessao');
   var storageKey='meu-treino-v2-'+userSuffix;
   var savedAtKey='meu-treino-saved-at-v1-'+userSuffix;
@@ -11,12 +11,13 @@
   var activeTabKey='meu-treino-aba-v2-'+userSuffix;
   function planKeys(){return Array.isArray(window.MeuTreinoPlanKeys)?window.MeuTreinoPlanKeys:['A','B','C','D'];}
   var groups=[
-    {name:'Informações básicas',icon:'◌',items:[['idade','Idade','anos'],['peso','Peso','kg'],['altura','Altura','cm']]},
-    {name:'Tronco',icon:'▣',items:[['cintura','Cintura','cm'],['abdomen','Abdômen','cm'],['quadril','Quadril','cm'],['busto','Busto','cm'],['torax','Tórax','cm']]},
-    {name:'Braços',icon:'⌁',items:[['bracoRelaxado','Braço relaxado','cm'],['bracoIsometria','Braço em isometria','cm']]},
-    {name:'Pernas',icon:'◇',items:[['coxa','Coxa','cm'],['panturrilha','Panturrilha','cm']]}
+    {name:'Dados básicos',icon:'◌',items:[['idade','Idade','anos'],['peso','Peso','kg'],['altura','Altura','cm']]},
+    {name:'Tronco',icon:'▣',items:[['cintura','Cintura','cm'],['abdomen','Abdômen','cm'],['hip','Quadril','cm'],['busto','Busto','cm'],['chest','Peito / tórax','cm'],['shoulder','Ombro','cm']]},
+    {name:'Braços',icon:'⌁',items:[['bicepsLeft','Bíceps esquerdo','cm'],['bicepsRight','Bíceps direito','cm'],['forearmLeft','Antebraço esquerdo','cm'],['forearmRight','Antebraço direito','cm']]},
+    {name:'Pernas',icon:'◇',items:[['thighLeft','Coxa esquerda','cm'],['thighRight','Coxa direita','cm'],['calfLeft','Panturrilha esquerda','cm'],['calfRight','Panturrilha direita','cm']]}
   ];
   var allIds=groups.flatMap(function(group){return group.items.map(function(item){return item[0];});});
+  var backupIds=Array.from(new Set(allIds.concat(['quadril','torax','bracoRelaxado','bracoIsometria','coxa','panturrilha'])));
   var el=function(id){return document.getElementById(id);};
   function updateSyncStatus(state){
     var label=el('syncFooterText');
@@ -39,7 +40,7 @@
   function hasValue(str){return typeof str==='string'&&str.trim()!==''&&Number.isFinite(Number(str.replace(',','.')))&&Number(str.replace(',','.'))>0;}
   function normalizeAssessment(item){
     var values={};
-    allIds.forEach(function(id){
+    backupIds.forEach(function(id){
       var val=item&&item.values&&item.values[id];
       if(typeof val==='string'||typeof val==='number'){
         var str=String(val).trim();
@@ -67,14 +68,13 @@
     throw new Error('Estrutura inválida');
   }
   function escapeHtml(str){return String(str).replace(/[&<>"']/g,function(char){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char];});}
-  function countFields(item){return allIds.filter(function(id){return hasValue(item.values[id]);}).length;}
+  function countOfficialFields(){return allIds.filter(function(id){return measurement(id)!==null;}).length;}
 
   var data=emptyData(), migrated=false, loadError=false;
   var activeWeek=1, activeTab='evaluation';
   var publishedSite=null;
   var firstName=String(window.MeuTreinoStudentName||'').trim().split(/\s+/)[0];
   if(firstName&&el('trainingGreeting'))el('trainingGreeting').textContent='Oi, '+firstName+'! Seu treino da semana.';
-  var publishedMeasureFields=[["shoulder","Ombro"],["chest","Peito"],["bicepsLeft","Bíceps esquerdo"],["bicepsRight","Bíceps direito"],["forearmLeft","Antebraço esquerdo"],["forearmRight","Antebraço direito"],["abdomen","Abdômen"],["hip","Quadril"],["thighLeft","Coxa esquerda"],["thighRight","Coxa direita"],["calfLeft","Panturrilha esquerda"],["calfRight","Panturrilha direita"]];
   try{
     var saved=localStorage.getItem(storageKey), old=localStorage.getItem(oldStorageKey);
     var localSavedAt=Date.parse(localStorage.getItem(savedAtKey)||'');
@@ -100,7 +100,7 @@
       window.dispatchEvent(new CustomEvent('meutreino:saved'));
       if(typeof window.MeuTreinoSaveProgress==='function')window.MeuTreinoSaveProgress(JSON.parse(JSON.stringify(data))); 
       return true;
-    }catch(err){el('saveStatusText').textContent='Falha ao salvar. Exporte um backup.';toast('Armazenamento indisponível neste navegador.');return false;}
+    }catch(err){toast('Armazenamento indisponível neste navegador. Exporte um backup.');return false;}
   }
   function renderWeekNav(){
     var html='';
@@ -114,24 +114,29 @@
     el('navCaption').textContent='Semana '+activeWeek+' de 8';
   }
   function renderAssessment(){
-    el('measureDate').value=data.evaluation.date;
     var html='';
     groups.forEach(function(group){
-      html+='<section class="form-group" aria-label="'+escapeHtml(group.name)+'"><h3 class="group-title"><span class="group-icon" aria-hidden="true">'+group.icon+'</span>'+escapeHtml(group.name)+'</h3><div class="fields">';
+      html+='<section class="teacher-measurement-group" aria-label="'+escapeHtml(group.name)+'"><h3><span class="group-icon" aria-hidden="true">'+group.icon+'</span>'+escapeHtml(group.name)+'</h3><dl class="teacher-measurement-list">';
       group.items.forEach(function(item){
-        var id=item[0],label=item[1],unit=item[2],val=data.evaluation.values[id]||'';
-        html+='<div class="field"><label for="f_'+id+'">'+escapeHtml(label)+'</label><div class="entry"><input id="f_'+id+'" data-id="'+id+'" type="text" inputmode="decimal" autocomplete="off" placeholder="0,0" value="'+escapeHtml(val)+'" maxlength="7" aria-label="'+escapeHtml(label)+' em '+unit+'"><span class="unit">'+unit+'</span></div></div>';
+        var id=item[0],label=item[1],unit=item[2],val=measurement(id);
+        var formatted=val===null?'Não informado':ptNumber(val,id==='idade'?0:1)+' '+unit;
+        html+='<div class="teacher-measurement-item"><dt>'+escapeHtml(label)+'</dt><dd'+(val===null?' class="empty"':'')+'>'+escapeHtml(formatted)+'</dd></div>';
       });
-      html+='</div></section>';
+      html+='</dl></section>';
     });
     el('measureFields').innerHTML=html;
-    el('saveStatusText').textContent='Dados salvos neste navegador.';
+    var record=publishedSite&&publishedSite.measurements||{},rawDate=record.date||'';
+    if(/^\d{4}-\d{2}-\d{2}$/.test(rawDate)){
+      var parts=rawDate.split('-');el('teacherMeasurementDate').textContent='Última avaliação: '+parts[2]+'/'+parts[1]+'/'+parts[0];
+    }else el('teacherMeasurementDate').textContent=countOfficialFields()?'Avaliação registrada':'A professora ainda não registrou medidas.';
+    el('teacherMeasurementCount').textContent=countOfficialFields()+' de '+allIds.length+' medidas informadas';
     updateProgress();
   }
   function measurement(id){
-    var raw=data.evaluation.values[id];
-    if(typeof raw!=='string'||!hasValue(raw))return null;
-    var number=Number(raw.replace(',','.'));
+    var values=publishedSite&&publishedSite.measurements&&publishedSite.measurements.values||{};
+    var raw=values[id];
+    if((typeof raw!=='string'&&typeof raw!=='number')||!hasValue(String(raw)))return null;
+    var number=Number(String(raw).replace(',','.'));
     return Number.isFinite(number)&&number>0?number:null;
   }
   function resultNumber(id,helpId,value,decimals,missingHelp){
@@ -145,7 +150,7 @@
   }
   function updateIndicators(){
     var weight=measurement('peso'),heightCm=measurement('altura');
-    var waist=measurement('cintura'),hip=measurement('quadril');
+    var waist=measurement('cintura'),hip=measurement('hip');
     // Altura é informada em centímetros, e IMC requer metros.
     var bmi=weight!==null&&heightCm!==null?weight/Math.pow(heightCm/100,2):null;
     var waistHeight=waist!==null&&heightCm!==null?waist/heightCm:null;
@@ -206,7 +211,7 @@
         +'<span class="body-current">Faixa calculada ✓</span></article>';
     }).join('');
     el('bodiesResult').textContent=selected<0
-      ?'Informe peso e altura na avaliação inicial para identificar a faixa do IMC.'
+      ?'A professora ainda não informou peso e altura.'
       :'IMC '+ptNumber(bmi,1)+' · '+profiles[selected].label;
   }
   function status(label,tone){return {label:label,tone:tone};}
@@ -228,20 +233,25 @@
   function ptNumber(value,decimals){return value.toLocaleString('pt-BR',{minimumFractionDigits:decimals,maximumFractionDigits:decimals});}
   function updateComparison(){
     var height=measurement('altura'),weight=measurement('peso');
-    var waist=measurement('cintura'),hip=measurement('quadril');
+    var waist=measurement('cintura'),hip=measurement('hip');
     var refs={
       idade:'Sem meta',
       peso:'Meta individual',
       altura:'Sem meta',
       cintura:height!==null?'Abaixo de '+ptNumber(height/2,1)+' cm':'Abaixo de metade da altura',
       abdomen:'Comparar evolução',
-      quadril:'Comparar evolução',
+      hip:'Comparar evolução',
       busto:'Comparar evolução',
-      torax:'Comparar evolução',
-      bracoRelaxado:'Comparar evolução',
-      bracoIsometria:'Comparar evolução',
-      coxa:'Comparar evolução',
-      panturrilha:'Comparar evolução'
+      chest:'Comparar evolução',
+      shoulder:'Comparar evolução',
+      bicepsLeft:'Comparar evolução',
+      bicepsRight:'Comparar evolução',
+      forearmLeft:'Comparar evolução',
+      forearmRight:'Comparar evolução',
+      thighLeft:'Comparar evolução',
+      thighRight:'Comparar evolução',
+      calfLeft:'Comparar evolução',
+      calfRight:'Comparar evolução'
     };
     var rows=groups.flatMap(function(group){return group.items;}).map(function(item){
       var value=measurement(item[0]);
@@ -257,46 +267,18 @@
       var missing=row.current==='A medir'||row.current==='A calcular';
       return '<tr'+(index>=allIds.length?' class="calculated-row"':'')+'><th scope="row">'+escapeHtml(row.name)+'</th><td class="compare-current'+(missing?' not-measured':'')+'">'+escapeHtml(row.current)+'</td><td class="status-cell">'+statusMarkup(row.state)+'</td><td>'+escapeHtml(row.reference)+'</td></tr>';
     }).join('');
-    el('comparisonDate').textContent=data.evaluation.date?'Avaliação inicial · '+data.evaluation.date.split('-').reverse().join('/'):'Avaliação inicial · sem data';
+    var date=publishedSite&&publishedSite.measurements&&publishedSite.measurements.date||'';
+    el('comparisonDate').textContent=date?'Avaliação registrada · '+date.split('-').reverse().join('/'):'Avaliação da professora · sem data';
   }
   function updateProgress(){
-    var filled=countFields(data.evaluation);
-    el('filledLabel').textContent=filled+' de '+allIds.length+' campos preenchidos';
+    var filled=countOfficialFields();
+    el('filledLabel').textContent=filled+' de '+allIds.length+' medidas informadas';
     el('filledCircle').textContent=filled+'/'+allIds.length;
     el('weeksCompleted').textContent=String(filled);
     el('overallBar').style.width=(filled/allIds.length*100)+'%';
     el('overallProgress').setAttribute('aria-valuenow',String(filled));
     updateIndicators();
     updateComparison();
-  }
-  function renderPublishedMeasurements(measurements,available){
-    var grid=el('publicMeasurementsGrid'),date=el('publicMeasurementsDate'),count=el('publicMeasurementsCount');
-    if(!grid||!date||!count)return;
-    var values=measurements&&measurements.values&&typeof measurements.values==='object'?measurements.values:{};
-    var valid=function(value){
-      if(typeof value!=='string'&&typeof value!=='number')return null;
-      var raw=String(value).trim();
-      if(!/^\d{1,3}(?:[,.]\d{1,2})?$/.test(raw))return null;
-      var number=Number(raw.replace(',','.'));
-      return number>0&&number<=300?number:null;
-    };
-    var filled=0;
-    grid.replaceChildren();
-    publishedMeasureFields.forEach(function(entry){
-      var row=document.createElement('div'),label=document.createElement('dt'),value=document.createElement('dd');
-      row.className='public-measurements-item';
-      label.textContent=entry[1];
-      var number=valid(values[entry[0]]);
-      if(number!==null)filled++;
-      value.textContent=number===null?'Não informado':number.toLocaleString('pt-BR',{maximumFractionDigits:2})+' cm';
-      if(number===null)value.className='empty';
-      row.append(label,value);grid.appendChild(row);
-    });
-    count.textContent=filled+' de '+publishedMeasureFields.length+' medidas informadas';
-    var rawDate=measurements&&typeof measurements.date==='string'?measurements.date:'';
-    if(/^\d{4}-\d{2}-\d{2}$/.test(rawDate)){
-      var parts=rawDate.split('-');date.textContent='Data do registro: '+parts[2]+'/'+parts[1]+'/'+parts[0];
-    }else date.textContent=available?(filled?'Registro publicado pela administração':'Nenhuma medição publicada até agora.'):'Não foi possível carregar as medições. Atualize a página.';
   }
   function selectWeek(number){
     if(!Number.isInteger(number)||number<1||number>8)return;
@@ -339,45 +321,21 @@
     var button=event.target.closest('[data-week]');
     if(button)selectWeek(Number(button.dataset.week));
   });
-  el('measureFields').addEventListener('input',function(event){
-    var input=event.target.closest('[data-id]');if(!input)return;
-    var value=input.value.trim().replace(/\s+/g,'');
-    if(!isValidEntry(value)){input.value=data.evaluation.values[input.dataset.id]||'';return;}
-    data.evaluation.values[input.dataset.id]=value;
-    if(persist())el('saveStatusText').textContent='Alterações salvas automaticamente.';
-    updateProgress();
-  });
-  el('measureDate').addEventListener('change',function(event){
-    data.evaluation.date=event.target.value;
-    if(persist())el('saveStatusText').textContent='Data salva automaticamente.';
-    updateComparison();
-  });
-  el('measureForm').addEventListener('submit',function(event){
-    event.preventDefault();
-    if(persist()){el('saveStatusText').textContent='Medidas salvas com sucesso.';toast('Avaliação inicial salva!');}
-  });
-  el('nextWeek').addEventListener('click',function(){selectTab('training');});
-  el('clearWeek').addEventListener('click',function(){
-    if(countFields(data.evaluation)===0&&!data.evaluation.date){toast('A avaliação inicial já está vazia.');return;}
-    if(!confirm('Limpar todas as medidas e a data da avaliação inicial? Esta ação não pode ser desfeita.'))return;
-    data.evaluation=emptyAssessment();persist();renderAssessment();toast('Avaliação inicial limpa.');
-  });
   window.MeuTreinoBridge={getData:function(){return data;},getWeek:function(){return activeWeek;},save:persist,toast:toast,refreshWeeks:renderWeekNav,
     exportData:function(){return JSON.parse(JSON.stringify(data));},
     updatePublishedMeasurements:function(measurements){
       if(!publishedSite)publishedSite={};
       publishedSite.measurements=measurements||{date:'',values:{}};
-      renderPublishedMeasurements(publishedSite.measurements,true);
+      renderAssessment();
     },
     restore:function(raw){var next=normalizeData(raw),previous=data;data=next;if(!persist()){data=previous;throw new Error('Falha ao salvar backup');}renderAssessment();renderWeekNav();if(window.MeuTreinoTreinos)window.MeuTreinoTreinos.render();},
     selectTab:selectTab};
   renderAssessment();selectWeek(activeWeek);selectTab(activeTab,false);
-  renderPublishedMeasurements(null,false);
   if(window.MeuTreinoContentReady){
     window.MeuTreinoContentReady.then(function(content){
       if(!content||!content.site)return;
       publishedSite=content.site;
-      renderPublishedMeasurements(content.site.measurements,true);
+      renderAssessment();
       function safe(value,max){return typeof value==='string'?value.slice(0,max):'';}
       var text=safe(publishedSite.eyebrow,80);
       if(text)el('pageEyebrow').textContent=text;

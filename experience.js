@@ -30,10 +30,9 @@
   byId('backupFile').addEventListener('change',async function(){
     var file=this.files&&this.files[0];this.value='';if(!file)return;if(file.size>2*1024*1024){bridge.toast('Arquivo muito grande. Selecione um backup do Meu Treino.');return;}
     try{var raw=JSON.parse(await file.text());if(!raw||!Array.isArray(raw.weeks)||raw.weeks.length!==8)throw Error('Formato');
-      var measurements=Object.keys(raw.evaluation&&raw.evaluation.values||{}).filter(function(k){return raw.evaluation.values[k]!=='';}).length;
       var keys=Array.isArray(window.MeuTreinoPlanKeys)?window.MeuTreinoPlanKeys:['A','B','C','D'];
       var sessions=raw.weeks.reduce(function(sum,w){return sum+keys.filter(function(d){return w&&w.training&&w.training[d]&&w.training[d].complete;}).length;},0);
-      if(!confirm('Restaurar este backup?\n\n'+measurements+' medidas e '+sessions+' sessões concluídas.\n\nOs registros atuais deste navegador serão substituídos. Baixe um backup antes se quiser preservá-los.'))return;
+      if(!confirm('Restaurar este backup?\n\n'+sessions+' sessões de treino concluídas.\n\nOs registros de treino atuais deste navegador serão substituídos. As medidas oficiais da professora não serão alteradas.'))return;
       bridge.restore(raw);progress();document.querySelector('.backup-menu').open=false;bridge.toast('Backup restaurado com sucesso.');
     }catch(err){bridge.toast('Não foi possível restaurar. Selecione um backup válido do Meu Treino.');}
   });
