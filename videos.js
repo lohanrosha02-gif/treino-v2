@@ -352,7 +352,14 @@ window.MeuTreinoVideos=Object.freeze({
       "name": "Super-homem",
       "poster": "./assets/images/teacher-superman.webp",
       "kind": "animated-reference"
+    },
+    "teacher-barbell-bench-press": {
+      "type": "local",
+      "url": "./assets/videos/teacher-barbell-bench-press.mp4",
+      "name": "Supino reto (barra)",
+      "poster": "./assets/images/teacher-barbell-bench-press.webp",
+      "kind": "animated-reference"
     }
   },
-  "version": "2.4.0"
+  "version": "2.4.1"
 });
