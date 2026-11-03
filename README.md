@@ -9,7 +9,7 @@ Este repositório é o **site principal dos alunos**, com o visual completo da v
 - A função `register_treino_client()` registra a conta confirmada como pendente, mesmo sem cadastro prévio pelo professor.
 - A interface mantém as **8 semanas**, seleção de treinos por dia, demonstrações em vídeo ou imagem dentro de cada exercício, registro de séries, cargas, repetições e tempos, notas, treino concluído e evolução semanal.
 - Continuam funcionando o cronômetro de descanso, tema claro/escuro e backup/exportação/importação de registros.
-- A avaliação oficial é inserida pela professora no ADM e aparece para o aluno em modo de consulta, organizada em **dados básicos, tronco, braços e pernas**. O portal calcula automaticamente **IMC, cintura/altura e cintura/quadril** e mostra as faixas de IMC e a tabela de comparação a partir desses mesmos valores.
+- A avaliação oficial é inserida pela professora no ADM e aparece para o aluno em modo de consulta, organizada em **dados básicos, tronco, braços e pernas**. O portal calcula automaticamente o **IMC** e mostra as faixas de IMC e a tabela de comparação a partir desses mesmos valores.
 - Cada avaliação fica vinculada ao cadastro individual em `client_measurements`. O aluno não edita esses dados; o banco permite gravação apenas ao administrador e limita a leitura do portal à própria conta.
 - As demonstrações ficam junto da ficha: ao abrir um exercício, o vídeo disponível começa a tocar em loop. A ficha mostra o material que o professor associou a cada movimento.
 - O histórico de séries é salvo localmente com chave diferente por conta e sincronizado na tabela `client_progress`, protegida por RLS.

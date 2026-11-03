@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta name="app-build" content="3.5-medidas-braco-relaxado">
+  <meta name="app-build" content="3.6-medidas-sem-busto-cintura">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f6f7f3">
@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="./treinos.css?v=3.4-medidas-professora-20261103">
   <link rel="stylesheet" href="./theme.css?v=3.4-medidas-professora-20261103">
   <link rel="stylesheet" href="./site-announcement.css?v=3.0">
-  <link rel="stylesheet" href="./client-supabase.css?v=portal-medidas-professora-3.4">
+  <link rel="stylesheet" href="./client-supabase.css?v=portal-medidas-sem-busto-cintura-3.7">
 </head>
 <body>
 <a class="skip-link" href="#mainContent">Pular para o conteúdo</a>
@@ -95,10 +95,10 @@
       <div class="side-progress" hidden>
         <div>
           <div class="small-heading">Medidas registradas</div>
-          <div class="big-progress"><span id="weeksCompleted">0</span><span> / 17</span></div>
+          <div class="big-progress"><span id="weeksCompleted">0</span><span> / 15</span></div>
           
         </div>
-        <div class="track" role="progressbar" aria-label="Medidas registradas pela professora" aria-valuemin="0" aria-valuemax="17" aria-valuenow="0" id="overallProgress"><div id="overallBar"></div></div>
+        <div class="track" role="progressbar" aria-label="Medidas registradas pela professora" aria-valuemin="0" aria-valuemax="15" aria-valuenow="0" id="overallProgress"><div id="overallBar"></div></div>
       </div>
       
       <div class="side-plan"><div class="small-heading">Seu plano completo</div><strong id="planProgressText">0 <span>/ 32 sessões</span></strong><div class="track" role="progressbar" aria-label="Sessões concluídas no plano" aria-valuemin="0" aria-valuemax="32" aria-valuenow="0" id="planProgress"><div id="planBar"></div></div><p>Constância, um treino de cada vez.</p></div>
@@ -115,21 +115,21 @@
           <div><div class="eyebrow">AVALIAÇÃO DA PROFESSORA</div><h2 id="formHeading">Medidas registradas</h2><p>Dados organizados por região corporal. Para corrigir ou atualizar algum valor, fale com a professora.</p></div>
         </div>
         <div class="info-strip">
-          <div><div class="info-main">Avaliação corporal</div><div class="info-sub" id="filledLabel">0 de 17 medidas informadas</div></div>
-          <div class="week-complete"><span class="mini-circle" id="filledCircle">0/17</span></div>
+          <div><div class="info-main">Avaliação corporal</div><div class="info-sub" id="filledLabel">0 de 15 medidas informadas</div></div>
+          <div class="week-complete"><span class="mini-circle" id="filledCircle">0/15</span></div>
         </div>
         <div class="teacher-measurements-summary">
           <span id="teacherMeasurementDate">Carregando as medidas…</span>
-          <span id="teacherMeasurementCount">0 de 17 informadas</span>
+          <span id="teacherMeasurementCount">0 de 15 informadas</span>
         </div>
         <div id="measureFields" class="teacher-measurement-groups" aria-label="Medidas registradas pela professora"></div>
         <p class="teacher-measurements-note">Somente a professora pode inserir e atualizar estes valores. Eles ficam vinculados ao seu cadastro.</p>
       </section>
       <section class="panel indicators-panel" aria-labelledby="indicatorsHeading">
         
-        <h2 id="indicatorsHeading" style="margin:7px 0 7px;font-size:22px;letter-spacing:-.7px">Cálculos das medidas registradas</h2>
+        <h2 id="indicatorsHeading" style="margin:7px 0 7px;font-size:22px;letter-spacing:-.7px">Cálculo do IMC</h2>
         
-        <div class="indicator-grid">
+        <div class="indicator-grid single-indicator-grid">
           <article class="indicator-card">
             <span class="indicator-title">Índice de massa corporal (IMC)</span>
             <div class="indicator-value" id="indicatorBmi" aria-live="polite">—</div>
@@ -137,23 +137,9 @@
             <p id="indicatorBmiHelp">A professora ainda não informou peso e altura.</p>
 
           </article>
-          <article class="indicator-card">
-            <span class="indicator-title">Relação cintura / altura</span>
-            <div class="indicator-value" id="indicatorWaistHeight" aria-live="polite">—</div>
-             <div class="indicator-status" id="indicatorWaistHeightStatus" aria-live="polite"></div>
-            <p id="indicatorWaistHeightHelp">A professora ainda não informou cintura e altura.</p>
-
-          </article>
-          <article class="indicator-card">
-            <span class="indicator-title">Relação cintura / quadril</span>
-            <div class="indicator-value" id="indicatorWaistHip" aria-live="polite">—</div>
-             <div class="indicator-status" id="indicatorWaistHipStatus" aria-live="polite"></div>
-            <p id="indicatorWaistHipHelp">A professora ainda não informou cintura e quadril.</p>
-
-          </article>
         </div>
 
-        <p class="indicator-disclaimer">Cálculos com base nas medidas registradas pela professora. São indicadores, não diagnósticos.</p>
+        <p class="indicator-disclaimer">O IMC é um indicador calculado com o peso e a altura registrados, não um diagnóstico.</p>
       </section>
       <section class="panel bodies-panel" aria-labelledby="bodiesHeading">
         
@@ -195,6 +181,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
 <script src="./supabase-config.js?v=3.0" defer></script>
 <script src="./videos.js?v=3.0" defer></script>
-  <script src="./client-supabase.js?v=20261103-medidas-braco-relaxado-3.5" defer></script>
+  <script src="./client-supabase.js?v=20261103-medidas-sem-busto-cintura-3.7" defer></script>
 </body>
 </html>
