@@ -123,7 +123,7 @@
       announcement:{enabled:announcement?.enabled===true,title:announcement?.title||'',message:announcement?.message||''}
     }});
     // Sequência original: estado do plano, fichas em vídeo, progresso, cronômetro e backup.
-    await loadScript('./app.js?v=legacy-3.0');
+    await loadScript('./app.js?v=avaliacao-3.1');
     await loadScript('./treinos.js?v=legacy-3.0');
     await loadScript('./experience.js?v=legacy-3.0');
     await loadScript('./legacy-catalog.js?v=legacy-3.0');
