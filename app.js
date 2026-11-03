@@ -72,6 +72,8 @@
   var data=emptyData(), migrated=false, loadError=false;
   var activeWeek=1, activeTab='evaluation';
   var publishedSite=null;
+  var firstName=String(window.MeuTreinoStudentName||'').trim().split(/\s+/)[0];
+  if(firstName&&el('trainingGreeting'))el('trainingGreeting').textContent='Oi, '+firstName+'! Seu treino da semana.';
   var publishedMeasureFields=[["shoulder","Ombro"],["chest","Peito"],["bicepsLeft","Bíceps esquerdo"],["bicepsRight","Bíceps direito"],["forearmLeft","Antebraço esquerdo"],["forearmRight","Antebraço direito"],["abdomen","Abdômen"],["hip","Quadril"],["thighLeft","Coxa esquerda"],["thighRight","Coxa direita"],["calfLeft","Panturrilha esquerda"],["calfRight","Panturrilha direita"]];
   try{
     var saved=localStorage.getItem(storageKey), old=localStorage.getItem(oldStorageKey);
@@ -85,7 +87,9 @@
     // A new device starts blank. Existing records from /treino/ share this origin.
     activeWeek=Number(localStorage.getItem(selectedKey))||1;
     if(!Number.isInteger(activeWeek)||activeWeek<1||activeWeek>8)activeWeek=1;
-    activeTab=['training','library'].includes(localStorage.getItem(activeTabKey))?localStorage.getItem(activeTabKey):'evaluation';
+    var savedTab=localStorage.getItem(activeTabKey);
+    // Quem usava a antiga aba de vídeos vai direto para a ficha, onde estão as demonstrações.
+    activeTab=savedTab==='training'||savedTab==='library'?'training':'evaluation';
   }catch(err){loadError=true;data=emptyData();}
   function persist(){
     try{
@@ -301,37 +305,35 @@
     if(window.MeuTreinoTreinos)window.MeuTreinoTreinos.render();
   }
   function selectTab(name,save){
-    activeTab=name==='library'?'library':name==='training'?'training':'evaluation';
+    activeTab=name==='training'?'training':'evaluation';
     var training=activeTab==='training';
-    var library=activeTab==='library';
     el('evaluationTab').hidden=activeTab!=='evaluation';
     el('trainingTab').hidden=!training;
-    el('libraryTab').hidden=!library;
-    [['tabEvaluation','evaluation'],['tabTraining','training'],['tabLibrary','library']].forEach(function(tab){
+    [['tabEvaluation','evaluation'],['tabTraining','training']].forEach(function(tab){
       var button=el(tab[0]),active=tab[1]===activeTab;
       button.classList.toggle('active',active);
       button.setAttribute('aria-selected',String(active));
       button.tabIndex=active?0:-1;
     });
     var texts=publishedSite||{};
-    el('pageTitle').textContent=library?'Biblioteca de exercícios':training?(texts.trainingTitle||'Seu treino. Seu ritmo.'):(texts.evaluationTitle||'Medições corporais');
-    el('pageLead').textContent=library?'Todos os vídeos, imagens e orientações do acervo original.':training?(texts.trainingLead||'Abra o exercício, veja o movimento e registre sua evolução.'):(texts.evaluationLead||'Medidas publicadas pela administração, disponíveis para consulta.');
+    el('pageTitle').textContent=training?(texts.trainingTitle||'Meus treinos'):(texts.evaluationTitle||'Medições corporais');
+    el('pageLead').textContent=training?(texts.trainingLead||'Abra um exercício para ver a demonstração e registrar suas séries.'):(texts.evaluationLead||'Consulte sua avaliação e as medidas atualizadas pelo professor.');
     document.querySelectorAll('video.loop-video').forEach(function(v){if(!training)v.pause();});
     window.dispatchEvent(new CustomEvent('meutreino:tab',{detail:activeTab}));
     if(save!==false)persist();
     if(training&&window.MeuTreinoTreinos)window.MeuTreinoTreinos.render();
   }
-  ['evaluation','training','library'].forEach(function(name){
-    var id=name==='evaluation'?'tabEvaluation':name==='training'?'tabTraining':'tabLibrary';
+  ['evaluation','training'].forEach(function(name){
+    var id=name==='evaluation'?'tabEvaluation':'tabTraining';
     el(id).addEventListener('click',function(){selectTab(name);});
   });
   document.querySelector('[role=tablist]').addEventListener('keydown',function(e){
     if(['ArrowLeft','ArrowRight','Home','End'].indexOf(e.key)===-1)return;
     e.preventDefault();
-    var options=['evaluation','training','library'],pos=options.indexOf(activeTab);
-    var next=e.key==='Home'?0:e.key==='End'?2:(pos+(e.key==='ArrowRight'?1:2))%3;
+    var options=['evaluation','training'],pos=options.indexOf(activeTab);
+    var next=e.key==='Home'?0:e.key==='End'?1:(pos+(e.key==='ArrowRight'?1:1))%2;
     selectTab(options[next]);
-    el(['tabEvaluation','tabTraining','tabLibrary'][next]).focus();
+    el(['tabEvaluation','tabTraining'][next]).focus();
   });
   el('weekList').addEventListener('click',function(event){
     var button=event.target.closest('[data-week]');
@@ -362,6 +364,11 @@
   });
   window.MeuTreinoBridge={getData:function(){return data;},getWeek:function(){return activeWeek;},save:persist,toast:toast,refreshWeeks:renderWeekNav,
     exportData:function(){return JSON.parse(JSON.stringify(data));},
+    updatePublishedMeasurements:function(measurements){
+      if(!publishedSite)publishedSite={};
+      publishedSite.measurements=measurements||{date:'',values:{}};
+      renderPublishedMeasurements(publishedSite.measurements,true);
+    },
     restore:function(raw){var next=normalizeData(raw),previous=data;data=next;if(!persist()){data=previous;throw new Error('Falha ao salvar backup');}renderAssessment();renderWeekNav();if(window.MeuTreinoTreinos)window.MeuTreinoTreinos.render();},
     selectTab:selectTab};
   renderAssessment();selectWeek(activeWeek);selectTab(activeTab,false);

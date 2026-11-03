@@ -2,6 +2,7 @@
   'use strict';
   const $=id=>document.getElementById(id);
   let db=null,approvedClient=null,mounted=false,recoveryMode=false,saveTimer=null,saveQueue=Promise.resolve(),saveRevision=0;
+  let exerciseCatalog={plans:{}},currentPlanSnapshot=null,currentMeasurementSnapshot=null,refreshTimer=null,refreshInFlight=false,refreshListenersAdded=false;
   function show(mode){
     const names=['login','signupFormSection','pendingSection','resetForm','setup'];
     const target={login:'login',signup:'signupFormSection',pending:'pendingSection',reset:'resetForm',setup:'setup'}[mode];
@@ -120,14 +121,77 @@
       },700);
     };
   }
+  function measurementSnapshot(row){
+    return JSON.stringify({date:row?.measurement_date||'',values:row?.values_cm||{}});
+  }
+  async function refreshStudentData(){
+    const clientId=approvedClient?.id;
+    if(!clientId||!mounted||refreshInFlight||!db)return;
+    refreshInFlight=true;
+    try{
+      const [planResult,measurementResult]=await Promise.all([
+        db.from('client_plans').select('plan,updated_at').eq('client_id',clientId).maybeSingle(),
+        db.from('client_measurements').select('measurement_date,values_cm,updated_at').eq('client_id',clientId).maybeSingle()
+      ]);
+      const [planRecord,measurementRecord]=[check(planResult),check(measurementResult)];
+      if(!approvedClient||approvedClient.id!==clientId)return;
+      let planChanged=false,measurementsChanged=false;
+      const rawPlan=planRecord?.plan||{days:[]};
+      const planSnapshot=JSON.stringify(rawPlan);
+      if(planSnapshot!==currentPlanSnapshot){
+        currentPlanSnapshot=planSnapshot;
+        const parsed=createCustomPlan(rawPlan,exerciseCatalog);
+        window.MeuTreinoCustomPlan=parsed;
+        window.MeuTreinoPlanKeys=Object.keys(parsed);
+        if(window.MeuTreinoTreinos&&typeof window.MeuTreinoTreinos.updatePlan==='function')
+          window.MeuTreinoTreinos.updatePlan(parsed);
+        planChanged=true;
+      }
+      const nextMeasurementSnapshot=measurementSnapshot(measurementRecord);
+      if(nextMeasurementSnapshot!==currentMeasurementSnapshot){
+        currentMeasurementSnapshot=nextMeasurementSnapshot;
+        window.MeuTreinoBridge?.updatePublishedMeasurements({
+          date:measurementRecord?.measurement_date||'',
+          values:measurementRecord?.values_cm||{}
+        });
+        measurementsChanged=true;
+      }
+      if(planChanged||measurementsChanged){
+        const message=planChanged&&measurementsChanged
+          ?'Seu professor atualizou seu treino e suas medidas.'
+          :planChanged?'Seu professor atualizou sua ficha de treino.':'Seu professor atualizou suas medidas.';
+        window.MeuTreinoBridge?.toast(message);
+      }
+    }catch(error){
+      console.warn('Não foi possível buscar atualizações do professor.',error&&error.message||String(error));
+    }finally{
+      refreshInFlight=false;
+    }
+  }
+  function startStudentRefresh(){
+    if(refreshTimer)clearInterval(refreshTimer);
+    refreshTimer=setInterval(()=>{
+      if(document.visibilityState==='visible')refreshStudentData();
+    },30000);
+    if(refreshListenersAdded)return;
+    document.addEventListener('visibilitychange',()=>{
+      if(document.visibilityState==='visible')refreshStudentData();
+    });
+    window.addEventListener('focus',refreshStudentData);
+    refreshListenersAdded=true;
+  }
   async function mountLegacy(client,measure,record,announcement,progress){
     if(mounted){show('content');return;}
     const response=await fetch('./data/site-content.json',{cache:'no-store'});
-    const original=response.ok?await response.json():{plans:{}};
-    const parsed=createCustomPlan(record?.plan||{days:[]},original);
+    exerciseCatalog=response.ok?await response.json():{plans:{}};
+    const initialPlan=record?.plan||{days:[]};
+    const parsed=createCustomPlan(initialPlan,exerciseCatalog);
+    currentPlanSnapshot=JSON.stringify(initialPlan);
+    currentMeasurementSnapshot=measurementSnapshot(measure);
     window.MeuTreinoCustomPlan=parsed;
     window.MeuTreinoPlanKeys=Object.keys(parsed);
     window.MeuTreinoStorageSuffix=client.auth_user_id||client.id;
+    window.MeuTreinoStudentName=String(client.full_name||'');
     window.MeuTreinoInitialProgress=progress?.progress||null;
     window.MeuTreinoInitialProgressUpdatedAt=progress?.updated_at||null;
     window.MeuTreinoSaveProgress=syncProgress(client.id);
@@ -135,20 +199,20 @@
       eyebrow:'ACOMPANHAMENTO PESSOAL',
       evaluationTitle:'Minha avaliação corporal',
       evaluationLead:'Sua avaliação pessoal com IMC e cálculos automáticos, mais as medidas atualizadas pelo professor.',
-      trainingTitle:'Seu treino. Seu ritmo.',
-      trainingLead:'Abra os exercícios, veja o movimento e registre a evolução de cada série.',
+      trainingTitle:'Meus treinos',
+      trainingLead:'Abra um exercício para ver a demonstração em loop e registrar suas séries.',
       footer:'Meu Treino · Seu plano de 8 semanas',
       measurements:{date:measure?.measurement_date||'',values:measure?.values_cm||{}},
       announcement:{enabled:announcement?.enabled===true,title:announcement?.title||'',message:announcement?.message||''}
     }});
-    // Sequência original: estado do plano, fichas em vídeo, progresso, cronômetro e backup.
-    await loadScript('./app.js?v=avaliacao-3.2-sync-status');
-    await loadScript('./treinos.js?v=legacy-3.0');
-    await loadScript('./experience.js?v=legacy-3.0');
-    await loadScript('./legacy-catalog.js?v=legacy-3.0');
+    // Carrega avaliação, ficha individual, demonstrações e ferramentas de treino.
+    await loadScript('./app.js?v=20261103-student-tabs-3.3');
+    await loadScript('./treinos.js?v=20261103-loop-video-3.3');
+    await loadScript('./experience.js?v=20261103-student-copy-3.3');
     mounted=true;
     show('content');
     $('logout').hidden=false;
+    startStudentRefresh();
   }
   async function loadClient(user){
     if(!user){show('login');notice('Entre para visualizar seu plano.');return;}
@@ -163,8 +227,8 @@
     }
     approvedClient=client;notice('Carregando seu treino completo...');
     const results=await Promise.all([
-      db.from('client_measurements').select('measurement_date,values_cm').eq('client_id',client.id).maybeSingle(),
-      db.from('client_plans').select('plan').eq('client_id',client.id).maybeSingle(),
+      db.from('client_measurements').select('measurement_date,values_cm,updated_at').eq('client_id',client.id).maybeSingle(),
+      db.from('client_plans').select('plan,updated_at').eq('client_id',client.id).maybeSingle(),
       db.from('site_announcements').select('enabled,title,message').eq('id',1).maybeSingle(),
       db.from('client_progress').select('progress,updated_at').eq('client_id',client.id).maybeSingle()
     ]);

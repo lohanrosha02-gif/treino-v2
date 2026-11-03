@@ -6,14 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f6f7f3">
   <script src="./theme.js?v=2.4.3-measures-readonly-20261102"></script>
-  <meta name="description" content="Meu Treino: oito semanas de acompanhamento, vídeos, séries e medidas aprovadas por seu professor.">
-  <title>Meu Treino · Seu ritmo, sua evolução</title>
+  <meta name="description" content="Meu Treino: acompanhe sua avaliação e sua ficha, com demonstrações dos exercícios e registro das séries.">
+  <title>Meu Treino · Área do aluno</title>
   <link rel="stylesheet" href="./app.css?v=2.4.3-measures-readonly-20261102">
   <link rel="stylesheet" href="./treinos.css?v=2.4.3-measures-readonly-20261102">
   <link rel="stylesheet" href="./theme.css?v=2.4.3-measures-readonly-20261102">
   <link rel="stylesheet" href="./site-announcement.css?v=3.0">
-  <link rel="stylesheet" href="./client-supabase.css?v=avaliacao-3.1">
-  <link rel="stylesheet" href="./legacy-catalog.css?v=legacy-3.0">
+  <link rel="stylesheet" href="./client-supabase.css?v=portal-3.3">
 </head>
 <body>
 <a class="skip-link" href="#mainContent">Pular para o conteúdo</a>
@@ -23,7 +22,7 @@
       <div class="brand-icon" aria-hidden="true">
         <svg viewBox="0 0 32 32" fill="none"><path d="M5 20.5 11.8 11l5.2 6.2 9-10" stroke="#E2F1D3" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M21.5 7.2H26v4.5" stroke="#E2F1D3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
-      <div><div class="brand-title">meu treino<span style="color:#528b67">.</span></div><div class="brand-sub">SEU RITMO. SUA EVOLUÇÃO.</div></div>
+      <div><div class="brand-title">meu treino<span style="color:#528b67">.</span></div><div class="brand-sub">TREINOS E AVALIAÇÃO</div></div>
     </div>
     <div class="header-tools"><span class="top-pill"><span class="dot"></span> Plano de 8 semanas</span>
       <button type="button" class="theme-toggle" id="themeToggle" aria-label="Ativar tema escuro" aria-pressed="false" title="Ativar tema escuro">
@@ -91,10 +90,6 @@
         <button type="button" class="nav-item" id="tabTraining" role="tab" aria-controls="trainingTab" aria-selected="false" tabindex="-1">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18"/></svg>
           Meus treinos
-        </button>
-        <button type="button" class="nav-item" id="tabLibrary" role="tab" aria-controls="libraryTab" aria-selected="false" tabindex="-1">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="m10 8 6 4-6 4z"/></svg>
-          Vídeos e exercícios
         </button>
       </nav>
       <div class="side-progress" hidden>
@@ -213,28 +208,13 @@
       </div>
 
       <div class="tab-content" id="trainingTab" role="tabpanel" aria-labelledby="tabTraining" hidden>
-      <section class="workout-hero" aria-label="Resumo da semana"><div><span class="hero-kicker" id="heroWeek">SEMANA 01 / 08</span><h2>Um treino de cada vez.</h2><p id="heroProgress">Seu próximo passo começa aqui.</p></div><div class="week-ring" id="weekRing" style="--progress:0%"><div><strong id="weekSessionCount">0<span>/4</span></strong><small>SESSÕES</small></div></div></section>
+      <section class="workout-hero" aria-label="Resumo da semana"><div><span class="hero-kicker" id="heroWeek">SEMANA 01 / 08</span><h2 id="trainingGreeting">Seu treino da semana</h2><p id="heroProgress">Seu próximo passo começa aqui.</p></div><div class="week-ring" id="weekRing" style="--progress:0%"><div><strong id="weekSessionCount">0<span>/4</span></strong><small>SESSÕES</small></div></div></section>
       <section class="week-panel" aria-labelledby="weeksHeading">
         <div class="section-head"><h3 id="weeksHeading">Sua semana</h3><span id="navCaption">Semana 1 de 8</span></div>
         <div class="week-list" id="weekList" aria-label="Selecionar semana"></div>
       </section>
 
       <div id="trainingMount" aria-label="Plano completo de treino A a D"></div>
-      </div>
-      <div class="tab-content" id="libraryTab" role="tabpanel" aria-labelledby="tabLibrary" hidden>
-        <section class="panel library-wrapper">
-          <div class="form-head"><div><div class="eyebrow">BIBLIOTECA ORIGINAL</div>
-            <h2>Todos os vídeos e imagens</h2>
-            <p>Treinos A, B, C e D com as 40 demonstrações antigas. Use seu treino personalizado como orientação principal.</p>
-          </div></div>
-          <nav class="library-day-selector" aria-label="Treinos da biblioteca">
-            <button type="button" class="week-button active" data-library-day="A" aria-pressed="true">Treino A</button>
-            <button type="button" class="week-button" data-library-day="B" aria-pressed="false">Treino B</button>
-            <button type="button" class="week-button" data-library-day="C" aria-pressed="false">Treino C</button>
-            <button type="button" class="week-button" data-library-day="D" aria-pressed="false">Treino D</button>
-          </nav>
-          <div id="libraryContent"></div>
-        </section>
       </div>
       <footer class="footer"><span>Meu Treino · Seu plano de 8 semanas</span><span><span class="footer-dot"></span> <span id="syncFooterText">Aguardando sincronização</span></span></footer>
     </main>
@@ -245,6 +225,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
 <script src="./supabase-config.js?v=3.0" defer></script>
 <script src="./videos.js?v=3.0" defer></script>
-<script src="./client-supabase.js?v=20261103-auth-sync-3.2" defer></script>
+<script src="./client-supabase.js?v=20261103-video-sync-3.3" defer></script>
 </body>
 </html>

@@ -7,14 +7,15 @@ Este repositório é o **site principal dos alunos**, com o visual completo da v
 - O aluno cria a própria conta com nome, e-mail e senha e confirma o e-mail. O cadastro só libera acesso depois da aprovação no painel ADM.
 - Se a confirmação não chegar, a tela de entrada permite solicitar outro e-mail; os limites temporários do Supabase são mostrados com uma orientação clara.
 - A função `register_treino_client()` registra a conta confirmada como pendente, mesmo sem cadastro prévio pelo professor.
-- A interface mantém o **layout antigo** e as **8 semanas**, seleção de treinos por dia, vídeos animados com imagens, registro de séries, cargas, repetições e tempos, notas, treino concluído e evolução semanal.
+- A interface mantém as **8 semanas**, seleção de treinos por dia, demonstrações em vídeo ou imagem dentro de cada exercício, registro de séries, cargas, repetições e tempos, notas, treino concluído e evolução semanal.
 - Continuam funcionando o cronômetro de descanso, tema claro/escuro e backup/exportação/importação de registros.
 - A avaliação pessoal original foi restaurada: o aluno pode preencher e atualizar **idade, peso, altura, cintura, abdômen, quadril, busto, tórax, braços, coxa e panturrilha**; o site calcula automaticamente **IMC, cintura/altura e cintura/quadril**, mostra as figuras de faixas de IMC e a tabela de comparação.
 - A avaliação pessoal pertence à conta e é salva no `client_progress` com RLS. Em seção separada, o aluno vê as **12 medidas atuais registradas pelo professor no ADM**, apenas para consulta.
-- O menu **Vídeos e exercícios** contém os **40 movimentos originais** dos treinos A, B, C e D.
+- As demonstrações ficam junto da ficha: ao abrir um exercício, o vídeo disponível começa a tocar em loop. A ficha mostra o material que o professor associou a cada movimento.
 - O histórico de séries é salvo localmente com chave diferente por conta e sincronizado na tabela `client_progress`, protegida por RLS.
 - O portal informa quando o progresso foi sincronizado ou continua salvo apenas neste navegador aguardando conexão.
 - Se a última alteração ainda não chegou ao Supabase, o portal mantém a cópia local mais recente e tenta sincronizá-la na próxima abertura.
+- A ficha e as medidas do aluno são conferidas no Supabase a cada 30 segundos e quando ele volta ao portal; as mudanças do professor aparecem sem precisar sair da conta ou atualizar a página.
 - O aluno **registra sua execução e evolução**, mas não tem permissão para alterar as medidas publicadas nem a estrutura da ficha. O banco usa Row Level Security (RLS), e não apenas o bloqueio visual, para impedir gravação por clientes e leitura de outros clientes.
 - O tema claro/escuro, inclusive fundo preto no escuro, segue funcionando. Vídeos anteriores continuam em `assets/videos/` e as mídias são vinculadas por IDs existentes.
 - Um aviso publicado no painel administrativo aparece aos clientes aprovados.
@@ -32,7 +33,7 @@ Projeto conectado ao Supabase. Para preparar uma nova instalação, siga estes p
 ## Privacidade, histórico e migração
 
 - Medidas e planos **por cliente** são persistidos no Supabase com controle por usuário. Não grave informações individuais em arquivos públicos do GitHub.
-- O site carrega `app.js`, `treinos.js`, `experience.js` e `legacy-catalog.js` somente após login e aprovação. A ficha individual vem do Supabase; `data/site-content.json` fica apenas como catálogo genérico dos exercícios e das mídias.
+- O site carrega os recursos do treino somente após login e aprovação. A ficha individual vem de `client_plans`; `data/site-content.json` mantém apenas as referências genéricas de exercícios e mídias.
 - Os dados anteriores de navegador não são copiados automaticamente para nenhuma conta, evitando misturar históricos de alunos. Quem tiver backup anterior pode importá-lo com o menu **Meus dados**.
 - Antes de usar dados reais em uma instalação nova, confira as políticas RLS com contas distintas.
 

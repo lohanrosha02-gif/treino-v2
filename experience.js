@@ -17,7 +17,7 @@
     byId('heroWeek').textContent='SEMANA '+String(bridge.getWeek()).padStart(2,'0')+' / 08';
     byId('weekSessionCount').innerHTML=weekDone+'<span>/'+sessions+'</span>';
     byId('weekRing').style.setProperty('--progress',(sessions?weekDone/sessions*100:0)+'%');
-    byId('heroProgress').textContent=!sessions?'Seu professor ainda não publicou treinos.':weekDone===sessions?'Semana completa. Cada sessão conta!':weekDone===0?sessions+' sessões para cuidar da sua evolução.':weekDone+' de '+sessions+' sessões concluídas nesta semana. Continue no seu ritmo.';
+    byId('heroProgress').textContent=!sessions?'Seu professor ainda não publicou a ficha.':weekDone===sessions?'Você concluiu os treinos desta semana.':weekDone===0?'Você tem '+sessions+' sessões na ficha desta semana.':weekDone+' de '+sessions+' sessões concluídas nesta semana.';
   }
   window.addEventListener('meutreino:saved',progress);window.addEventListener('meutreino:render',progress);progress();
   byId('exportBackup').addEventListener('click',function(){

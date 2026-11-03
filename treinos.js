@@ -264,11 +264,11 @@
     var caption=mount.querySelector('[data-session-progress]');
     if(caption)caption.textContent=completed+' de '+plans[dayChoice].exercises.length+' exercícios completos';
   }
-  function renderExercise(x,index,location,entry){
+  function renderExercise(x,index,location,entry,open){
     entry=entry&&typeof entry==='object'?entry:{};
     var disp=location==='hotel'?(x.hotel||'Sem alternativa definida.'):'';
     var done=exerciseIsComplete(x,entry);
-    return '<details class="train-exercise'+(done?' is-done':'')+'" id="exercise-'+escapeHtml(x.id)+'">'
+    return '<details class="train-exercise'+(done?' is-done':'')+'" id="exercise-'+escapeHtml(x.id)+'"'+(open?' open':'')+'>'
       +'<summary><span class="exercise-ordinal">'+(done?'✓':index+1)+'</span><span>'
       +'<div class="exercise-name">'+escapeHtml(x.name)+'</div>'
       +'<div class="exercise-description">'+escapeHtml(x.dose)+' · '+escapeHtml(x.rest)+' descanso</div>'
@@ -297,6 +297,9 @@
     var p=plans[dayChoice],r=safeRecord(),location=r.location==='hotel'?'hotel':'condominio';
     var completed=dayKeys.filter(function(key){return getDayRecord(key).complete===true;}).length;
     var completedExercises=p.exercises.filter(function(x){return exerciseIsComplete(x,r.exercises[x.id]);}).length;
+    var openIds=Array.from(mount.querySelectorAll('details.train-exercise[open]')).map(function(item){return item.id.slice('exercise-'.length);});
+    var validOpenIds=openIds.filter(function(id){return p.exercises.some(function(item){return item.id===id;});});
+    if(!validOpenIds.length&&p.exercises.length)validOpenIds=[p.exercises[0].id];
 
     mount.innerHTML='<div class="training-guide">'
       +'<nav class="train-day-nav" aria-label="Escolha a sessão">'+dayKeys.map(function(key){
@@ -313,7 +316,7 @@
       +'<h4 class="train-section-title"><span>01</span> Prepare o corpo <small>Mobilidade · 6–8 min</small></h4>'
       +guideSteps(p.mobility)
       +'<h4 class="train-section-title"><span>02</span> Seu treino <small>'+p.exercises.length+' exercícios</small></h4>'
-      +'<div class="train-exercises">'+p.exercises.map(function(x,index){return renderExercise(x,index,location,r.exercises[x.id]);}).join('')+'</div>'
+      +'<div class="train-exercises">'+p.exercises.map(function(x,index){return renderExercise(x,index,location,r.exercises[x.id],validOpenIds.includes(x.id));}).join('')+'</div>'
 
       +(p.cardio&&p.cardio.name?'<h4 class="train-section-title"><span>03</span> Finalize em movimento <small>Cardio</small></h4>'
       +'<details class="train-step"><summary><span class="train-step-index">♥</span><span class="train-step-content"><strong>'+escapeHtml(p.cardio.name)+'</strong><small>'+escapeHtml(p.cardio.dose)+'</small></span></summary><div class="train-step-body"><p>'+escapeHtml(p.cardio.suggestion)+'</p>'+teachingVideo(p.cardio.videoId||'cardio'+dayChoice)+'</div></details>':'')
@@ -334,6 +337,7 @@
       +'<p class="workout-last">Registros sincronizados com sua conta. Use “Meus dados” para baixar um backup.</p>'
       +'</div></details></section>'
       +'</div>';
+    mount.querySelectorAll('details.train-exercise[open]').forEach(autoLoopIn);
     window.dispatchEvent(new CustomEvent('meutreino:render'));
   }
   function saveAuto(){
@@ -482,6 +486,14 @@
       render();
     });
   }
-  window.MeuTreinoTreinos={render:render};
+  window.MeuTreinoTreinos={render:render,updatePlan:function(nextPlan){
+    plans=nextPlan&&typeof nextPlan==='object'?nextPlan:{};
+    dayKeys=Object.keys(plans);
+    if(!plans[dayChoice]){
+      dayChoice=dayKeys[0]||'';
+      try{localStorage.setItem('meu-treino-sessao-v2-'+String(window.MeuTreinoStorageSuffix||'sessao'),dayChoice);}catch(e){}
+    }
+    render();
+  }};
   render();
 })();
