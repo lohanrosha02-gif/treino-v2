@@ -2,7 +2,7 @@
 'use strict';
 const $=id=>document.getElementById(id);
 const labels=[['shoulder','Ombro'],['chest','Peito'],['bicepsLeft','Bíceps esquerdo'],['bicepsRight','Bíceps direito'],['forearmLeft','Antebraço esquerdo'],['forearmRight','Antebraço direito'],['abdomen','Abdômen'],['hip','Quadril'],['thighLeft','Coxa esquerda'],['thighRight','Coxa direita'],['calfLeft','Panturrilha esquerda'],['calfRight','Panturrilha direita']];
-let db=null,activeClient=null,activePlan={days:[]},selectedDay=null;
+let db=null,activeClient=null,activePlan={days:[]},selectedDay=null,originalLibrary=null,libraryDay='A';
 function status(message,error=false){$('feedback').textContent=message;$('feedback').className='portal-feedback'+(error?' error':'');}
 function check(result){if(result.error)throw result.error;return result.data;}
 function error(err){status(err.message||String(err),true);}
@@ -29,6 +29,109 @@ function renderMeasures(record){
   });
 }
 function element(tag,className,text){const e=document.createElement(tag);if(className)e.className=className;if(text!==undefined)e.textContent=text;return e;}
+function validAsset(path,type){
+  if(typeof path!=='string')return false;
+  return type==='video'
+    ? /^\.\/assets\/videos\/[a-z0-9_-]+\.mp4$/i.test(path)
+    : /^\.\/assets\/(?:videos|images)\/[a-z0-9_-]+\.webp$/i.test(path);
+}
+function exerciseClip(ex){
+  const list=window.MeuTreinoVideos?.clips||{};
+  const id=String(ex.videoId||ex.id||'');
+  const clip=list[id];
+  return clip&&validAsset(clip.url,'video')?clip:null;
+}
+function posterFor(clip,name,className){
+  if(!clip||!validAsset(clip.poster,'poster'))return element('span','media-fallback','▶ Vídeo');
+  const img=element('img',className);
+  img.src=clip.poster;img.alt='Imagem demonstrativa: '+name;
+  img.loading='lazy';img.decoding='async';
+  return img;
+}
+function videoFor(clip,name){
+  if(!clip)return element('p','media-caption','Sem demonstração cadastrada.');
+  const video=element('video','exercise-media-video');
+  video.controls=true;video.loop=true;video.muted=true;
+  video.playsInline=true;video.preload='none';
+  if(validAsset(clip.poster,'poster'))video.poster=clip.poster;
+  video.setAttribute('aria-label','Vídeo demonstrativo: '+name);
+  // O MP4 só começa a carregar quando o aluno abrir a demonstração.
+  return video;
+}
+function loadVideoOnOpen(details,video,clip){
+  details.addEventListener('toggle',()=>{
+    if(details.open&&!video.src)video.src=clip.url;
+    if(!details.open){video.pause();}
+  });
+}
+function libraryCard(ex,type){
+  const clip=exerciseClip(ex),card=element('article','library-card');
+  const preview=element('div','library-preview');
+  preview.appendChild(posterFor(clip,ex.name||'Exercício','library-poster'));
+  card.appendChild(preview);
+  const info=element('div','library-card-info');
+  info.appendChild(element('small','library-kind',type));
+  info.appendChild(element('h4',null,ex.name||'Exercício'));
+  const facts=[ex.dose,ex.rest?'Descanso: '+ex.rest:''].filter(Boolean);
+  if(facts.length)info.appendChild(element('p','library-facts',facts.join(' · ')));
+  const details=element('details','library-details');
+  details.appendChild(element('summary',null,'Ver vídeo e orientações'));
+  const body=element('div','library-details-body');
+  if(clip){const video=videoFor(clip,ex.name||'Exercício');body.appendChild(video);loadVideoOnOpen(details,video,clip);}
+  else body.appendChild(element('p','media-caption','Vídeo não disponível para esta atividade.'));
+  const steps=Array.isArray(ex.steps)?ex.steps.filter(s=>typeof s==='string'&&s.trim()):[];
+  if(steps.length){
+    const ol=element('ol','library-steps');
+    steps.forEach(step=>ol.appendChild(element('li',null,step)));
+    body.appendChild(ol);
+  }
+  if(ex.suggestion)body.appendChild(element('p','library-note',ex.suggestion));
+  if(ex.cue)body.appendChild(element('p','library-note',ex.cue));
+  if(ex.caution)body.appendChild(element('p','library-caution','Atenção: este exercício exige orientação e adaptação profissional.'));
+  details.appendChild(body);info.appendChild(details);card.appendChild(info);
+  return card;
+}
+function renderOriginalLibrary(){
+  const day=originalLibrary?.plans?.[libraryDay],mount=$('libraryContent');
+  mount.replaceChildren();
+  if(!day){mount.appendChild(element('p','empty-message','Não foi possível carregar a biblioteca de exercícios.'));return;}
+  document.querySelectorAll('[data-library-day]').forEach(button=>{
+    const active=button.dataset.libraryDay===libraryDay;
+    button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active));
+  });
+  const header=element('div','library-day-heading');
+  header.appendChild(element('h3',null,'Treino '+libraryDay+' · '+(day.title||'')));
+  header.appendChild(element('p',null,[day.interval,day.duration,day.subtitle].filter(Boolean).join(' · ')));
+  mount.appendChild(header);
+  const sections=[['Mobilidade e aquecimento',day.mobility||[],'Mobilidade'],
+    ['Exercícios de musculação',day.exercises||[],'Exercício']];
+  if(day.cardio)sections.push(['Cardio',[{...day.cardio,id:'cardio'+libraryDay}], 'Cardio']);
+  sections.forEach(([heading,items,kind])=>{
+    if(!items.length)return;
+    const section=element('section','library-section');
+    section.appendChild(element('h4','library-section-title',heading+' ('+items.length+')'));
+    const grid=element('div','library-grid');
+    items.forEach(ex=>grid.appendChild(libraryCard(ex,kind)));
+    section.appendChild(grid);mount.appendChild(section);
+  });
+}
+async function loadOriginalLibrary(){
+  if(originalLibrary)return;
+  const response=await fetch('./data/site-content.json',{cache:'no-store'});
+  if(!response.ok)throw Error('Arquivo de exercícios indisponível.');
+  const original=await response.json();
+  if(!original.plans||!['A','B','C','D'].every(id=>original.plans[id]))throw Error('Biblioteca de treinos incompleta.');
+  originalLibrary=original;
+  renderOriginalLibrary();
+}
+function setPortalTab(name){
+  for(const [id,viewName] of [['measurementsView','measurements'],['plansView','plans'],['libraryView','library']])
+    $(id).hidden=name!==viewName;
+  document.querySelectorAll('[data-view]').forEach(button=>{
+    const active=button.dataset.view===name;
+    button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active));
+  });
+}
 function renderDays(){
   const selector=$('daySelector');selector.replaceChildren();
   const days=Array.isArray(activePlan.days)?activePlan.days:[];
@@ -56,17 +159,15 @@ function renderDays(){
     main.appendChild(element('strong',null,ex.name||'Exercício'));
     main.appendChild(element('small',null,[ex.dose,ex.rest?'Descanso: '+ex.rest:''].filter(Boolean).join(' · ')));
     summary.appendChild(main);summary.appendChild(element('span',null,'⌄'));details.appendChild(summary);
+    const clip=exerciseClip(ex);
+    if(clip)summary.insertBefore(posterFor(clip,ex.name||'Exercício','assigned-poster'),main);
     const body=element('div','exercise-detail');
-    if(ex.description)body.appendChild(element('p',null,ex.description));
-    const id=typeof ex.videoId==='string'?ex.videoId:'';
-    const clip=window.MeuTreinoVideos?.clips?.[id];
-    // Exibe somente vídeos previamente hospedados no próprio site, sem links arbitrários.
-    if(clip&&typeof clip.url==='string'&&/^\.\/assets\/videos\/[a-z0-9_-]+\.mp4$/i.test(clip.url)){
-      const video=document.createElement('video');video.controls=true;video.preload='none';video.playsInline=true;video.src=clip.url;
-      if(typeof clip.poster==='string'&&/^\.\/assets\/(videos|images)\/[a-z0-9_-]+\.webp$/i.test(clip.poster))video.poster=clip.poster;
-      video.setAttribute('aria-label','Demonstração de '+(ex.name||'exercício'));
-      body.appendChild(video);body.appendChild(element('p','media-caption','Demonstração de referência. Siga as orientações do seu professor.'));
+    if(clip){
+      const video=videoFor(clip,ex.name||'Exercício');
+      body.appendChild(video);loadVideoOnOpen(details,video,clip);
+      body.appendChild(element('p','media-caption','Demonstração de referência. Siga a orientação individual do seu professor.'));
     }
+    if(ex.description)body.appendChild(element('p',null,ex.description));
     details.appendChild(body);root.appendChild(details);
   });
 }
@@ -95,12 +196,13 @@ async function loadClient(user){
   renderMeasures(check(m));
   activePlan=check(p)?.plan||{days:[]};
   selectedDay=null;renderDays();
+  try{await loadOriginalLibrary();}catch(err){console.warn('Biblioteca indisponível:',err);}
   const notice=check(n);const visible=notice?.enabled===true&&!!notice.message?.trim();
   $('notice').hidden=!visible;
   if(visible){$('noticeTitle').textContent=notice.title||'Aviso';$('noticeText').textContent=notice.message;}
   $('clientName').textContent=client.full_name;
   $('pageTitle').textContent='Bem-vindo ao seu treino.';
-  view('content');status('Suas informações estão sincronizadas com o professor.');
+  view('content');setPortalTab('plans');status('Suas informações estão sincronizadas com o professor.');
 }
 async function initialize(){
   const cfg=window.MEU_TREINO_SUPABASE||{};
@@ -166,10 +268,9 @@ $('logout').addEventListener('click',async()=>{
   try{await db.auth.signOut();activeClient=null;activePlan={days:[]};view('login');status('Você saiu da sua conta.');}
   catch(err){error(err);}
 });
-document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener('click',()=>{
-  const name=button.dataset.view;
-  $('measurementsView').hidden=name!=='measurements';$('plansView').hidden=name!=='plans';
-  document.querySelectorAll('[data-view]').forEach(b=>{const active=b.dataset.view===name;b.classList.toggle('active',active);b.setAttribute('aria-pressed',String(active));});
+document.querySelectorAll('[data-view]').forEach(button=>button.addEventListener('click',()=>setPortalTab(button.dataset.view)));
+document.querySelectorAll('[data-library-day]').forEach(button=>button.addEventListener('click',()=>{
+  libraryDay=button.dataset.libraryDay;renderOriginalLibrary();
 }));
 initialize();
 })();

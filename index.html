@@ -58,6 +58,7 @@
 <nav class="portal-tabs" aria-label="Conteúdo">
 <button type="button" class="portal-tab active" data-view="measurements" aria-pressed="true">Medições</button>
 <button type="button" class="portal-tab" data-view="plans" aria-pressed="false">Meus treinos</button>
+<button type="button" class="portal-tab" data-view="library" aria-pressed="false">Todos os exercícios + vídeos</button>
 </nav>
 <section class="panel" id="measurementsView">
 <div class="portal-section-head"><div><div class="eyebrow">REGISTRO CORPORAL</div><h2>Minhas medições</h2><p id="measurementDate">Aguardando registro</p></div></div>
@@ -67,6 +68,17 @@
 <section class="panel" id="plansView" hidden>
 <div class="portal-section-head"><div><div class="eyebrow">PROGRAMA DE TREINO</div><h2>Meus treinos</h2><p>Veja os exercícios, séries, intervalos e orientações de cada sessão.</p></div></div>
 <nav class="day-selector" id="daySelector" aria-label="Escolher treino"></nav><div id="dayDetails"></div>
+</section>
+<section class="panel" id="libraryView" hidden>
+<div class="portal-section-head"><div><div class="eyebrow">ACERVO ORIGINAL</div><h2>Todos os exercícios, imagens e vídeos</h2>
+<p>Explore os treinos A, B, C e D do site antigo, incluindo mobilidade, musculação e cardio. Esta biblioteca é apenas referência: siga o treino personalizado pelo seu professor.</p></div></div>
+<nav class="day-selector library-day-selector" aria-label="Escolher treino de referência">
+<button type="button" class="day-button active" data-library-day="A" aria-pressed="true">Treino A</button>
+<button type="button" class="day-button" data-library-day="B" aria-pressed="false">Treino B</button>
+<button type="button" class="day-button" data-library-day="C" aria-pressed="false">Treino C</button>
+<button type="button" class="day-button" data-library-day="D" aria-pressed="false">Treino D</button>
+</nav>
+<div id="libraryContent"><p class="empty-message">Carregando exercícios...</p></div>
 </section>
 </section>
 <footer class="footer"><span>Meu Treino · Seu plano, sempre disponível</span><span>Dados protegidos pela sua conta</span></footer>
