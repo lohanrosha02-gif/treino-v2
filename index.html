@@ -1,18 +1,18 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta name="app-build" content="3.0-legacy-supabase">
+  <meta name="app-build" content="3.4-medidas-professora">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f6f7f3">
   <script src="./theme.js?v=2.4.3-measures-readonly-20261102"></script>
   <meta name="description" content="Meu Treino: acompanhe sua avaliação e sua ficha, com demonstrações dos exercícios e registro das séries.">
   <title>Meu Treino · Área do aluno</title>
-  <link rel="stylesheet" href="./app.css?v=2.4.3-measures-readonly-20261102">
-  <link rel="stylesheet" href="./treinos.css?v=2.4.3-measures-readonly-20261102">
-  <link rel="stylesheet" href="./theme.css?v=2.4.3-measures-readonly-20261102">
+  <link rel="stylesheet" href="./app.css?v=3.4-medidas-professora-20261103">
+  <link rel="stylesheet" href="./treinos.css?v=3.4-medidas-professora-20261103">
+  <link rel="stylesheet" href="./theme.css?v=3.4-medidas-professora-20261103">
   <link rel="stylesheet" href="./site-announcement.css?v=3.0">
-  <link rel="stylesheet" href="./client-supabase.css?v=portal-3.3">
+  <link rel="stylesheet" href="./client-supabase.css?v=portal-medidas-professora-3.4">
 </head>
 <body>
 <a class="skip-link" href="#mainContent">Pular para o conteúdo</a>
@@ -94,11 +94,11 @@
       </nav>
       <div class="side-progress" hidden>
         <div>
-          <div class="small-heading">Avaliação inicial</div>
-          <div class="big-progress"><span id="weeksCompleted">0</span><span> / 12</span></div>
+          <div class="small-heading">Medidas registradas</div>
+          <div class="big-progress"><span id="weeksCompleted">0</span><span> / 17</span></div>
           
         </div>
-        <div class="track" role="progressbar" aria-label="Medidas da avaliação preenchidas" aria-valuemin="0" aria-valuemax="12" aria-valuenow="0" id="overallProgress"><div id="overallBar"></div></div>
+        <div class="track" role="progressbar" aria-label="Medidas registradas pela professora" aria-valuemin="0" aria-valuemax="17" aria-valuenow="0" id="overallProgress"><div id="overallBar"></div></div>
       </div>
       
       <div class="side-plan"><div class="small-heading">Seu plano completo</div><strong id="planProgressText">0 <span>/ 32 sessões</span></strong><div class="track" role="progressbar" aria-label="Sessões concluídas no plano" aria-valuemin="0" aria-valuemax="32" aria-valuenow="0" id="planProgress"><div id="planBar"></div></div><p>Constância, um treino de cada vez.</p></div>
@@ -108,79 +108,64 @@
 
 
       <div class="tab-content" id="evaluationTab" role="tabpanel" aria-labelledby="tabEvaluation">
-      <div class="evaluation-intro"><div class="eyebrow">ACOMPANHAMENTO CORPORAL</div><h2>Minha avaliação inicial</h2><p>Preencha suas informações e acompanhe os cálculos automáticos abaixo.</p></div>
+      <div class="evaluation-intro"><div class="eyebrow">ACOMPANHAMENTO CORPORAL</div><h2>Suas medidas e resultados</h2><p>A professora registra a avaliação individual. Você pode consultar as medidas e os cálculos nesta página.</p></div>
 
       <section class="panel" id="initialPanel" aria-labelledby="formHeading">
         <div class="form-head">
-          <div><div class="eyebrow">Avaliação pessoal</div><h2 id="formHeading">Sua coleta de dados</h2><p>Idade, peso, altura e medidas corporais. Você pode preencher e atualizar; os cálculos aparecem automaticamente.</p></div>
-
+          <div><div class="eyebrow">AVALIAÇÃO DA PROFESSORA</div><h2 id="formHeading">Medidas registradas</h2><p>Dados organizados por região corporal. Para corrigir ou atualizar algum valor, fale com a professora.</p></div>
         </div>
         <div class="info-strip">
-          <div><div class="info-main">Avaliação antropométrica</div><div class="info-sub" id="filledLabel">0 de 12 campos preenchidos</div></div>
-          <div class="week-complete"><span class="mini-circle" id="filledCircle">0/12</span></div>
+          <div><div class="info-main">Avaliação corporal</div><div class="info-sub" id="filledLabel">0 de 17 medidas informadas</div></div>
+          <div class="week-complete"><span class="mini-circle" id="filledCircle">0/17</span></div>
         </div>
-        <form id="measureForm" novalidate>
-          <div class="date-row">
-            <label for="measureDate">Data da avaliação <span style="color:#a4aea5;font-weight:500">(opcional)</span></label>
-            <input type="date" id="measureDate" name="date">
-          </div>
-          
-          <div id="measureFields"></div>
-          <div class="actions">
-            <button class="primary-btn" type="submit" id="saveButton">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></svg>
-              Salvar medidas
-            </button>
-            <button type="button" class="outline-btn" id="nextWeek">Ver treinos <span aria-hidden="true">→</span></button>
-            <button type="button" class="plain-btn" id="clearWeek">Limpar avaliação inicial</button>
-          </div>
-        </form>
-        <div class="save-msg" id="saveStatus" role="status" aria-live="polite">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
-          <span id="saveStatusText">Dados salvos no seu perfil e neste navegador.</span>
+        <div class="teacher-measurements-summary">
+          <span id="teacherMeasurementDate">Carregando as medidas…</span>
+          <span id="teacherMeasurementCount">0 de 17 informadas</span>
         </div>
+        <div id="measureFields" class="teacher-measurement-groups" aria-label="Medidas registradas pela professora"></div>
+        <p class="teacher-measurements-note">Somente a professora pode inserir e atualizar estes valores. Eles ficam vinculados ao seu cadastro.</p>
       </section>
       <section class="panel indicators-panel" aria-labelledby="indicatorsHeading">
         
-        <h2 id="indicatorsHeading" style="margin:7px 0 7px;font-size:22px;letter-spacing:-.7px">Cálculos da sua avaliação</h2>
+        <h2 id="indicatorsHeading" style="margin:7px 0 7px;font-size:22px;letter-spacing:-.7px">Cálculos das medidas registradas</h2>
         
         <div class="indicator-grid">
           <article class="indicator-card">
             <span class="indicator-title">Índice de massa corporal (IMC)</span>
             <div class="indicator-value" id="indicatorBmi" aria-live="polite">—</div>
              <div class="indicator-status" id="indicatorBmiStatus" aria-live="polite"></div>
-            <p id="indicatorBmiHelp">Informe peso e altura.</p>
+            <p id="indicatorBmiHelp">A professora ainda não informou peso e altura.</p>
 
           </article>
           <article class="indicator-card">
             <span class="indicator-title">Relação cintura / altura</span>
             <div class="indicator-value" id="indicatorWaistHeight" aria-live="polite">—</div>
              <div class="indicator-status" id="indicatorWaistHeightStatus" aria-live="polite"></div>
-            <p id="indicatorWaistHeightHelp">Informe cintura e altura.</p>
+            <p id="indicatorWaistHeightHelp">A professora ainda não informou cintura e altura.</p>
 
           </article>
           <article class="indicator-card">
             <span class="indicator-title">Relação cintura / quadril</span>
             <div class="indicator-value" id="indicatorWaistHip" aria-live="polite">—</div>
              <div class="indicator-status" id="indicatorWaistHipStatus" aria-live="polite"></div>
-            <p id="indicatorWaistHipHelp">Informe cintura e quadril.</p>
+            <p id="indicatorWaistHipHelp">A professora ainda não informou cintura e quadril.</p>
 
           </article>
         </div>
 
-        <p class="indicator-disclaimer">Cálculos com base nos valores preenchidos na avaliação pessoal. São indicadores, não diagnósticos.</p>
+        <p class="indicator-disclaimer">Cálculos com base nas medidas registradas pela professora. São indicadores, não diagnósticos.</p>
       </section>
       <section class="panel bodies-panel" aria-labelledby="bodiesHeading">
         
         <h2 class="bodies-heading" id="bodiesHeading">Faixas de IMC</h2>
         
         <div class="bodies-grid" id="bodiesGrid" aria-label="Representações padronizadas de cinco faixas do IMC"></div>
-        <div class="bodies-result" id="bodiesResult" role="status" aria-live="polite">Preencha o peso e a altura para destacar a faixa de IMC.</div>
+        <div class="bodies-result" id="bodiesResult" role="status" aria-live="polite">A faixa de IMC aparece quando a professora registrar peso e altura.</div>
         <p class="bodies-note">Silhuetas ilustrativas. O IMC não representa a aparência real.</p>
       </section>
       <section class="panel comparison-panel" aria-labelledby="comparisonHeading">
         
-        <h2 id="comparisonHeading" style="margin:6px 0 8px;font-size:22px;letter-spacing:-.6px">Minha avaliação × referência</h2>
+        <h2 id="comparisonHeading" style="margin:6px 0 8px;font-size:22px;letter-spacing:-.6px">Medidas atuais × referência</h2>
         
         <div class="comparison-meta" id="comparisonDate">Avaliação inicial · sem data</div>
         <div class="compare-table-wrap">
@@ -189,21 +174,6 @@
             <tbody id="comparisonRows"></tbody>
           </table>
         </div>
-      </section>
-      <div class="evaluation-divider"><div class="eyebrow">ACOMPANHAMENTO PROFISSIONAL</div><h2>Medidas atuais do professor</h2><p>Registradas individualmente para sua conta.</p></div>
-      <section class="panel public-measurements-panel" aria-labelledby="publicMeasurementsHeading">
-        <div class="form-head">
-          <div><div class="eyebrow">MEDIÇÕES PUBLICADAS</div>
-            <h2 id="publicMeasurementsHeading">Minha avaliação atual · professor</h2>
-            <p>Medidas atualizadas pelo professor no ADM. Você pode consultar, mas não alterar.</p>
-          </div>
-        </div>
-        <div class="public-measurements-summary">
-          <span id="publicMeasurementsDate">Carregando as medições…</span>
-          <span id="publicMeasurementsCount">0 de 12 medidas informadas</span>
-        </div>
-        <dl id="publicMeasurementsGrid" class="public-measurements-grid" aria-label="Medições registradas pela administração"></dl>
-        <p class="public-measurements-note">Estes valores pertencem somente à sua conta. Apenas o professor pode modificá-los.</p>
       </section>
       </div>
 
@@ -225,6 +195,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
 <script src="./supabase-config.js?v=3.0" defer></script>
 <script src="./videos.js?v=3.0" defer></script>
-<script src="./client-supabase.js?v=20261103-video-sync-3.3" defer></script>
+<script src="./client-supabase.js?v=20261103-medidas-professora-3.4" defer></script>
 </body>
 </html>

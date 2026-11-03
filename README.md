@@ -9,13 +9,13 @@ Este repositório é o **site principal dos alunos**, com o visual completo da v
 - A função `register_treino_client()` registra a conta confirmada como pendente, mesmo sem cadastro prévio pelo professor.
 - A interface mantém as **8 semanas**, seleção de treinos por dia, demonstrações em vídeo ou imagem dentro de cada exercício, registro de séries, cargas, repetições e tempos, notas, treino concluído e evolução semanal.
 - Continuam funcionando o cronômetro de descanso, tema claro/escuro e backup/exportação/importação de registros.
-- A avaliação pessoal original foi restaurada: o aluno pode preencher e atualizar **idade, peso, altura, cintura, abdômen, quadril, busto, tórax, braços, coxa e panturrilha**; o site calcula automaticamente **IMC, cintura/altura e cintura/quadril**, mostra as figuras de faixas de IMC e a tabela de comparação.
-- A avaliação pessoal pertence à conta e é salva no `client_progress` com RLS. Em seção separada, o aluno vê as **12 medidas atuais registradas pelo professor no ADM**, apenas para consulta.
+- A avaliação oficial é inserida pela professora no ADM e aparece para o aluno em modo de consulta, organizada em **dados básicos, tronco, braços e pernas**. O portal calcula automaticamente **IMC, cintura/altura e cintura/quadril** e mostra as faixas de IMC e a tabela de comparação a partir desses mesmos valores.
+- Cada avaliação fica vinculada ao cadastro individual em `client_measurements`. O aluno não edita esses dados; o banco permite gravação apenas ao administrador e limita a leitura do portal à própria conta.
 - As demonstrações ficam junto da ficha: ao abrir um exercício, o vídeo disponível começa a tocar em loop. A ficha mostra o material que o professor associou a cada movimento.
 - O histórico de séries é salvo localmente com chave diferente por conta e sincronizado na tabela `client_progress`, protegida por RLS.
 - O portal informa quando o progresso foi sincronizado ou continua salvo apenas neste navegador aguardando conexão.
 - Se a última alteração ainda não chegou ao Supabase, o portal mantém a cópia local mais recente e tenta sincronizá-la na próxima abertura.
-- A ficha e as medidas do aluno são conferidas no Supabase a cada 30 segundos e quando ele volta ao portal; as mudanças do professor aparecem sem precisar sair da conta ou atualizar a página.
+- A ficha e as medidas do aluno são conferidas no Supabase a cada 15 segundos e quando ele volta ao portal; as mudanças do professor aparecem sem precisar sair da conta ou atualizar a página.
 - O aluno **registra sua execução e evolução**, mas não tem permissão para alterar as medidas publicadas nem a estrutura da ficha. O banco usa Row Level Security (RLS), e não apenas o bloqueio visual, para impedir gravação por clientes e leitura de outros clientes.
 - O tema claro/escuro, inclusive fundo preto no escuro, segue funcionando. Vídeos anteriores continuam em `assets/videos/` e as mídias são vinculadas por IDs existentes.
 - Um aviso publicado no painel administrativo aparece aos clientes aprovados.

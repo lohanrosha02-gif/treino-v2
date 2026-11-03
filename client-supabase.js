@@ -1,8 +1,8 @@
 (function(){
   'use strict';
   const $=id=>document.getElementById(id);
-  let db=null,approvedClient=null,mounted=false,recoveryMode=false,saveTimer=null,saveQueue=Promise.resolve(),saveRevision=0;
-  let exerciseCatalog={plans:{}},currentPlanSnapshot=null,currentMeasurementSnapshot=null,refreshTimer=null,refreshInFlight=false,refreshListenersAdded=false;
+  let db=null,approvedClient=null,mounted=false,mountedClientId=null,recoveryMode=false,saveTimer=null,saveQueue=Promise.resolve(),saveRevision=0,clientLoadRevision=0;
+  let exerciseCatalog={plans:{}},currentPlanSnapshot=null,currentMeasurementSnapshot=null,refreshTimer=null,refreshInFlight=false,refreshQueued=false,refreshListenersAdded=false;
   function show(mode){
     const names=['login','signupFormSection','pendingSection','resetForm','setup'];
     const target={login:'login',signup:'signupFormSection',pending:'pendingSection',reset:'resetForm',setup:'setup'}[mode];
@@ -126,7 +126,8 @@
   }
   async function refreshStudentData(){
     const clientId=approvedClient?.id;
-    if(!clientId||!mounted||refreshInFlight||!db)return;
+    if(!clientId||!mounted||!db)return;
+    if(refreshInFlight){refreshQueued=true;return;}
     refreshInFlight=true;
     try{
       const [planResult,measurementResult]=await Promise.all([
@@ -166,13 +167,14 @@
       console.warn('Não foi possível buscar atualizações do professor.',error&&error.message||String(error));
     }finally{
       refreshInFlight=false;
+      if(refreshQueued){refreshQueued=false;setTimeout(refreshStudentData,0);}
     }
   }
   function startStudentRefresh(){
     if(refreshTimer)clearInterval(refreshTimer);
     refreshTimer=setInterval(()=>{
       if(document.visibilityState==='visible')refreshStudentData();
-    },30000);
+    },15000);
     if(refreshListenersAdded)return;
     document.addEventListener('visibilitychange',()=>{
       if(document.visibilityState==='visible')refreshStudentData();
@@ -181,6 +183,7 @@
     refreshListenersAdded=true;
   }
   async function mountLegacy(client,measure,record,announcement,progress){
+    if(mounted&&mountedClientId!==client.id){location.reload();return;}
     if(mounted){show('content');return;}
     const response=await fetch('./data/site-content.json',{cache:'no-store'});
     exerciseCatalog=response.ok?await response.json():{plans:{}};
@@ -197,8 +200,8 @@
     window.MeuTreinoSaveProgress=syncProgress(client.id);
     window.MeuTreinoContentReady=Promise.resolve({schemaVersion:1,site:{
       eyebrow:'ACOMPANHAMENTO PESSOAL',
-      evaluationTitle:'Minha avaliação corporal',
-      evaluationLead:'Sua avaliação pessoal com IMC e cálculos automáticos, mais as medidas atualizadas pelo professor.',
+      evaluationTitle:'Medidas e indicadores',
+      evaluationLead:'Consulte as medidas registradas pela professora e os cálculos automáticos.',
       trainingTitle:'Meus treinos',
       trainingLead:'Abra um exercício para ver a demonstração em loop e registrar suas séries.',
       footer:'Meu Treino · Seu plano de 8 semanas',
@@ -206,19 +209,26 @@
       announcement:{enabled:announcement?.enabled===true,title:announcement?.title||'',message:announcement?.message||''}
     }});
     // Carrega avaliação, ficha individual, demonstrações e ferramentas de treino.
-    await loadScript('./app.js?v=20261103-student-tabs-3.3');
+    await loadScript('./app.js?v=20261103-medidas-professora-3.4');
     await loadScript('./treinos.js?v=20261103-loop-video-3.3');
-    await loadScript('./experience.js?v=20261103-student-copy-3.3');
+    await loadScript('./experience.js?v=20261103-medidas-professora-3.4');
     mounted=true;
+    mountedClientId=client.id;
     show('content');
     $('logout').hidden=false;
     startStudentRefresh();
   }
   async function loadClient(user){
-    if(!user){show('login');notice('Entre para visualizar seu plano.');return;}
-    const claimed=check(await db.rpc('register_treino_client'));
+    const request=++clientLoadRevision;
+    approvedClient=null;
+    if(!user){approvedClient=null;show('login');notice('Entre para visualizar seu plano.');return;}
+    const claimResult=await db.rpc('register_treino_client');
+    if(request!==clientLoadRevision)return;
+    const claimed=check(claimResult);
     if(!claimed){show('login');notice('Confirme seu e-mail antes de solicitar aprovação. Depois faça login novamente.',true);return;}
-    const client=check(await db.from('clients').select('id,full_name,email,auth_user_id,approval_status').eq('id',claimed).maybeSingle());
+    const clientResult=await db.from('clients').select('id,full_name,email,auth_user_id,approval_status').eq('id',claimed).maybeSingle();
+    if(request!==clientLoadRevision)return;
+    const client=check(clientResult);
     if(!client){show('login');notice('Não foi possível localizar seu cadastro.',true);return;}
     if(client.approval_status!=='approved'){
       approvedClient=null;show('pending');$('logout').hidden=false;
@@ -232,8 +242,11 @@
       db.from('site_announcements').select('enabled,title,message').eq('id',1).maybeSingle(),
       db.from('client_progress').select('progress,updated_at').eq('client_id',client.id).maybeSingle()
     ]);
+    if(request!==clientLoadRevision)return;
     const [measure,plan,announcement,progress]=results.map(check);
     await mountLegacy(client,measure,plan,announcement,progress);
+    if(request!==clientLoadRevision)return;
+    refreshStudentData();
   }
   async function initialize(){
     const cfg=window.MEU_TREINO_SUPABASE||{};
