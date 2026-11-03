@@ -58,6 +58,7 @@
 
   var data=emptyData(), migrated=false, loadError=false;
   var activeWeek=1, activeTab='evaluation';
+  var publishedSite=null;
   try{
     var saved=localStorage.getItem(storageKey), old=localStorage.getItem(oldStorageKey);
     if(saved)data=normalizeData(JSON.parse(saved));
@@ -260,8 +261,9 @@
     el('tabTraining').setAttribute('aria-selected',String(training));
     el('tabEvaluation').tabIndex=training?-1:0;
     el('tabTraining').tabIndex=training?0:-1;
-    el('pageTitle').textContent=training?'Seu treino. Seu ritmo.':'Seu ponto de partida.';
-    el('pageLead').textContent=training?'Abra o exercício, veja o movimento e registre sua evolução.':'Uma avaliação inicial. Oito semanas de evolução.';
+    var texts=publishedSite||{};
+    el('pageTitle').textContent=training?(texts.trainingTitle||'Seu treino. Seu ritmo.'):(texts.evaluationTitle||'Seu ponto de partida.');
+    el('pageLead').textContent=training?(texts.trainingLead||'Abra o exercício, veja o movimento e registre sua evolução.'):(texts.evaluationLead||'Uma avaliação inicial. Oito semanas de evolução.');
     document.querySelectorAll('video.loop-video').forEach(function(v){if(!training)v.pause();});
     window.dispatchEvent(new CustomEvent('meutreino:tab',{detail:activeTab}));
     if(save!==false)persist();
@@ -303,6 +305,24 @@
     restore:function(raw){var next=normalizeData(raw),previous=data;data=next;if(!persist()){data=previous;throw new Error('Falha ao salvar backup');}renderAssessment();renderWeekNav();if(window.MeuTreinoTreinos)window.MeuTreinoTreinos.render();},
     selectTab:selectTab};
   renderAssessment();selectWeek(activeWeek);selectTab(activeTab,false);
+  if(window.MeuTreinoContentReady){
+    window.MeuTreinoContentReady.then(function(content){
+      if(!content||!content.site)return;
+      publishedSite=content.site;
+      function safe(value,max){return typeof value==='string'?value.slice(0,max):'';}
+      var text=safe(publishedSite.eyebrow,80);
+      if(text)el('pageEyebrow').textContent=text;
+      var footer=safe(publishedSite.footer,120);
+      if(footer){var node=document.querySelector('.footer>span');if(node)node.textContent=footer;}
+      var banner=el('siteAnnouncement'),notice=publishedSite.announcement||{};
+      if(banner){
+        el('siteAnnouncementTitle').textContent=safe(notice.title,120);
+        el('siteAnnouncementMessage').textContent=safe(notice.message,1000);
+        banner.hidden=!(notice.enabled===true&&safe(notice.message,1000).trim());
+      }
+      selectTab(activeTab,false);
+    });
+  }
   if(migrated)persist();
   if(loadError)setTimeout(function(){toast('Não foi possível carregar os dados anteriores.');},350);
 })();

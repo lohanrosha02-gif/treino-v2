@@ -1,0 +1,5 @@
+/* Aviso público editorial, não mistura registros pessoais. */
+.site-announcement{margin:0 0 20px;padding:15px 18px;border:1px solid #c9d9b6;border-left:4px solid #73934f;border-radius:13px;background:#edf4e6;color:#314d2e}
+.site-announcement strong{display:block;font-size:13px;margin-bottom:5px}
+.site-announcement p{font-size:12px;margin:0;white-space:pre-wrap;line-height:1.6}
+html[data-theme="dark"] .site-announcement{background:#243b2b;color:#e6f3e3;border-color:#547456;border-left-color:#a0ce9c}

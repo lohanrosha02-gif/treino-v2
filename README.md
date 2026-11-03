@@ -16,6 +16,14 @@ Site estático de acompanhamento de oito semanas, com avaliação inicial indepe
 
 Os dados continuam na mesma chave `meu-treino-v2` do navegador. Os caminhos `/treino/` e `/treino-v2/`, publicados no mesmo domínio GitHub Pages, compartilham esse armazenamento. Os dados não são enviados a um servidor e não são sincronizados entre aparelhos. Um aparelho novo começa sem medidas preenchidas.
 
+## Conteúdo público gerenciado no painel
+
+O repositório `treino-v2` é o site dos alunos. O painel editorial fica em [`treino`](https://github.com/lohanrosha02-gif/treino), que altera `data/site-content.json` por meio da API autenticada do GitHub. Na abertura da página, o site lê esse arquivo (sem cache) e aplica títulos, avisos, textos dos treinos A–D e orientações dos exercícios. A publicação depende do GitHub Pages.
+
+O painel só altera conteúdo textual de atividades existentes, preservando IDs, mídia, regras de registro e progressos anteriores. Alterações em doses podem afetar o número esperado de séries; revisar antes de publicar. Para adicionar/remover exercícios ou mídias, é preciso mudar o código.
+
+Os dados de avaliação, séries, cargas e progressos de cada visitante continuam exclusivamente no `localStorage` individual (`meu-treino-v2`). O arquivo compartilhado não contém dados pessoais nem sincroniza registros.
+
 ## Publicar no GitHub Pages
 
 No repositório, abra **Settings → Pages** e selecione **Deploy from a branch → main → / (root) → Save**. Não há instalação nem compilação obrigatória. O site original no repositório `treino` não foi alterado.

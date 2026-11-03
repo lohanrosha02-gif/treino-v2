@@ -296,7 +296,7 @@
       +'<nav class="train-day-nav" aria-label="Escolha a sessão">'+['A','B','C','D'].map(function(key){
         var done=getDayRecord(key).complete===true,day=plans[key];
         var shortName={A:'Superior',B:'Inferiores',C:'Superior',D:'Inferiores'}[key];
-        return '<button type="button" class="train-day-btn'+(dayChoice===key?' active':'')+(done?' completed':'')+'" data-day="'+key+'" aria-pressed="'+(dayChoice===key)+'"><span class="day-topline"><strong>'+key+'</strong><span class="train-done">'+(done?'✓':'')+'</span></span><small>'+shortName+'</small><span class="day-weekday">'+day.interval+'</span></button>';
+        return '<button type="button" class="train-day-btn'+(dayChoice===key?' active':'')+(done?' completed':'')+'" data-day="'+key+'" aria-pressed="'+(dayChoice===key)+'"><span class="day-topline"><strong>'+key+'</strong><span class="train-done">'+(done?'✓':'')+'</span></span><small>'+shortName+'</small><span class="day-weekday">'+escapeHtml(day.interval)+'</span></button>';
       }).join('')+'</nav>'
       +'<section class="panel train-panel" aria-labelledby="trainingDetailTitle"><div class="train-panel-head"><div>'
       +'<span class="session-eyebrow">SESSÃO '+dayChoice+' <span>·</span> SEMANA '+String(week).padStart(2,'0')+'</span><h3 id="trainingDetailTitle">'+escapeHtml(p.title)+'</h3><p class="session-subtitle">'+escapeHtml(p.subtitle)+'</p></div>'
@@ -445,6 +445,37 @@
       saveAuto();render();
     } else recordInput(t);
   });
+
+  // Sobrescreve somente textos públicos existentes. IDs, lógica e mídias são imutáveis.
+  function applyPublishedPlans(content){
+    if(!content||!content.plans)return;
+    function copyStrings(to,from,fields){
+      if(!from||typeof from!=='object'||Array.isArray(from))return;
+      fields.forEach(function(k){if(typeof from[k]==='string'&&from[k].length<=650)to[k]=from[k];});
+    }
+    ['A','B','C','D'].forEach(function(day){
+      var base=plans[day],external=content.plans[day];
+      if(!base||!external||typeof external!=='object')return;
+      copyStrings(base,external,['title','subtitle','duration','interval','recover']);
+      ['mobility','exercises'].forEach(function(group){
+        if(!Array.isArray(external[group]))return;
+        base[group].forEach(function(item){
+          var update=external[group].find(function(next){return next&&next.id===item.id;});
+          if(!update)return;
+          copyStrings(item,update,group==='exercises'?['name','dose','rest','muscle','hotel','cue']:['name','dose','cue']);
+          if(Array.isArray(update.steps)&&update.steps.length>0&&update.steps.length<=12&&update.steps.every(function(s){return typeof s==='string'&&s.length<=650;}))item.steps=update.steps.slice();
+        });
+      });
+      copyStrings(base.cardio,external.cardio,['name','dose','suggestion']);
+    });
+  }
+  if(window.MeuTreinoContentReady){
+    window.MeuTreinoContentReady.then(function(content){
+      if(!content)return;
+      applyPublishedPlans(content);
+      render();
+    });
+  }
   window.MeuTreinoTreinos={render:render};
   render();
 })();
