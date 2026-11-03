@@ -87,6 +87,11 @@
   if(window.MeuTreinoCustomPlan && typeof window.MeuTreinoCustomPlan==='object')plans=window.MeuTreinoCustomPlan;
   var dayKeys=Object.keys(plans);
   if(!dayKeys.includes(dayChoice))dayChoice=dayKeys[0]||'A';
+  function sessionLabel(key){
+    var index=dayKeys.indexOf(key);
+    if(index<0)return 'Treino';
+    return index<26?String.fromCharCode(65+index):String(index+1);
+  }
   var progression=[
     {range:'Semanas 1–2',text:'Aprender a execução e usar cargas leves.'},
     {range:'Semanas 3–4',text:'Progredir repetições se estiver confortável.'},
@@ -305,10 +310,10 @@
       +'<nav class="train-day-nav" aria-label="Escolha a sessão">'+dayKeys.map(function(key){
         var done=getDayRecord(key).complete===true,day=plans[key];
         var shortName={A:'Superior',B:'Inferiores',C:'Superior',D:'Inferiores'}[key]||String(day.title||'Treino').slice(0,16);
-        return '<button type="button" class="train-day-btn'+(dayChoice===key?' active':'')+(done?' completed':'')+'" data-day="'+key+'" aria-pressed="'+(dayChoice===key)+'"><span class="day-topline"><strong>'+key+'</strong><span class="train-done">'+(done?'✓':'')+'</span></span><small>'+shortName+'</small><span class="day-weekday">'+escapeHtml(day.interval)+'</span></button>';
+        return '<button type="button" class="train-day-btn'+(dayChoice===key?' active':'')+(done?' completed':'')+'" data-day="'+key+'" aria-pressed="'+(dayChoice===key)+'"><span class="day-topline"><strong>'+sessionLabel(key)+'</strong><span class="train-done">'+(done?'✓':'')+'</span></span><small>'+shortName+'</small><span class="day-weekday">'+escapeHtml(day.interval)+'</span></button>';
       }).join('')+'</nav>'
       +'<section class="panel train-panel" aria-labelledby="trainingDetailTitle"><div class="train-panel-head"><div>'
-      +'<span class="session-eyebrow">SESSÃO '+dayChoice+' <span>·</span> SEMANA '+String(week).padStart(2,'0')+'</span><h3 id="trainingDetailTitle">'+escapeHtml(p.title)+'</h3><p class="session-subtitle">'+escapeHtml(p.subtitle)+'</p></div>'
+      +'<span class="session-eyebrow">SESSÃO '+sessionLabel(dayChoice)+' <span>·</span> SEMANA '+String(week).padStart(2,'0')+'</span><h3 id="trainingDetailTitle">'+escapeHtml(p.title)+'</h3><p class="session-subtitle">'+escapeHtml(p.subtitle)+'</p></div>'
       +'<div class="training-summary"><span class="training-stat">'+escapeHtml(p.duration)+'</span></div></div>'
       +'<div class="train-equipment"><label for="trainingLocation">Local</label><select id="trainingLocation" aria-label="Local do treinamento"><option value="condominio"'+(location==='condominio'?' selected':'')+'>Condomínio</option><option value="hotel"'+(location==='hotel'?' selected':'')+'>Hotel</option></select></div>'
       +'<div class="session-progress"><div><span data-session-progress>'+completedExercises+' de '+p.exercises.length+' exercícios completos</span><span>Tudo salvo automaticamente</span></div><div class="track"><div data-session-bar style="width:'+((p.exercises.length?completedExercises/p.exercises.length*100:0))+'%"></div></div></div>'
@@ -421,7 +426,7 @@
     var act=event.target.closest('[data-action]');if(!act)return;
     var r=safeRecord();
     if(act.dataset.action==='save'){
-      if(saveAuto())bridge.toast('Treino '+dayChoice+' salvo na semana '+bridge.getWeek()+'.');
+      if(saveAuto())bridge.toast('Treino '+sessionLabel(dayChoice)+' salvo na semana '+bridge.getWeek()+'.');
     }else if(act.dataset.action==='finish'){
       var before=r.painBefore===''||r.painBefore===undefined?null:Number(r.painBefore);
       var after=r.painAfter===''||r.painAfter===undefined?null:Number(r.painAfter);
@@ -432,7 +437,7 @@
       r.completedAt=r.complete?new Date().toISOString():'';
       if(saveAuto()){if(bridge.refreshWeeks)bridge.refreshWeeks();render();bridge.toast(r.complete?'Sessão registrada como concluída.':'Sessão reaberta.');}
     }else if(act.dataset.action==='clear'){
-      if(!confirm('Apagar somente o treino '+dayChoice+' da semana '+bridge.getWeek()+'?'))return;
+      if(!confirm('Apagar somente o treino '+sessionLabel(dayChoice)+' da semana '+bridge.getWeek()+'?'))return;
       var w=bridge.getData().weeks[bridge.getWeek()-1];
       if(w.training)delete w.training[dayChoice];
       if(saveAuto()){render();bridge.toast('Registro removido.');}
