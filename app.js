@@ -13,7 +13,7 @@
   var groups=[
     {name:'Dados básicos',icon:'◌',items:[['idade','Idade','anos'],['peso','Peso','kg'],['altura','Altura','cm']]},
     {name:'Tronco',icon:'▣',items:[['cintura','Cintura','cm'],['abdomen','Abdômen','cm'],['hip','Quadril','cm'],['busto','Busto','cm'],['chest','Peito / tórax','cm'],['shoulder','Ombro','cm']]},
-    {name:'Braços',icon:'⌁',items:[['bicepsLeft','Bíceps esquerdo','cm'],['bicepsRight','Bíceps direito','cm'],['forearmLeft','Antebraço esquerdo','cm'],['forearmRight','Antebraço direito','cm']]},
+    {name:'Braços',icon:'⌁',items:[['bicepsLeft','Bíceps esquerdo','cm'],['bicepsRight','Bíceps direito','cm'],['armRelaxedLeft','Braço relaxado esquerdo','cm'],['armRelaxedRight','Braço relaxado direito','cm']]},
     {name:'Pernas',icon:'◇',items:[['thighLeft','Coxa esquerda','cm'],['thighRight','Coxa direita','cm'],['calfLeft','Panturrilha esquerda','cm'],['calfRight','Panturrilha direita','cm']]}
   ];
   var allIds=groups.flatMap(function(group){return group.items.map(function(item){return item[0];});});
@@ -246,8 +246,8 @@
       shoulder:'Comparar evolução',
       bicepsLeft:'Comparar evolução',
       bicepsRight:'Comparar evolução',
-      forearmLeft:'Comparar evolução',
-      forearmRight:'Comparar evolução',
+      armRelaxedLeft:'Comparar evolução',
+      armRelaxedRight:'Comparar evolução',
       thighLeft:'Comparar evolução',
       thighRight:'Comparar evolução',
       calfLeft:'Comparar evolução',
