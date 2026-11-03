@@ -178,3 +178,98 @@ html[data-theme="dark"] .toast{background:#315c40;color:#fff}
   html[data-theme="dark"] .nav-panel{background:#223329;border-color:var(--line)}
   html[data-theme="dark"] .nav-panel button.nav-item[aria-selected=true]{background:#3b5440;border-color:#69836d}
 }
+
+
+/* Identidade roxa: bege claro no tema claro e preto no tema escuro. */
+:root{
+  color-scheme:light;
+  --bg:#f5efe6;
+  --surface:#fffaf3;
+  --ink:#302934;
+  --muted:#746b78;
+  --accent:#76508f;
+  --accent-deep:#5b3773;
+  --accent-soft:#efe5f4;
+  --line:#e6dbe8;
+  --warm:#e9dce4;
+  --shadow:0 12px 32px rgba(53,34,61,.06);
+}
+html[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#000000;
+  --surface:#19141d;
+  --ink:#f5eff8;
+  --muted:#bdb1c4;
+  --accent:#c99fe0;
+  --accent-deep:#d8b8e7;
+  --accent-soft:#33253d;
+  --line:#4c3b54;
+  --warm:#3a2d43;
+  --shadow:0 10px 28px rgba(0,0,0,.2);
+}
+body{background:var(--bg);color:var(--ink)}
+.topbar{background:rgba(255,250,243,.95);border-color:var(--line)}
+.brand-icon{background:var(--accent-deep)}
+.eyebrow,.page-head .eyebrow{color:var(--accent)}
+.top-pill{background:var(--accent-soft);border-color:var(--line);color:var(--accent-deep)}
+.top-pill .dot{background:var(--accent)}
+.nav-panel button.nav-item[aria-selected="true"]{background:var(--accent-soft);border-color:var(--line);color:var(--accent-deep)}
+.side-plan{background:var(--accent-soft);border-color:var(--line)}
+.side-progress .big-progress #weeksCompleted{color:var(--accent-deep)}
+.track{background:#e9dfea}
+.track div{background:var(--accent)}
+.week-button{background:var(--surface)!important;border-color:var(--line)}
+.week-button b{color:var(--accent-deep)}
+.week-button.active{background:var(--accent-soft)!important;border-color:var(--accent)!important;color:var(--accent-deep)}
+.week-button.active b,.week-button.active small{color:var(--accent-deep)}
+.week-button.complete:not(.active){background:#f4edf7!important;border-color:#dfd0e7}
+.train-day-btn{background:var(--surface);border-color:var(--line);color:var(--muted)}
+.train-day-btn:hover{background:var(--accent-soft);border-color:#c6afd3}
+.train-day-btn.active{background:var(--accent-soft);border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.train-day-btn.active strong,.train-day-btn.active small,.day-topline strong{color:var(--accent-deep)}
+.session-eyebrow,.session-progress>div:first-child{color:var(--accent-deep)}
+.train-panel-head h3,.train-section-title{color:var(--ink)}
+.workout-hero{background:var(--accent-deep)}
+.hero-kicker{color:#eadcf2}
+.workout-hero p{color:#eee4f2}
+.week-ring{background:conic-gradient(var(--accent) var(--progress),#e7dce9 0)}
+.week-ring>div{background:var(--accent-deep)}
+.train-section-title>span,.train-step-index,.exercise-ordinal,.training-stat,.exercise-meta span{background:var(--accent-soft);color:var(--accent-deep);border-color:var(--line)}
+.train-step[open]>summary,.train-exercise[open]>summary,.train-log>summary{background:#f6eff8;border-color:var(--line)}
+.train-step-index,.exercise-ordinal{color:var(--accent)}
+.train-exercise.is-done .exercise-ordinal{background:#e5d6ec;color:var(--accent-deep)}
+.series-tracker{background:#faf6fb;border-color:var(--line)}
+.series-tracker-title,.series-number{color:var(--accent-deep)}
+.series-done input,input[type="checkbox"]{accent-color:var(--accent)}
+.rest-button,.workout-actions button{background:var(--accent-soft);color:var(--accent-deep);border-color:#d8c6e2}
+.rest-button:hover{background:#e8dbef}
+.workout-actions .save,.primary-btn{background:var(--accent-deep);color:#fff;border-color:var(--accent-deep)}
+.video-retry{background:var(--accent-deep)}
+.teaching-video figcaption button{color:var(--accent-deep)}
+.toast{background:var(--accent-deep);color:#fff}
+html[data-theme="dark"],html[data-theme="dark"] body{background:#000;color:var(--ink)}
+html[data-theme="dark"] .topbar{background:#000;border-color:var(--line)}
+html[data-theme="dark"] .brand-icon{background:#30223b}
+html[data-theme="dark"] .top-pill{background:var(--accent-soft);border-color:var(--line);color:var(--accent-deep)}
+html[data-theme="dark"] .nav-panel button.nav-item[aria-selected="true"]{background:#493653;color:#f5eff8;border-color:#745987}
+html[data-theme="dark"] .side-plan{background:#261b2e;border-color:var(--line)}
+html[data-theme="dark"] .track,html[data-theme="dark"] .side-plan .track{background:#392c40}
+html[data-theme="dark"] .track div{background:var(--accent)}
+html[data-theme="dark"] .week-button,html[data-theme="dark"] .week-button:not(.active){background:#201925!important;border-color:var(--line);color:var(--muted)}
+html[data-theme="dark"] .week-button b,html[data-theme="dark"] .week-button small{color:var(--ink)}
+html[data-theme="dark"] .week-button.active{background:#50385f!important;border-color:#b78dcc!important;color:#fff}
+html[data-theme="dark"] .week-button.active b,html[data-theme="dark"] .week-button.active small{color:#fff}
+html[data-theme="dark"] .week-button.complete:not(.active){background:#30243a!important;border-color:#6d5679}
+html[data-theme="dark"] .train-day-btn{background:#211a26;color:var(--muted);border-color:var(--line)}
+html[data-theme="dark"] .train-day-btn:hover{background:#35273e;border-color:#775b88}
+html[data-theme="dark"] .train-day-btn.active{background:#493653;border-color:#a57db9;box-shadow:0 0 0 1px #76558a}
+html[data-theme="dark"] .day-topline strong,html[data-theme="dark"] .train-day-btn.active strong,html[data-theme="dark"] .train-day-btn.active small,html[data-theme="dark"] .day-weekday,html[data-theme="dark"] .train-done{color:#e8d6f0}
+html[data-theme="dark"] .workout-hero,html[data-theme="dark"] .week-ring>div{background:#30223b}
+html[data-theme="dark"] .week-ring{background:conic-gradient(var(--accent) var(--progress),#3b2c42 0)}
+html[data-theme="dark"] .train-step[open]>summary,html[data-theme="dark"] .train-exercise[open]>summary,html[data-theme="dark"] .train-log>summary{background:#30243a;border-color:var(--line)}
+html[data-theme="dark"] .train-section-title>span,html[data-theme="dark"] .train-step-index,html[data-theme="dark"] .exercise-ordinal,html[data-theme="dark"] .training-stat,html[data-theme="dark"] .exercise-meta span{background:var(--accent-soft);color:var(--accent-deep);border-color:var(--line)}
+html[data-theme="dark"] .series-tracker{background:#211a26;border-color:var(--line)}
+html[data-theme="dark"] .rest-button,html[data-theme="dark"] .workout-actions button{background:#342540;color:#ead9f2;border-color:#695279}
+html[data-theme="dark"] .rest-button:hover{background:#44304f}
+html[data-theme="dark"] .workout-actions .save,html[data-theme="dark"] .primary-btn{background:#76508f;color:#fff;border-color:#8b66a3}
+html[data-theme="dark"] .toast{background:#76508f;color:#fff}
