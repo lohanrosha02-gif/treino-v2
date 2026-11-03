@@ -4,13 +4,20 @@
   if(!bridge)return;
   var byId=function(id){return document.getElementById(id);};
   function progress(){
-    var total=0,weekDone=0;
-    bridge.getData().weeks.forEach(function(w,index){var count=['A','B','C','D'].filter(function(d){return w.training&&w.training[d]&&w.training[d].complete===true;}).length;total+=count;if(index===bridge.getWeek()-1)weekDone=count;});
-    byId('planProgressText').innerHTML=total+' <span>/ 32 sessões</span>';
-    byId('planProgress').setAttribute('aria-valuenow',String(total));byId('planBar').style.width=total/32*100+'%';
+    var keys=Array.isArray(window.MeuTreinoPlanKeys)?window.MeuTreinoPlanKeys:['A','B','C','D'];
+    var sessions=keys.length,goal=sessions*8,total=0,weekDone=0;
+    bridge.getData().weeks.forEach(function(w,index){
+      var count=keys.filter(function(d){return w.training&&w.training[d]&&w.training[d].complete===true;}).length;
+      total+=count;if(index===bridge.getWeek()-1)weekDone=count;
+    });
+    byId('planProgressText').innerHTML=total+' <span>/ '+goal+' sessões</span>';
+    byId('planProgress').setAttribute('aria-valuemax',String(goal));
+    byId('planProgress').setAttribute('aria-valuenow',String(total));
+    byId('planBar').style.width=(goal?total/goal*100:0)+'%';
     byId('heroWeek').textContent='SEMANA '+String(bridge.getWeek()).padStart(2,'0')+' / 08';
-    byId('weekSessionCount').innerHTML=weekDone+'<span>/4</span>';byId('weekRing').style.setProperty('--progress',weekDone/4*100+'%');
-    byId('heroProgress').textContent=weekDone===4?'Semana completa. Cada sessão conta!':weekDone===0?'Quatro sessões para cuidar da sua evolução.':weekDone+' de 4 sessões concluídas nesta semana. Continue no seu ritmo.';
+    byId('weekSessionCount').innerHTML=weekDone+'<span>/'+sessions+'</span>';
+    byId('weekRing').style.setProperty('--progress',(sessions?weekDone/sessions*100:0)+'%');
+    byId('heroProgress').textContent=!sessions?'Seu professor ainda não publicou treinos.':weekDone===sessions?'Semana completa. Cada sessão conta!':weekDone===0?sessions+' sessões para cuidar da sua evolução.':weekDone+' de '+sessions+' sessões concluídas nesta semana. Continue no seu ritmo.';
   }
   window.addEventListener('meutreino:saved',progress);window.addEventListener('meutreino:render',progress);progress();
   byId('exportBackup').addEventListener('click',function(){
@@ -24,7 +31,8 @@
     var file=this.files&&this.files[0];this.value='';if(!file)return;if(file.size>2*1024*1024){bridge.toast('Arquivo muito grande. Selecione um backup do Meu Treino.');return;}
     try{var raw=JSON.parse(await file.text());if(!raw||!Array.isArray(raw.weeks)||raw.weeks.length!==8)throw Error('Formato');
       var measurements=Object.keys(raw.evaluation&&raw.evaluation.values||{}).filter(function(k){return raw.evaluation.values[k]!=='';}).length;
-      var sessions=raw.weeks.reduce(function(sum,w){return sum+['A','B','C','D'].filter(function(d){return w&&w.training&&w.training[d]&&w.training[d].complete;}).length;},0);
+      var keys=Array.isArray(window.MeuTreinoPlanKeys)?window.MeuTreinoPlanKeys:['A','B','C','D'];
+      var sessions=raw.weeks.reduce(function(sum,w){return sum+keys.filter(function(d){return w&&w.training&&w.training[d]&&w.training[d].complete;}).length;},0);
       if(!confirm('Restaurar este backup?\n\n'+measurements+' medidas e '+sessions+' sessões concluídas.\n\nOs registros atuais deste navegador serão substituídos. Baixe um backup antes se quiser preservá-los.'))return;
       bridge.restore(raw);progress();document.querySelector('.backup-menu').open=false;bridge.toast('Backup restaurado com sucesso.');
     }catch(err){bridge.toast('Não foi possível restaurar. Selecione um backup válido do Meu Treino.');}
