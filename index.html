@@ -33,7 +33,7 @@
       </button>
       <button id="logout" type="button" class="outline-btn logout" hidden>Sair</button>
       <details class="backup-menu" hidden><summary aria-label="Gerenciar backup"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 15v5h16v-5"/></svg><span>Meus dados</span></summary>
-      <div class="backup-options"><button type="button" id="exportBackup">Baixar backup</button><button type="button" id="importBackup">Restaurar backup</button><small>Salvo somente neste navegador.</small></div></details>
+      <div class="backup-options"><button type="button" id="exportBackup">Baixar backup</button><button type="button" id="importBackup">Restaurar backup</button><small>O arquivo baixado fica neste dispositivo; o progresso também sincroniza com sua conta.</small></div></details>
       <input type="file" id="backupFile" accept="application/json,.json" hidden></div>
   </div>
 </header>
@@ -47,7 +47,7 @@
 <form id="loginForm" class="portal-form">
 <label for="email">E-mail</label><input id="email" type="email" required autocomplete="email">
 <label for="password">Senha</label><input id="password" type="password" required autocomplete="current-password" minlength="8">
-<div class="login-actions"><button class="primary-btn" type="submit">Entrar</button><button class="outline-btn" type="button" id="signUp">Criar conta</button><button class="plain-btn" type="button" id="resetPassword">Esqueci minha senha</button></div>
+<div class="login-actions"><button class="primary-btn" type="submit">Entrar</button><button class="outline-btn" type="button" id="signUp">Criar conta</button><button class="plain-btn" type="button" id="resetPassword">Esqueci minha senha</button><button class="plain-btn" type="button" id="resendConfirmation">Reenviar confirmação</button></div>
 </form><small>Primeiro acesso? Clique em “Criar conta”. Você poderá consultar suas informações somente depois da aprovação.</small>
 </section>
 <section class="panel login-panel" id="signupFormSection" hidden>
@@ -236,7 +236,7 @@
           <div id="libraryContent"></div>
         </section>
       </div>
-      <footer class="footer"><span>Meu Treino · Seu plano de 8 semanas</span><span><span class="footer-dot"></span> Salvo e sincronizado</span></footer>
+      <footer class="footer"><span>Meu Treino · Seu plano de 8 semanas</span><span><span class="footer-dot"></span> <span id="syncFooterText">Aguardando sincronização</span></span></footer>
     </main>
   </div>
 </div>
@@ -245,6 +245,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
 <script src="./supabase-config.js?v=3.0" defer></script>
 <script src="./videos.js?v=3.0" defer></script>
-<script src="./client-supabase.js?v=avaliacao-3.1" defer></script>
+<script src="./client-supabase.js?v=20261103-auth-sync-3.2" defer></script>
 </body>
 </html>

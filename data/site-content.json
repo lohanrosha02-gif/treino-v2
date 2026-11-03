@@ -1,36 +1,4 @@
 {
-  "schemaVersion": 1,
-  "updatedAt": null,
-  "site": {
-    "announcement": {
-      "enabled": false,
-      "title": "Aviso importante",
-      "message": ""
-    },
-    "eyebrow": "ACOMPANHAMENTO DE MEDIÇÕES",
-    "evaluationTitle": "Medições corporais",
-    "evaluationLead": "Medidas publicadas pela administração, disponíveis para consulta.",
-    "trainingTitle": "Seu treino. Seu ritmo.",
-    "trainingLead": "Abra o exercício, veja o movimento e registre sua evolução.",
-    "footer": "Meu Treino · Seu plano de 8 semanas",
-    "measurements": {
-      "date": "",
-      "values": {
-        "shoulder": "",
-        "chest": "",
-        "bicepsLeft": "",
-        "bicepsRight": "",
-        "forearmLeft": "",
-        "forearmRight": "",
-        "abdomen": "",
-        "hip": "",
-        "thighLeft": "",
-        "thighRight": "",
-        "calfLeft": "",
-        "calfRight": ""
-      }
-    }
-  },
   "plans": {
     "A": {
       "title": "Peito + costas + braços",

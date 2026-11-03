@@ -5,6 +5,7 @@
   // A avaliação é independente dos treinos. A chave antiga permanece intacta.
   var userSuffix=String(window.MeuTreinoStorageSuffix||'sessao');
   var storageKey='meu-treino-v2-'+userSuffix;
+  var savedAtKey='meu-treino-saved-at-v1-'+userSuffix;
   var oldStorageKey='meu-treino-antropometria-v1-'+userSuffix;
   var selectedKey='meu-treino-semana-selecionada-v1-'+userSuffix;
   var activeTabKey='meu-treino-aba-v2-'+userSuffix;
@@ -17,6 +18,16 @@
   ];
   var allIds=groups.flatMap(function(group){return group.items.map(function(item){return item[0];});});
   var el=function(id){return document.getElementById(id);};
+  function updateSyncStatus(state){
+    var label=el('syncFooterText');
+    if(!label)return;
+    var messages={syncing:'Sincronizando…',synced:'Salvo e sincronizado',local:'Salvo neste navegador · sincronização pendente'};
+    label.textContent=messages[state]||'Aguardando sincronização';
+    label.dataset.syncState=state||'idle';
+  }
+  window.addEventListener('meutreino:sync-status',function(event){
+    updateSyncStatus(event.detail&&event.detail.state);
+  });
   var emptyAssessment=function(){return {date:'',values:{}};};
   var emptyData=function(){return {version:2,evaluation:emptyAssessment(),weeks:Array.from({length:8},function(){return {}; }),legacyWeeklyMeasures:[]};};
   var toastTimer;
@@ -64,7 +75,11 @@
   var publishedMeasureFields=[["shoulder","Ombro"],["chest","Peito"],["bicepsLeft","Bíceps esquerdo"],["bicepsRight","Bíceps direito"],["forearmLeft","Antebraço esquerdo"],["forearmRight","Antebraço direito"],["abdomen","Abdômen"],["hip","Quadril"],["thighLeft","Coxa esquerda"],["thighRight","Coxa direita"],["calfLeft","Panturrilha esquerda"],["calfRight","Panturrilha direita"]];
   try{
     var saved=localStorage.getItem(storageKey), old=localStorage.getItem(oldStorageKey);
-    if(window.MeuTreinoInitialProgress)data=normalizeData(window.MeuTreinoInitialProgress);
+    var localSavedAt=Date.parse(localStorage.getItem(savedAtKey)||'');
+    var serverSavedAt=Date.parse(window.MeuTreinoInitialProgressUpdatedAt||'');
+    if(window.MeuTreinoInitialProgress&&saved&&Number.isFinite(localSavedAt)&&(!Number.isFinite(serverSavedAt)||localSavedAt>serverSavedAt)){
+      data=normalizeData(JSON.parse(saved));
+    }else if(window.MeuTreinoInitialProgress)data=normalizeData(window.MeuTreinoInitialProgress);
     else if(saved)data=normalizeData(JSON.parse(saved));
     else if(old){data=normalizeData(JSON.parse(old));migrated=true;}
     // A new device starts blank. Existing records from /treino/ share this origin.
@@ -75,6 +90,7 @@
   function persist(){
     try{
       localStorage.setItem(storageKey,JSON.stringify(data));
+      localStorage.setItem(savedAtKey,new Date().toISOString());
       localStorage.setItem(selectedKey,String(activeWeek));
       localStorage.setItem(activeTabKey,activeTab);
       window.dispatchEvent(new CustomEvent('meutreino:saved'));
@@ -105,7 +121,7 @@
       html+='</div></section>';
     });
     el('measureFields').innerHTML=html;
-    el('saveStatusText').textContent='Dados salvos no navegador e sincronizados com sua conta.';
+    el('saveStatusText').textContent='Dados salvos neste navegador.';
     updateProgress();
   }
   function measurement(id){
