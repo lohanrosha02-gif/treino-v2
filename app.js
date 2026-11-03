@@ -59,6 +59,7 @@
   var data=emptyData(), migrated=false, loadError=false;
   var activeWeek=1, activeTab='evaluation';
   var publishedSite=null;
+  var publishedMeasureFields=[["shoulder","Ombro"],["chest","Peito"],["bicepsLeft","Bíceps esquerdo"],["bicepsRight","Bíceps direito"],["forearmLeft","Antebraço esquerdo"],["forearmRight","Antebraço direito"],["abdomen","Abdômen"],["hip","Quadril"],["thighLeft","Coxa esquerda"],["thighRight","Coxa direita"],["calfLeft","Panturrilha esquerda"],["calfRight","Panturrilha direita"]];
   try{
     var saved=localStorage.getItem(storageKey), old=localStorage.getItem(oldStorageKey);
     if(saved)data=normalizeData(JSON.parse(saved));
@@ -244,6 +245,35 @@
     updateIndicators();
     updateComparison();
   }
+  function renderPublishedMeasurements(measurements,available){
+    var grid=el('publicMeasurementsGrid'),date=el('publicMeasurementsDate'),count=el('publicMeasurementsCount');
+    if(!grid||!date||!count)return;
+    var values=measurements&&measurements.values&&typeof measurements.values==='object'?measurements.values:{};
+    var valid=function(value){
+      if(typeof value!=='string'&&typeof value!=='number')return null;
+      var raw=String(value).trim();
+      if(!/^\\d{1,3}(?:[,.]\\d{1,2})?$/.test(raw))return null;
+      var number=Number(raw.replace(',','.'));
+      return number>0&&number<=300?number:null;
+    };
+    var filled=0;
+    grid.replaceChildren();
+    publishedMeasureFields.forEach(function(entry){
+      var row=document.createElement('div'),label=document.createElement('dt'),value=document.createElement('dd');
+      row.className='public-measurements-item';
+      label.textContent=entry[1];
+      var number=valid(values[entry[0]]);
+      if(number!==null)filled++;
+      value.textContent=number===null?'Não informado':number.toLocaleString('pt-BR',{maximumFractionDigits:2})+' cm';
+      if(number===null)value.className='empty';
+      row.append(label,value);grid.appendChild(row);
+    });
+    count.textContent=filled+' de '+publishedMeasureFields.length+' medidas informadas';
+    var rawDate=measurements&&typeof measurements.date==='string'?measurements.date:'';
+    if(/^\\d{4}-\\d{2}-\\d{2}$/.test(rawDate)){
+      var parts=rawDate.split('-');date.textContent='Data do registro: '+parts[2]+'/'+parts[1]+'/'+parts[0];
+    }else date.textContent=available?(filled?'Registro publicado pela administração':'Nenhuma medição publicada até agora.'):'Não foi possível carregar as medições. Atualize a página.';
+  }
   function selectWeek(number){
     if(!Number.isInteger(number)||number<1||number>8)return;
     activeWeek=number;
@@ -262,8 +292,8 @@
     el('tabEvaluation').tabIndex=training?-1:0;
     el('tabTraining').tabIndex=training?0:-1;
     var texts=publishedSite||{};
-    el('pageTitle').textContent=training?(texts.trainingTitle||'Seu treino. Seu ritmo.'):(texts.evaluationTitle||'Seu ponto de partida.');
-    el('pageLead').textContent=training?(texts.trainingLead||'Abra o exercício, veja o movimento e registre sua evolução.'):(texts.evaluationLead||'Uma avaliação inicial. Oito semanas de evolução.');
+    el('pageTitle').textContent=training?(texts.trainingTitle||'Seu treino. Seu ritmo.'):(texts.evaluationTitle||'Medições corporais');
+    el('pageLead').textContent=training?(texts.trainingLead||'Abra o exercício, veja o movimento e registre sua evolução.'):(texts.evaluationLead||'Medidas publicadas pela administração, disponíveis para consulta.');
     document.querySelectorAll('video.loop-video').forEach(function(v){if(!training)v.pause();});
     window.dispatchEvent(new CustomEvent('meutreino:tab',{detail:activeTab}));
     if(save!==false)persist();
@@ -305,10 +335,12 @@
     restore:function(raw){var next=normalizeData(raw),previous=data;data=next;if(!persist()){data=previous;throw new Error('Falha ao salvar backup');}renderAssessment();renderWeekNav();if(window.MeuTreinoTreinos)window.MeuTreinoTreinos.render();},
     selectTab:selectTab};
   renderAssessment();selectWeek(activeWeek);selectTab(activeTab,false);
+  renderPublishedMeasurements(null,false);
   if(window.MeuTreinoContentReady){
     window.MeuTreinoContentReady.then(function(content){
       if(!content||!content.site)return;
       publishedSite=content.site;
+      renderPublishedMeasurements(content.site.measurements,true);
       function safe(value,max){return typeof value==='string'?value.slice(0,max):'';}
       var text=safe(publishedSite.eyebrow,80);
       if(text)el('pageEyebrow').textContent=text;

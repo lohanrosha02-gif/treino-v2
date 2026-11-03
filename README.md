@@ -16,13 +16,19 @@ Site estático de acompanhamento de oito semanas, com avaliação inicial indepe
 
 Os dados continuam na mesma chave `meu-treino-v2` do navegador. Os caminhos `/treino/` e `/treino-v2/`, publicados no mesmo domínio GitHub Pages, compartilham esse armazenamento. Os dados não são enviados a um servidor e não são sincronizados entre aparelhos. Um aparelho novo começa sem medidas preenchidas.
 
+## Medições públicas administradas
+
+A aba **Medições** apresenta, exclusivamente para consulta, os 12 campos fornecidos pela administração: ombro, peito, bíceps esquerdo/direito, antebraço esquerdo/direito, abdômen, quadril, coxa esquerda/direita e panturrilha esquerda/direita (cm), com data opcional. Os valores são publicados em `data/site-content.json` → `site.measurements` e atualizados pelo repositório `treino`.
+
+Os campos de avaliação individual que já existiam ficam ocultos na interface, mas os registros anteriores continuam preservados no armazenamento local e em backups. As medições administrativas **são globais e públicas**, iguais para todos os visitantes: não use esta função para dados identificáveis ou medições privadas de alunos sem uma solução com autenticação e consentimento apropriados.
+
 ## Conteúdo público gerenciado no painel
 
 O repositório `treino-v2` é o site dos alunos. O painel editorial fica em [`treino`](https://github.com/lohanrosha02-gif/treino), que altera `data/site-content.json` por meio da API autenticada do GitHub. Na abertura da página, o site lê esse arquivo (sem cache) e aplica títulos, avisos, textos dos treinos A–D e orientações dos exercícios. A publicação depende do GitHub Pages.
 
 O painel só altera conteúdo textual de atividades existentes, preservando IDs, mídia, regras de registro e progressos anteriores. Alterações em doses podem afetar o número esperado de séries; revisar antes de publicar. Para adicionar/remover exercícios ou mídias, é preciso mudar o código.
 
-Os dados de avaliação, séries, cargas e progressos de cada visitante continuam exclusivamente no `localStorage` individual (`meu-treino-v2`). O arquivo compartilhado não contém dados pessoais nem sincroniza registros.
+Os dados de avaliação, séries, cargas e progressos de cada visitante continuam exclusivamente no `localStorage` individual (`meu-treino-v2`). O arquivo compartilhado pode conter as medições gerais publicadas pelo administrador; elas são visíveis a todos, por isso não devem conter dados identificáveis de alunos. O arquivo não sincroniza registros privados.
 
 ## Publicar no GitHub Pages
 

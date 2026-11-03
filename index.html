@@ -1,17 +1,17 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta name="app-build" content="2.4.2-admin-content-20261102">
+  <meta name="app-build" content="2.4.3-measures-readonly-20261102">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f6f7f3">
-  <script src="./theme.js?v=2.4.2-admin-content-20261102"></script>
+  <script src="./theme.js?v=2.4.3-measures-readonly-20261102"></script>
   <meta name="description" content="Meu Treino: seu plano de 8 semanas, demonstrações em vídeo e registro de cada série em um só lugar.">
   <title>Meu Treino · Seu ritmo, sua evolução</title>
-  <link rel="stylesheet" href="./app.css?v=2.4.2-admin-content-20261102">
-  <link rel="stylesheet" href="./treinos.css?v=2.4.2-admin-content-20261102">
-  <link rel="stylesheet" href="./theme.css?v=2.4.2-admin-content-20261102">
-  <link rel="stylesheet" href="./site-announcement.css?v=2.4.2-admin-content-20261102">
+  <link rel="stylesheet" href="./app.css?v=2.4.3-measures-readonly-20261102">
+  <link rel="stylesheet" href="./treinos.css?v=2.4.3-measures-readonly-20261102">
+  <link rel="stylesheet" href="./theme.css?v=2.4.3-measures-readonly-20261102">
+  <link rel="stylesheet" href="./site-announcement.css?v=2.4.3-measures-readonly-20261102">
 </head>
 <body>
 <a class="skip-link" href="#mainContent">Pular para o conteúdo</a>
@@ -38,7 +38,7 @@
 <div class="container app">
   <div class="page-head">
     <div>
-      <div class="eyebrow" id="pageEyebrow">ACOMPANHAMENTO PESSOAL</div><h1 id="pageTitle">Seu ponto de partida.</h1><p class="lead" id="pageLead">Uma avaliação inicial. Oito semanas de evolução.</p>
+      <div class="eyebrow" id="pageEyebrow">ACOMPANHAMENTO PESSOAL</div><h1 id="pageTitle">Medições corporais</h1><p class="lead" id="pageLead">Medidas publicadas pela administração, disponíveis para consulta.</p>
     </div>
     
   </div>
@@ -50,14 +50,14 @@
         <div class="side-label">Menu principal</div>
         <button type="button" class="nav-item active" id="tabEvaluation" role="tab" aria-controls="evaluationTab" aria-selected="true" tabindex="0">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3.5h6M9 10h6M9 14h6"/></svg>
-          Avaliação inicial
+          Medições
         </button>
         <button type="button" class="nav-item" id="tabTraining" role="tab" aria-controls="trainingTab" aria-selected="false" tabindex="-1">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18"/></svg>
           Meus treinos
         </button>
       </nav>
-      <div class="side-progress">
+      <div class="side-progress" hidden>
         <div>
           <div class="small-heading">Avaliação inicial</div>
           <div class="big-progress"><span id="weeksCompleted">0</span><span> / 12</span></div>
@@ -73,7 +73,21 @@
 
 
       <div class="tab-content" id="evaluationTab" role="tabpanel" aria-labelledby="tabEvaluation">
-      <section class="panel" id="initialPanel" aria-labelledby="formHeading">
+      <section class="panel public-measurements-panel" aria-labelledby="publicMeasurementsHeading">
+        <div class="form-head">
+          <div><div class="eyebrow">MEDIÇÕES PUBLICADAS</div>
+            <h2 id="publicMeasurementsHeading">Registro de medições</h2>
+            <p>Valores registrados pela administração, apenas para visualização.</p>
+          </div>
+        </div>
+        <div class="public-measurements-summary">
+          <span id="publicMeasurementsDate">Carregando as medições…</span>
+          <span id="publicMeasurementsCount">0 de 12 medidas informadas</span>
+        </div>
+        <dl id="publicMeasurementsGrid" class="public-measurements-grid" aria-label="Medições registradas pela administração"></dl>
+        <p class="public-measurements-note">Estes valores são compartilhados com todos os visitantes deste site e não podem ser editados aqui.</p>
+      </section>
+      <section class="panel" id="initialPanel" hidden aria-labelledby="formHeading">
         <div class="form-head">
           <div><div class="eyebrow">Avaliação inicial</div><h2 id="formHeading">Vamos conhecer seu início.</h2><p>Preencha uma vez e consulte quando precisar.</p></div>
 
@@ -103,7 +117,7 @@
           <span id="saveStatusText">Os dados são salvos neste navegador.</span>
         </div>
       </section>
-      <section class="panel indicators-panel" aria-labelledby="indicatorsHeading">
+      <section class="panel indicators-panel" hidden aria-labelledby="indicatorsHeading">
         
         <h2 id="indicatorsHeading" style="margin:7px 0 7px;font-size:22px;letter-spacing:-.7px">Indicadores</h2>
         
@@ -133,7 +147,7 @@
 
         <p class="indicator-disclaimer">Indicadores de triagem, não diagnósticos. IMC não distingue músculo de gordura.</p>
       </section>
-      <section class="panel bodies-panel" aria-labelledby="bodiesHeading">
+      <section class="panel bodies-panel" hidden aria-labelledby="bodiesHeading">
         
         <h2 class="bodies-heading" id="bodiesHeading">Faixas de IMC</h2>
         
@@ -141,7 +155,7 @@
         <div class="bodies-result" id="bodiesResult" role="status" aria-live="polite">Preencha o peso e a altura para destacar a faixa de IMC.</div>
         <p class="bodies-note">Silhuetas ilustrativas. O IMC não representa a aparência real.</p>
       </section>
-      <section class="panel comparison-panel" aria-labelledby="comparisonHeading">
+      <section class="panel comparison-panel" hidden aria-labelledby="comparisonHeading">
         
         <h2 id="comparisonHeading" style="margin:6px 0 8px;font-size:22px;letter-spacing:-.6px">Medidas × referência</h2>
         
@@ -173,10 +187,10 @@
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<script src="./content.js?v=2.4.2-admin-content-20261102" defer></script>
-<script src="./app.js?v=2.4.2-admin-content-20261102" defer></script>
-<script src="./videos.js?v=2.4.2-admin-content-20261102" defer></script>
-<script src="./treinos.js?v=2.4.2-admin-content-20261102" defer></script>
-<script src="./experience.js?v=2.4.2-admin-content-20261102" defer></script>
+<script src="./content.js?v=2.4.3-measures-readonly-20261102" defer></script>
+<script src="./app.js?v=2.4.3-measures-readonly-20261102" defer></script>
+<script src="./videos.js?v=2.4.3-measures-readonly-20261102" defer></script>
+<script src="./treinos.js?v=2.4.3-measures-readonly-20261102" defer></script>
+<script src="./experience.js?v=2.4.3-measures-readonly-20261102" defer></script>
 </body>
 </html>
