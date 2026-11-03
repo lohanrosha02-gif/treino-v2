@@ -4,7 +4,7 @@
   var mount=document.getElementById('trainingMount');
   if(!bridge||!mount)return;
   var dayChoice='A';
-  try{var remembered=localStorage.getItem('meu-treino-sessao-v2');if(/^[ABCD]$/.test(remembered))dayChoice=remembered;}catch(e){}
+  try{var remembered=localStorage.getItem('meu-treino-sessao-v2-'+String(window.MeuTreinoStorageSuffix||'sessao'));if(remembered)dayChoice=remembered;}catch(e){}
   var plans={
     A:{
       title:'Peito + costas + braços',
@@ -83,6 +83,10 @@
       cardio:{name:'Caminhada em esteira inclinada',dose:'15 min · leve',suggestion:'Começar em baixa velocidade e inclinação mínima. Aumentar inclinação somente se indolor; retornar ao plano ou interromper se piorarem os joelhos. Não correr.',kind:'cardio'}
     }
   };
+  // Visual e registro originais; ficha individual alimentada pelo ADM.
+  if(window.MeuTreinoCustomPlan && typeof window.MeuTreinoCustomPlan==='object')plans=window.MeuTreinoCustomPlan;
+  var dayKeys=Object.keys(plans);
+  if(!dayKeys.includes(dayChoice))dayChoice=dayKeys[0]||'A';
   var progression=[
     {range:'Semanas 1–2',text:'Aprender a execução e usar cargas leves.'},
     {range:'Semanas 3–4',text:'Progredir repetições se estiver confortável.'},
@@ -181,7 +185,7 @@
     return '<div class="train-step-row">'+items.map(function(m,index){
       return '<details class="train-step"><summary><span class="train-step-index">'+(index+1)+'</span>'
         +'<span class="train-step-content"><strong>'+escapeHtml(m.name)+'</strong><small>'+escapeHtml(m.dose)+'</small></span></summary>'
-        +'<div class="train-step-body">'+teachingVideo(m.id)+stepsList(m.steps)+(m.cue?'<p class="exercise-note caution">'+escapeHtml(m.cue)+'</p>':'')+'</div></details>';
+        +'<div class="train-step-body">'+teachingVideo(m.videoId||m.id)+stepsList(m.steps||[])+(m.cue?'<p class="exercise-note caution">'+escapeHtml(m.cue)+'</p>':'')+'</div></details>';
     }).join('')+'</div>';
   }
 
@@ -256,7 +260,7 @@
     var card=mount.querySelector('#exercise-'+exercise.id);
     if(card){card.classList.toggle('is-done',exerciseIsComplete(exercise,entry));var label=card.querySelector('.exercise-ordinal');if(label)label.textContent=exerciseIsComplete(exercise,entry)?'✓':String(plans[dayChoice].exercises.indexOf(exercise)+1);}
     var bar=mount.querySelector('[data-session-bar]');
-    if(bar)bar.style.width=(completed/plans[dayChoice].exercises.length*100)+'%';
+    if(bar)bar.style.width=((plans[dayChoice].exercises.length?completed/plans[dayChoice].exercises.length*100:0))+'%';
     var caption=mount.querySelector('[data-session-progress]');
     if(caption)caption.textContent=completed+' de '+plans[dayChoice].exercises.length+' exercícios completos';
   }
@@ -272,12 +276,12 @@
       +'<div class="train-exercise-body">'
       +'<div class="exercise-meta"><span>'+escapeHtml(x.muscle)+'</span>'
       +(x.caution?'<span class="safety">Sem dor</span>':'')+'</div>'
-      +teachingVideo(x.id)
-      +stepsList(x.steps)
+      +teachingVideo(x.videoId||x.id)
+      +stepsList(x.steps||[])
       +(disp?'<p class="exercise-note"><strong>Alternativa no hotel:</strong> '+escapeHtml(disp)+' A demonstração acima corresponde ao exercício principal.</p>':'')
       +(x.cue?'<p class="exercise-note caution">'+escapeHtml(x.cue)+'</p>':'')
       +seriesRows(x,entry)
-      +'<button class="rest-button" type="button" data-rest="'+parseInt(x.rest,10)+'"><span aria-hidden="true">◷</span> Descansar '+parseInt(x.rest,10)+' segundos</button>'
+      +'<button class="rest-button" type="button" data-rest="'+(parseInt(x.rest,10)||60)+'"><span aria-hidden="true">◷</span> Descansar '+(parseInt(x.rest,10)||60)+' segundos</button>'
       +'</div></details>';
   }
   function field(label,id,type,value,extra){
@@ -288,29 +292,31 @@
   function render(){
     if(!mount)return;
     mount.querySelectorAll('video').forEach(function(v){v.pause();});
-    var week=bridge.getWeek(),p=plans[dayChoice],r=safeRecord(),location=r.location==='hotel'?'hotel':'condominio';
-    var completed=['A','B','C','D'].filter(function(key){return getDayRecord(key).complete===true;}).length;
+    var week=bridge.getWeek();
+    if(!dayKeys.length||!plans[dayChoice]){mount.innerHTML='<section class="panel"><h3>Nenhum treino publicado</h3><p>Seu professor ainda não adicionou sessões ao seu plano.</p></section>';return;}
+    var p=plans[dayChoice],r=safeRecord(),location=r.location==='hotel'?'hotel':'condominio';
+    var completed=dayKeys.filter(function(key){return getDayRecord(key).complete===true;}).length;
     var completedExercises=p.exercises.filter(function(x){return exerciseIsComplete(x,r.exercises[x.id]);}).length;
 
     mount.innerHTML='<div class="training-guide">'
-      +'<nav class="train-day-nav" aria-label="Escolha a sessão">'+['A','B','C','D'].map(function(key){
+      +'<nav class="train-day-nav" aria-label="Escolha a sessão">'+dayKeys.map(function(key){
         var done=getDayRecord(key).complete===true,day=plans[key];
-        var shortName={A:'Superior',B:'Inferiores',C:'Superior',D:'Inferiores'}[key];
+        var shortName={A:'Superior',B:'Inferiores',C:'Superior',D:'Inferiores'}[key]||String(day.title||'Treino').slice(0,16);
         return '<button type="button" class="train-day-btn'+(dayChoice===key?' active':'')+(done?' completed':'')+'" data-day="'+key+'" aria-pressed="'+(dayChoice===key)+'"><span class="day-topline"><strong>'+key+'</strong><span class="train-done">'+(done?'✓':'')+'</span></span><small>'+shortName+'</small><span class="day-weekday">'+escapeHtml(day.interval)+'</span></button>';
       }).join('')+'</nav>'
       +'<section class="panel train-panel" aria-labelledby="trainingDetailTitle"><div class="train-panel-head"><div>'
       +'<span class="session-eyebrow">SESSÃO '+dayChoice+' <span>·</span> SEMANA '+String(week).padStart(2,'0')+'</span><h3 id="trainingDetailTitle">'+escapeHtml(p.title)+'</h3><p class="session-subtitle">'+escapeHtml(p.subtitle)+'</p></div>'
       +'<div class="training-summary"><span class="training-stat">'+escapeHtml(p.duration)+'</span></div></div>'
       +'<div class="train-equipment"><label for="trainingLocation">Local</label><select id="trainingLocation" aria-label="Local do treinamento"><option value="condominio"'+(location==='condominio'?' selected':'')+'>Condomínio</option><option value="hotel"'+(location==='hotel'?' selected':'')+'>Hotel</option></select></div>'
-      +'<div class="session-progress"><div><span data-session-progress>'+completedExercises+' de '+p.exercises.length+' exercícios completos</span><span>Tudo salvo automaticamente</span></div><div class="track"><div data-session-bar style="width:'+(completedExercises/p.exercises.length*100)+'%"></div></div></div>'
+      +'<div class="session-progress"><div><span data-session-progress>'+completedExercises+' de '+p.exercises.length+' exercícios completos</span><span>Tudo salvo automaticamente</span></div><div class="track"><div data-session-bar style="width:'+((p.exercises.length?completedExercises/p.exercises.length*100:0))+'%"></div></div></div>'
       +'<p class="train-safety-short" role="note">Joelhos: não force dor ou travamento. Avalie antes de aumentar cargas.</p>'
       +'<h4 class="train-section-title"><span>01</span> Prepare o corpo <small>Mobilidade · 6–8 min</small></h4>'
       +guideSteps(p.mobility)
       +'<h4 class="train-section-title"><span>02</span> Seu treino <small>'+p.exercises.length+' exercícios</small></h4>'
       +'<div class="train-exercises">'+p.exercises.map(function(x,index){return renderExercise(x,index,location,r.exercises[x.id]);}).join('')+'</div>'
 
-      +'<h4 class="train-section-title"><span>03</span> Finalize em movimento <small>Cardio</small></h4>'
-      +'<details class="train-step"><summary><span class="train-step-index">♥</span><span class="train-step-content"><strong>'+escapeHtml(p.cardio.name)+'</strong><small>'+escapeHtml(p.cardio.dose)+'</small></span></summary><div class="train-step-body"><p>'+escapeHtml(p.cardio.suggestion)+'</p>'+teachingVideo('cardio'+dayChoice)+'</div></details>'
+      +(p.cardio&&p.cardio.name?'<h4 class="train-section-title"><span>03</span> Finalize em movimento <small>Cardio</small></h4>'
+      +'<details class="train-step"><summary><span class="train-step-index">♥</span><span class="train-step-content"><strong>'+escapeHtml(p.cardio.name)+'</strong><small>'+escapeHtml(p.cardio.dose)+'</small></span></summary><div class="train-step-body"><p>'+escapeHtml(p.cardio.suggestion)+'</p>'+teachingVideo(p.cardio.videoId||'cardio'+dayChoice)+'</div></details>':'')
 
       +'<details class="train-log"><summary><strong>Registro</strong><span data-exercises-progress>'+completedExercises+'/'+p.exercises.length+' exercícios</span></summary>'
       +'<div class="workout-session-form">'
@@ -407,7 +413,7 @@
       return;
     }
     var dayBtn=event.target.closest('[data-day]');
-    if(dayBtn&&plans[dayBtn.dataset.day]){dayChoice=dayBtn.dataset.day;try{localStorage.setItem('meu-treino-sessao-v2',dayChoice);}catch(e){}render();return;}
+    if(dayBtn&&plans[dayBtn.dataset.day]){dayChoice=dayBtn.dataset.day;try{localStorage.setItem('meu-treino-sessao-v2-'+String(window.MeuTreinoStorageSuffix||'sessao'),dayChoice);}catch(e){}render();return;}
     var act=event.target.closest('[data-action]');if(!act)return;
     var r=safeRecord();
     if(act.dataset.action==='save'){
@@ -472,7 +478,7 @@
   if(window.MeuTreinoContentReady){
     window.MeuTreinoContentReady.then(function(content){
       if(!content)return;
-      applyPublishedPlans(content);
+      if(!window.MeuTreinoCustomPlan)applyPublishedPlans(content);
       render();
     });
   }
