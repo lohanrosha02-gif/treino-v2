@@ -4,12 +4,14 @@ Este repositório é o **site principal, somente para consulta**. O cadastro de 
 
 ## Como funciona
 
-- O cliente entra com e-mail e senha do Supabase Auth. O e-mail precisa estar confirmado e corresponder ao cadastrado pelo professor.
-- A função `claim_treino_client()` vincula a conta confirmada ao cliente previamente cadastrado.
-- A tela mostra **somente as próprias** 12 medições corporais e as sessões de treino com exercícios, doses, descanso, instruções e vídeos locais.
+- O aluno cria a própria conta com nome, e-mail e senha e confirma o e-mail. O cadastro só libera acesso depois da aprovação no painel ADM.
+- A função `register_treino_client()` registra a conta confirmada como pendente, mesmo sem cadastro prévio pelo professor.
+- A tela mostra **somente as próprias** 12 medições corporais e as sessões personalizadas, com imagens de prévia e vídeos dos exercícios.
+- A aba **Todos os exercícios + vídeos** restaura os treinos originais **A, B, C e D**, com **40 demonstrações**, imagens e orientações. Esse acervo é referência, não substitui a prescrição individual.
 - Nenhum cliente tem botão para alterar medidas ou treinos. O banco usa Row Level Security (RLS), e não apenas o bloqueio visual, para impedir gravação por clientes e leitura de outros clientes.
 - O tema claro/escuro, inclusive fundo preto no escuro, segue funcionando. Vídeos anteriores continuam em `assets/videos/` e as mídias são vinculadas por IDs existentes.
-- Um aviso publicado no painel administrativo aparece a todos os clientes autenticados.
+- Um aviso publicado no painel administrativo aparece aos clientes aprovados.
+- Na aprovação, o painel ADM atribui o plano-base A–D somente a quem ainda não tem plano; treinos personalizados já existentes são preservados.
 
 ## Ativar
 
