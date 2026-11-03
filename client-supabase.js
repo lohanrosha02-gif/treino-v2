@@ -1,7 +1,7 @@
 (function(){
   'use strict';
   const $=id=>document.getElementById(id);
-  let db=null,approvedClient=null,mounted=false,recoveryMode=false,saveTimer=null,saveQueue=Promise.resolve();
+  let db=null,approvedClient=null,mounted=false,recoveryMode=false,saveTimer=null,saveQueue=Promise.resolve(),saveRevision=0;
   function show(mode){
     const names=['login','signupFormSection','pendingSection','resetForm','setup'];
     const target={login:'login',signup:'signupFormSection',pending:'pendingSection',reset:'resetForm',setup:'setup'}[mode];
@@ -19,9 +19,20 @@
   function check(result){if(result.error)throw result.error;return result.data;}
   function errorMessage(error){
     const message=error&&error.message?error.message:String(error);
-    return /email rate limit exceeded/i.test(message)?'Limite de e-mails atingido. Tente novamente mais tarde. Verifique o SMTP no Supabase.':
-      /invalid login credentials/i.test(message)?'E-mail ou senha incorretos.':
-      /email not confirmed/i.test(message)?'Confirme o e-mail recebido antes de entrar.':message;
+    const code=String(error&&error.code||'').toLowerCase();
+    const status=Number(error&&error.status||0);
+    if(status===429||/\b429\b|rate.?limit|too many requests/i.test(message)){
+      return 'O limite temporário de envio de e-mails foi atingido. Aguarde um pouco antes de tentar novamente e confira a caixa de spam.';
+    }
+    if(code==='email_not_confirmed'||/email not confirmed/i.test(message)){
+      return 'Confirme o e-mail recebido antes de entrar. Se não encontrar, use “Reenviar confirmação”.';
+    }
+    if(/register_treino_client/i.test(message)&&(/pgrst202|schema cache|could not find/i.test(message+' '+code))){
+      return 'O autocadastro ainda não foi habilitado no banco. Aplique as migrações do Supabase indicadas no guia do projeto.';
+    }
+    if(/invalid login credentials/i.test(message))return 'E-mail ou senha incorretos.';
+    if(/failed to fetch|networkerror|fetch failed/i.test(message))return 'Não foi possível conectar ao serviço. Confira sua internet e tente novamente.';
+    return message;
   }
   function err(error){notice(errorMessage(error),true);}
   function configValid(config){
@@ -91,14 +102,21 @@
     return function(payload){
       if(!approvedClient||approvedClient.id!==clientId)return;
       const snapshot=JSON.parse(JSON.stringify(payload));
+      const revision=++saveRevision;
       clearTimeout(saveTimer);
       saveTimer=setTimeout(()=>{
-        saveQueue=saveQueue.then(async()=>{
+        const queued=saveQueue.then(async()=>{
           const response=await db.from('client_progress').upsert({
             client_id:clientId,progress:snapshot,updated_at:new Date().toISOString()
           });
-          if(response.error)console.warn('Progresso salvo no navegador; sincronização indisponível.',response.error.message);
-        }).catch(err=>console.warn('Sincronização indisponível:',err.message));
+          if(response.error)throw response.error;
+          if(revision===saveRevision)window.dispatchEvent(new CustomEvent('meutreino:sync-status',{detail:{state:'synced'}}));
+        }).catch(error=>{
+          console.warn('Progresso salvo no navegador; sincronização indisponível.',error&&error.message||String(error));
+          if(revision===saveRevision)window.dispatchEvent(new CustomEvent('meutreino:sync-status',{detail:{state:'local'}}));
+        });
+        saveQueue=queued;
+        window.dispatchEvent(new CustomEvent('meutreino:sync-status',{detail:{state:'syncing'}}));
       },700);
     };
   }
@@ -111,6 +129,7 @@
     window.MeuTreinoPlanKeys=Object.keys(parsed);
     window.MeuTreinoStorageSuffix=client.auth_user_id||client.id;
     window.MeuTreinoInitialProgress=progress?.progress||null;
+    window.MeuTreinoInitialProgressUpdatedAt=progress?.updated_at||null;
     window.MeuTreinoSaveProgress=syncProgress(client.id);
     window.MeuTreinoContentReady=Promise.resolve({schemaVersion:1,site:{
       eyebrow:'ACOMPANHAMENTO PESSOAL',
@@ -123,7 +142,7 @@
       announcement:{enabled:announcement?.enabled===true,title:announcement?.title||'',message:announcement?.message||''}
     }});
     // Sequência original: estado do plano, fichas em vídeo, progresso, cronômetro e backup.
-    await loadScript('./app.js?v=avaliacao-3.1');
+    await loadScript('./app.js?v=avaliacao-3.2-sync-status');
     await loadScript('./treinos.js?v=legacy-3.0');
     await loadScript('./experience.js?v=legacy-3.0');
     await loadScript('./legacy-catalog.js?v=legacy-3.0');
@@ -147,7 +166,7 @@
       db.from('client_measurements').select('measurement_date,values_cm').eq('client_id',client.id).maybeSingle(),
       db.from('client_plans').select('plan').eq('client_id',client.id).maybeSingle(),
       db.from('site_announcements').select('enabled,title,message').eq('id',1).maybeSingle(),
-      db.from('client_progress').select('progress').eq('client_id',client.id).maybeSingle()
+      db.from('client_progress').select('progress,updated_at').eq('client_id',client.id).maybeSingle()
     ]);
     const [measure,plan,announcement,progress]=results.map(check);
     await mountLegacy(client,measure,plan,announcement,progress);
@@ -217,6 +236,18 @@
     try{
       check(await db.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname}));
       notice('Se o e-mail existir, enviaremos as instruções de recuperação.');
+    }catch(e){err(e);}
+  });
+  $('resendConfirmation').addEventListener('click',async()=>{
+    if(!db)return;
+    const email=$('email').value.trim().toLowerCase();
+    if(!email){notice('Digite seu e-mail para solicitar a confirmação.',true);return;}
+    try{
+      notice('Solicitando o e-mail de confirmação...');
+      check(await db.auth.resend({
+        type:'signup',email,options:{emailRedirectTo:location.origin+location.pathname}
+      }));
+      notice('Se houver um cadastro pendente para esse e-mail, enviaremos outro link. Confira também a caixa de spam.');
     }catch(e){err(e);}
   });
   $('newPasswordForm').addEventListener('submit',async e=>{
