@@ -114,8 +114,8 @@
     window.MeuTreinoSaveProgress=syncProgress(client.id);
     window.MeuTreinoContentReady=Promise.resolve({schemaVersion:1,site:{
       eyebrow:'ACOMPANHAMENTO PESSOAL',
-      evaluationTitle:'Medições corporais',
-      evaluationLead:'Medidas registradas pelo seu professor, disponíveis somente para você.',
+      evaluationTitle:'Minha avaliação corporal',
+      evaluationLead:'Sua avaliação pessoal com IMC e cálculos automáticos, mais as medidas atualizadas pelo professor.',
       trainingTitle:'Seu treino. Seu ritmo.',
       trainingLead:'Abra os exercícios, veja o movimento e registre a evolução de cada série.',
       footer:'Meu Treino · Seu plano de 8 semanas',

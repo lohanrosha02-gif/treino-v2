@@ -8,7 +8,8 @@ Este repositório é o **site principal dos alunos**, com o visual completo da v
 - A função `register_treino_client()` registra a conta confirmada como pendente, mesmo sem cadastro prévio pelo professor.
 - A interface mantém o **layout antigo** e as **8 semanas**, seleção de treinos por dia, vídeos animados com imagens, registro de séries, cargas, repetições e tempos, notas, treino concluído e evolução semanal.
 - Continuam funcionando o cronômetro de descanso, tema claro/escuro e backup/exportação/importação de registros.
-- A tela mostra somente as **12 medidas do aluno** e os treinos que o professor atribuiu via Supabase.
+- A avaliação pessoal original foi restaurada: o aluno pode preencher e atualizar **idade, peso, altura, cintura, abdômen, quadril, busto, tórax, braços, coxa e panturrilha**; o site calcula automaticamente **IMC, cintura/altura e cintura/quadril**, mostra as figuras de faixas de IMC e a tabela de comparação.
+- A avaliação pessoal pertence à conta e é salva no `client_progress` com RLS. Em seção separada, o aluno vê as **12 medidas atuais registradas pelo professor no ADM**, apenas para consulta.
 - O menu **Vídeos e exercícios** contém os **40 movimentos originais** dos treinos A, B, C e D.
 - O histórico de séries é salvo localmente com chave diferente por conta e sincronizado na tabela `client_progress`, protegida por RLS.
 - O aluno **registra sua execução e evolução**, mas não tem permissão para alterar as medidas publicadas nem a estrutura da ficha. O banco usa Row Level Security (RLS), e não apenas o bloqueio visual, para impedir gravação por clientes e leitura de outros clientes.

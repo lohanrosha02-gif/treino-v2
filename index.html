@@ -113,23 +113,11 @@
 
 
       <div class="tab-content" id="evaluationTab" role="tabpanel" aria-labelledby="tabEvaluation">
-      <section class="panel public-measurements-panel" aria-labelledby="publicMeasurementsHeading">
+      <div class="evaluation-intro"><div class="eyebrow">ACOMPANHAMENTO CORPORAL</div><h2>Minha avaliação inicial</h2><p>Preencha suas informações e acompanhe os cálculos automáticos abaixo.</p></div>
+
+      <section class="panel" id="initialPanel" aria-labelledby="formHeading">
         <div class="form-head">
-          <div><div class="eyebrow">MEDIÇÕES PUBLICADAS</div>
-            <h2 id="publicMeasurementsHeading">Registro de medições</h2>
-            <p>Valores registrados pela administração, apenas para visualização.</p>
-          </div>
-        </div>
-        <div class="public-measurements-summary">
-          <span id="publicMeasurementsDate">Carregando as medições…</span>
-          <span id="publicMeasurementsCount">0 de 12 medidas informadas</span>
-        </div>
-        <dl id="publicMeasurementsGrid" class="public-measurements-grid" aria-label="Medições registradas pela administração"></dl>
-        <p class="public-measurements-note">Estes valores pertencem somente à sua conta. Apenas o professor pode modificá-los.</p>
-      </section>
-      <section class="panel" id="initialPanel" hidden aria-labelledby="formHeading">
-        <div class="form-head">
-          <div><div class="eyebrow">Avaliação inicial</div><h2 id="formHeading">Vamos conhecer seu início.</h2><p>Preencha uma vez e consulte quando precisar.</p></div>
+          <div><div class="eyebrow">Avaliação pessoal</div><h2 id="formHeading">Sua coleta de dados</h2><p>Idade, peso, altura e medidas corporais. Você pode preencher e atualizar; os cálculos aparecem automaticamente.</p></div>
 
         </div>
         <div class="info-strip">
@@ -154,12 +142,12 @@
         </form>
         <div class="save-msg" id="saveStatus" role="status" aria-live="polite">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
-          <span id="saveStatusText">Os dados são salvos neste navegador.</span>
+          <span id="saveStatusText">Dados salvos no seu perfil e neste navegador.</span>
         </div>
       </section>
-      <section class="panel indicators-panel" hidden aria-labelledby="indicatorsHeading">
+      <section class="panel indicators-panel" aria-labelledby="indicatorsHeading">
         
-        <h2 id="indicatorsHeading" style="margin:7px 0 7px;font-size:22px;letter-spacing:-.7px">Indicadores</h2>
+        <h2 id="indicatorsHeading" style="margin:7px 0 7px;font-size:22px;letter-spacing:-.7px">Cálculos da sua avaliação</h2>
         
         <div class="indicator-grid">
           <article class="indicator-card">
@@ -185,9 +173,9 @@
           </article>
         </div>
 
-        <p class="indicator-disclaimer">Indicadores de triagem, não diagnósticos. IMC não distingue músculo de gordura.</p>
+        <p class="indicator-disclaimer">Cálculos com base nos valores preenchidos na avaliação pessoal. São indicadores, não diagnósticos.</p>
       </section>
-      <section class="panel bodies-panel" hidden aria-labelledby="bodiesHeading">
+      <section class="panel bodies-panel" aria-labelledby="bodiesHeading">
         
         <h2 class="bodies-heading" id="bodiesHeading">Faixas de IMC</h2>
         
@@ -195,9 +183,9 @@
         <div class="bodies-result" id="bodiesResult" role="status" aria-live="polite">Preencha o peso e a altura para destacar a faixa de IMC.</div>
         <p class="bodies-note">Silhuetas ilustrativas. O IMC não representa a aparência real.</p>
       </section>
-      <section class="panel comparison-panel" hidden aria-labelledby="comparisonHeading">
+      <section class="panel comparison-panel" aria-labelledby="comparisonHeading">
         
-        <h2 id="comparisonHeading" style="margin:6px 0 8px;font-size:22px;letter-spacing:-.6px">Medidas × referência</h2>
+        <h2 id="comparisonHeading" style="margin:6px 0 8px;font-size:22px;letter-spacing:-.6px">Minha avaliação × referência</h2>
         
         <div class="comparison-meta" id="comparisonDate">Avaliação inicial · sem data</div>
         <div class="compare-table-wrap">
@@ -207,7 +195,21 @@
           </table>
         </div>
       </section>
-
+      <div class="evaluation-divider"><div class="eyebrow">ACOMPANHAMENTO PROFISSIONAL</div><h2>Medidas atuais do professor</h2><p>Registradas individualmente para sua conta.</p></div>
+      <section class="panel public-measurements-panel" aria-labelledby="publicMeasurementsHeading">
+        <div class="form-head">
+          <div><div class="eyebrow">MEDIÇÕES PUBLICADAS</div>
+            <h2 id="publicMeasurementsHeading">Minha avaliação atual · professor</h2>
+            <p>Medidas atualizadas pelo professor no ADM. Você pode consultar, mas não alterar.</p>
+          </div>
+        </div>
+        <div class="public-measurements-summary">
+          <span id="publicMeasurementsDate">Carregando as medições…</span>
+          <span id="publicMeasurementsCount">0 de 12 medidas informadas</span>
+        </div>
+        <dl id="publicMeasurementsGrid" class="public-measurements-grid" aria-label="Medições registradas pela administração"></dl>
+        <p class="public-measurements-note">Estes valores pertencem somente à sua conta. Apenas o professor pode modificá-los.</p>
+      </section>
       </div>
 
       <div class="tab-content" id="trainingTab" role="tabpanel" aria-labelledby="tabTraining" hidden>
