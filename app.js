@@ -252,7 +252,7 @@
     var valid=function(value){
       if(typeof value!=='string'&&typeof value!=='number')return null;
       var raw=String(value).trim();
-      if(!/^\\d{1,3}(?:[,.]\\d{1,2})?$/.test(raw))return null;
+      if(!/^\d{1,3}(?:[,.]\d{1,2})?$/.test(raw))return null;
       var number=Number(raw.replace(',','.'));
       return number>0&&number<=300?number:null;
     };
@@ -270,7 +270,7 @@
     });
     count.textContent=filled+' de '+publishedMeasureFields.length+' medidas informadas';
     var rawDate=measurements&&typeof measurements.date==='string'?measurements.date:'';
-    if(/^\\d{4}-\\d{2}-\\d{2}$/.test(rawDate)){
+    if(/^\d{4}-\d{2}-\d{2}$/.test(rawDate)){
       var parts=rawDate.split('-');date.textContent='Data do registro: '+parts[2]+'/'+parts[1]+'/'+parts[0];
     }else date.textContent=available?(filled?'Registro publicado pela administração':'Nenhuma medição publicada até agora.'):'Não foi possível carregar as medições. Atualize a página.';
   }
