@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="./treinos.css?v=3.4-medidas-professora-20261103">
   <link rel="stylesheet" href="./site-announcement.css?v=3.0">
   <link rel="stylesheet" href="./client-supabase.css?v=portal-medidas-sem-busto-cintura-3.7">
-  <link rel="stylesheet" href="./theme.css?v=20261103-roxo-sem-verde-3.6">
+  <link rel="stylesheet" href="./theme.css?v=20261103-header-cliente-3.7">
 </head>
 <body>
 <a class="skip-link" href="#mainContent">Pular para o conteúdo</a>
@@ -22,7 +22,7 @@
       <div class="brand-icon" aria-hidden="true">
         <svg viewBox="0 0 32 32" fill="none"><path d="M5 20.5 11.8 11l5.2 6.2 9-10" stroke="#E2F1D3" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M21.5 7.2H26v4.5" stroke="#E2F1D3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </div>
-      <div><div class="brand-title">meu treino<span style="color:#528b67">.</span></div><div class="brand-sub">TREINOS E AVALIAÇÃO</div></div>
+      <div class="brand-copy"><div class="brand-name-line"><div class="brand-title">meu treino<span style="color:#528b67">.</span></div><span class="brand-client-name" id="headerClientName" hidden></span></div><div class="brand-sub">TREINOS E AVALIAÇÃO</div></div>
     </div>
     <div class="header-tools"><span class="top-pill"><span class="dot"></span> Plano de 8 semanas</span>
       <button type="button" class="theme-toggle" id="themeToggle" aria-label="Ativar tema escuro" aria-pressed="false" title="Ativar tema escuro">
@@ -31,9 +31,7 @@
         <span id="themeToggleText">Tema escuro</span>
       </button>
       <button id="logout" type="button" class="outline-btn logout" hidden>Sair</button>
-      <details class="backup-menu" hidden><summary aria-label="Gerenciar backup"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 15v5h16v-5"/></svg><span>Meus dados</span></summary>
-      <div class="backup-options"><button type="button" id="exportBackup">Baixar backup</button><button type="button" id="importBackup">Restaurar backup</button><small>O arquivo baixado fica neste dispositivo; o progresso também sincroniza com sua conta.</small></div></details>
-      <input type="file" id="backupFile" accept="application/json,.json" hidden></div>
+      </div>
   </div>
 </header>
 
@@ -181,6 +179,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js" defer></script>
 <script src="./supabase-config.js?v=3.0" defer></script>
 <script src="./videos.js?v=20261103-exercicios-professora-3.2" defer></script>
-  <script src="./client-supabase.js?v=20261103-sessoes-legiveis-3.8" defer></script>
+  <script src="./client-supabase.js?v=20261103-header-cliente-3.9" defer></script>
 </body>
 </html>
