@@ -1,0 +1,180 @@
+/* Seletor do tema: acessível e compacto em telas pequenas. */
+.theme-toggle{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:8px 12px;border:1px solid var(--line);background:var(--surface);border-radius:10px;color:var(--ink);font-size:12px;font-weight:700;white-space:nowrap;transition:background .15s,border-color .15s,color .15s}
+.theme-toggle:hover{background:var(--accent-soft);border-color:var(--accent)}
+.theme-toggle svg{width:18px;height:18px;flex:none}
+.theme-toggle-icon--sun{display:none}
+html[data-theme="dark"] .theme-toggle-icon--sun{display:block}
+html[data-theme="dark"] .theme-toggle-icon--moon{display:none}
+@media(max-width:540px){.theme-toggle{width:40px;min-width:40px;height:40px;padding:8px}.theme-toggle span{display:none}.header-tools{gap:9px}}
+@media(prefers-reduced-motion:reduce){.theme-toggle{transition:none}}
+
+/* As fichas continuam com o fundo branco dos vídeos/imagens de demonstração. */
+html[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#101914;
+  --surface:#1a2820;
+  --ink:#e9f3ea;
+  --muted:#b0c2b4;
+  --accent:#a5d7a9;
+  --accent-deep:#a9dcb1;
+  --accent-soft:#293e30;
+  --line:#3b4e40;
+  --warm:#2c4330;
+  --shadow:0 10px 28px rgba(0,0,0,.15);
+}
+html[data-theme="dark"] body{background:var(--bg);color:var(--ink)}
+html[data-theme="dark"] .topbar{background:#17221b;border-color:var(--line)}
+html[data-theme="dark"] .brand-sub,
+html[data-theme="dark"] .top-pill,
+html[data-theme="dark"] .page-head .eyebrow,
+html[data-theme="dark"] .page-head .lead,
+html[data-theme="dark"] .side-label,
+html[data-theme="dark"] .footer{color:var(--muted)}
+html[data-theme="dark"] .theme-toggle{background:#223329;color:var(--ink)}
+html[data-theme="dark"] .theme-toggle:hover{background:#314638}
+html[data-theme="dark"] .backup-menu>summary{background:#223329;color:var(--ink)}
+html[data-theme="dark"] .backup-options{background:#202f25;border-color:var(--line);box-shadow:0 10px 35px #0007}
+html[data-theme="dark"] .backup-options button{color:var(--ink)}
+html[data-theme="dark"] .backup-options button:hover{background:var(--accent-soft)}
+html[data-theme="dark"] .nav-panel,
+html[data-theme="dark"] .panel,
+html[data-theme="dark"] .week-panel,
+html[data-theme="dark"] .side-progress{background:var(--surface);border-color:var(--line)}
+html[data-theme="dark"] .side-plan{background:#26372b;border-color:var(--line)}
+html[data-theme="dark"] .side-progress .small-heading,
+html[data-theme="dark"] .side-plan .small-heading,
+html[data-theme="dark"] .side-plan strong span,
+html[data-theme="dark"] .side-plan p{color:var(--muted)}
+html[data-theme="dark"] .side-progress .big-progress #weeksCompleted{color:var(--ink)}
+html[data-theme="dark"] .side-progress .big-progress span{color:var(--muted)}
+html[data-theme="dark"] .track,
+html[data-theme="dark"] .side-plan .track{background:#3b5040}
+html[data-theme="dark"] .track div{background:#96c99a}
+html[data-theme="dark"] .nav-panel button.nav-item[aria-selected=false]{background:transparent;color:#c2d0c0}
+html[data-theme="dark"] .nav-panel button.nav-item[aria-selected=false]:hover{background:#304436}
+html[data-theme="dark"] .nav-panel button.nav-item[aria-selected=true]{background:#344c3a;color:#e6fae7;border-color:#49634e}
+html[data-theme="dark"] .week-button,
+html[data-theme="dark"] .week-button:not(.active){background:#223329!important;border-color:#405444;color:var(--muted)}
+html[data-theme="dark"] .week-button b,
+html[data-theme="dark"] .week-button small{color:#d0e0ce}
+html[data-theme="dark"] .week-button.active{background:#416447!important;border-color:#89ba8d;color:#fff}
+html[data-theme="dark"] .week-button.active b,
+html[data-theme="dark"] .week-button.active small{color:#fff}
+html[data-theme="dark"] .week-button.complete:not(.active){background:#304d36!important;border-color:#698e6b}
+html[data-theme="dark"] .week-button.has-data .wk-mark{background:#b9efae}
+html[data-theme="dark"] .train-day-btn{background:#233228;color:var(--muted);border-color:var(--line)}
+html[data-theme="dark"] .train-day-btn:hover{background:#304638;border-color:#739478}
+html[data-theme="dark"] .train-day-btn.active{background:#37503c;border-color:#92bd98;box-shadow:0 0 0 1px #668971}
+html[data-theme="dark"] .day-topline strong,
+html[data-theme="dark"] .train-day-btn.active strong,
+html[data-theme="dark"] .train-day-btn.active small,
+html[data-theme="dark"] .day-weekday,
+html[data-theme="dark"] .train-done{color:#d9f0d9}
+html[data-theme="dark"] .train-panel-head h3,
+html[data-theme="dark"] .train-section-title,
+html[data-theme="dark"] .train-step-content strong,
+html[data-theme="dark"] .exercise-name,
+html[data-theme="dark"] .group-title{color:var(--ink)}
+html[data-theme="dark"] .session-eyebrow,
+html[data-theme="dark"] .session-subtitle,
+html[data-theme="dark"] .train-equipment,
+html[data-theme="dark"] .train-section-title small,
+html[data-theme="dark"] .train-step-content small,
+html[data-theme="dark"] .exercise-description,
+html[data-theme="dark"] .session-progress>div:first-child{color:var(--muted)}
+html[data-theme="dark"] .train-equipment select,
+html[data-theme="dark"] .date-row input,
+html[data-theme="dark"] .entry,
+html[data-theme="dark"] .series-input input,
+html[data-theme="dark"] .workout-field input,
+html[data-theme="dark"] .workout-field textarea{background:#121d16;color:var(--ink);border-color:#536753}
+html[data-theme="dark"] input::placeholder,
+html[data-theme="dark"] textarea::placeholder{color:#a9baa9}
+html[data-theme="dark"] input{accent-color:#95c59a}
+html[data-theme="dark"] .training-stat,
+html[data-theme="dark"] .train-section-title>span,
+html[data-theme="dark"] .train-step-index,
+html[data-theme="dark"] .exercise-ordinal,
+html[data-theme="dark"] .exercise-meta span{background:#2d4334;color:#c0dec0;border-color:var(--line)}
+html[data-theme="dark"] .train-step,
+html[data-theme="dark"] .train-exercise,
+html[data-theme="dark"] .train-log{background:#1d2d23;border-color:var(--line)}
+html[data-theme="dark"] .train-step summary:hover,
+html[data-theme="dark"] .train-exercise summary:hover{background:#2b3e31}
+html[data-theme="dark"] .train-step[open]>summary,
+html[data-theme="dark"] .train-exercise[open]>summary,
+html[data-theme="dark"] .train-log>summary{background:#304333;border-color:var(--line)}
+html[data-theme="dark"] .train-step-body,
+html[data-theme="dark"] .train-exercise-body{color:#c5d7c7}
+html[data-theme="dark"] .exercise-meta .safety,
+html[data-theme="dark"] .exercise-note.caution,
+html[data-theme="dark"] .train-safety-short{background:#3c3425;color:#f0d7a0;border-color:#65563a}
+html[data-theme="dark"] .exercise-note,
+html[data-theme="dark"] .series-tracker,
+html[data-theme="dark"] .video-pending{background:#24392a;color:#c7d9bd;border-color:var(--line)}
+html[data-theme="dark"] .series-row+.series-row{border-color:var(--line)}
+html[data-theme="dark"] .series-number,
+html[data-theme="dark"] .series-input span,
+html[data-theme="dark"] .series-done,
+html[data-theme="dark"] .series-history,
+html[data-theme="dark"] .series-legacy,
+html[data-theme="dark"] .workout-field label,
+html[data-theme="dark"] .workout-last,
+html[data-theme="dark"] .workout-check,
+html[data-theme="dark"] .train-log>summary span{color:var(--muted)}
+html[data-theme="dark"] .rest-button,
+html[data-theme="dark"] .workout-actions button{background:#2e4834;color:#daf3d8;border-color:#59745b}
+html[data-theme="dark"] .rest-button:hover{background:#38583f}
+html[data-theme="dark"] .workout-actions .save,
+html[data-theme="dark"] .primary-btn{background:#477d56;color:#fff;border-color:#477d56}
+html[data-theme="dark"] .workout-actions .clear,
+html[data-theme="dark"] .outline-btn{background:#233629;color:#e9f3ea;border-color:#58715c}
+html[data-theme="dark"] .plain-btn{color:#c6d2c5}
+html[data-theme="dark"] .indicator-card,
+html[data-theme="dark"] .body-figure-card,
+html[data-theme="dark"] .info-strip,
+html[data-theme="dark"] .page-count{background:#24342a;border-color:var(--line)}
+html[data-theme="dark"] .indicator-title,
+html[data-theme="dark"] .indicator-card p,
+html[data-theme="dark"] .indicator-disclaimer,
+html[data-theme="dark"] .bodies-note,
+html[data-theme="dark"] .body-figure-card small,
+html[data-theme="dark"] .field label,
+html[data-theme="dark"] .date-row label,
+html[data-theme="dark"] .info-strip .info-sub,
+html[data-theme="dark"] .save-msg{color:var(--muted)}
+html[data-theme="dark"] .indicator-value,
+html[data-theme="dark"] .info-strip .info-main,
+html[data-theme="dark"] .mini-circle,
+html[data-theme="dark"] .body-figure-card .body-current{color:#bce9bd}
+html[data-theme="dark"] .mini-circle,
+html[data-theme="dark"] .group-icon{background:#324737;border-color:#69896a;color:#c3e7bd}
+html[data-theme="dark"] .entry input{color:var(--ink)}
+html[data-theme="dark"] .entry .unit{color:#c5d6c5}
+html[data-theme="dark"] .compare-table thead th{background:#293c2f;color:#d0dfce}
+html[data-theme="dark"] .compare-table tbody th,
+html[data-theme="dark"] .compare-table .compare-current{color:var(--ink)}
+html[data-theme="dark"] .compare-table tbody td:last-child,
+html[data-theme="dark"] .comparison-meta{color:#c4dcc7}
+html[data-theme="dark"] .compare-table .calculated-row{background:#203027}
+html[data-theme="dark"] .comparison-meta,
+html[data-theme="dark"] .bodies-result{background:#293e30;border-color:var(--line);color:#d4eed2}
+html[data-theme="dark"] .body-figure-card.is-active{background:#314d38;border-color:#92bd92}
+html[data-theme="dark"] .status-badge.good,
+html[data-theme="dark"] .status-badge.normal{background:#244b32;border-color:#548563;color:#c5f1cd}
+html[data-theme="dark"] .status-badge.attention{background:#523d25;border-color:#8b643a;color:#ffe3b1}
+html[data-theme="dark"] .status-badge.alert{background:#512e2b;border-color:#83504a;color:#ffcbc1}
+html[data-theme="dark"] .status-badge.neutral{background:#344036;border-color:#56675b;color:#d1dcd0}
+html[data-theme="dark"] .teaching-video,
+html[data-theme="dark"] .teaching-image{border-color:var(--line)}
+html[data-theme="dark"] .teaching-video figcaption,
+html[data-theme="dark"] .teaching-image figcaption{background:#2a3c30;color:#d0e0cb;border-color:var(--line)}
+html[data-theme="dark"] .teaching-video figcaption button{color:#cde5c7}
+html[data-theme="dark"] .video-pending p{color:var(--muted)}
+html[data-theme="dark"] .workout-hero,
+html[data-theme="dark"] .week-ring>div{background:#234d38}
+html[data-theme="dark"] .toast{background:#315c40;color:#fff}
+@media(max-width:760px){
+  html[data-theme="dark"] .nav-panel{background:#223329;border-color:var(--line)}
+  html[data-theme="dark"] .nav-panel button.nav-item[aria-selected=true]{background:#3b5440;border-color:#69836d}
+}

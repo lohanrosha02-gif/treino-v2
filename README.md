@@ -5,6 +5,7 @@ Site estático de acompanhamento de oito semanas, com avaliação inicial indepe
 ## O que mudou
 
 - Interface responsiva em branco, verde e sálvia, com sessões e semanas mais claras.
+- Alternância entre tema claro e escuro no cabeçalho. A escolha fica salva em `meu-treino-tema-v1` no navegador, separada dos registros; sem escolha manual, acompanha o tema do dispositivo.
 - Progresso por exercício, semana e plano completo (32 sessões).
 - Cargas e repetições independentes por série, com histórico da semana anterior.
 - Cronômetro de descanso com pausa, reinício, acréscimo de tempo e som opcional.
