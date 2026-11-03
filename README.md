@@ -1,21 +1,24 @@
 # Meu Treino · Portal do cliente (Supabase)
 
-Este repositório é o **site principal, somente para consulta**. O cadastro de clientes, as medições e a gestão de treinos ficam no painel administrativo do repositório [`treino`](https://github.com/lohanrosha02-gif/treino).
+Este repositório é o **site principal dos alunos**, com o visual completo da versão anterior. O cadastro de clientes, as medições e a gestão de treinos ficam no painel administrativo do repositório [`treino`](https://github.com/lohanrosha02-gif/treino).
 
 ## Como funciona
 
 - O aluno cria a própria conta com nome, e-mail e senha e confirma o e-mail. O cadastro só libera acesso depois da aprovação no painel ADM.
 - A função `register_treino_client()` registra a conta confirmada como pendente, mesmo sem cadastro prévio pelo professor.
-- A tela mostra **somente as próprias** 12 medições corporais e as sessões personalizadas, com imagens de prévia e vídeos dos exercícios.
-- A aba **Todos os exercícios + vídeos** restaura os treinos originais **A, B, C e D**, com **40 demonstrações**, imagens e orientações. Esse acervo é referência, não substitui a prescrição individual.
-- Nenhum cliente tem botão para alterar medidas ou treinos. O banco usa Row Level Security (RLS), e não apenas o bloqueio visual, para impedir gravação por clientes e leitura de outros clientes.
+- A interface mantém o **layout antigo** e as **8 semanas**, seleção de treinos por dia, vídeos animados com imagens, registro de séries, cargas, repetições e tempos, notas, treino concluído e evolução semanal.
+- Continuam funcionando o cronômetro de descanso, tema claro/escuro e backup/exportação/importação de registros.
+- A tela mostra somente as **12 medidas do aluno** e os treinos que o professor atribuiu via Supabase.
+- O menu **Vídeos e exercícios** contém os **40 movimentos originais** dos treinos A, B, C e D.
+- O histórico de séries é salvo localmente com chave diferente por conta e sincronizado na tabela `client_progress`, protegida por RLS.
+- O aluno **registra sua execução e evolução**, mas não tem permissão para alterar as medidas publicadas nem a estrutura da ficha. O banco usa Row Level Security (RLS), e não apenas o bloqueio visual, para impedir gravação por clientes e leitura de outros clientes.
 - O tema claro/escuro, inclusive fundo preto no escuro, segue funcionando. Vídeos anteriores continuam em `assets/videos/` e as mídias são vinculadas por IDs existentes.
 - Um aviso publicado no painel administrativo aparece aos clientes aprovados.
 - Na aprovação, o painel ADM atribui o plano-base A–D somente a quem ainda não tem plano; treinos personalizados já existentes são preservados.
 
 ## Ativar
 
-O Supabase ainda precisa ser configurado antes de receber dados reais.
+Projeto conectado ao Supabase. Para preparar uma nova instalação, siga estes passos.
 
 1. Configure o projeto, a migração SQL e o usuário administrador seguindo [SUPABASE_SETUP.md no repositório treino](https://github.com/lohanrosha02-gif/treino/blob/main/SUPABASE_SETUP.md).
 2. Preencha apenas a **URL do projeto** e a **chave publishable** em `supabase-config.js` nos dois repositórios. Nunca use a `service_role` nem chaves `sb_secret_` em arquivos públicos.
@@ -25,8 +28,8 @@ O Supabase ainda precisa ser configurado antes de receber dados reais.
 ## Privacidade, histórico e migração
 
 - Medidas e planos **por cliente** são persistidos no Supabase com controle por usuário. Não grave informações individuais em arquivos públicos do GitHub.
-- Os arquivos antigos `app.js`, `treinos.js`, `content.js` e `data/site-content.json` foram mantidos para consulta e compatibilidade histórica, **mas não são carregados pela página principal**.
-- Dados anteriores em `localStorage` não são apagados, porém **não são migrados automaticamente** para o Supabase.
+- O site agora executa `app.js`, `treinos.js`, `experience.js` e `legacy-catalog.js` **somente após login e aprovação**. A ficha individual é lida do Supabase e substitui os exercícios estáticos. `content.js` antigo não é executado.
+- Os dados anteriores de navegador não são copiados automaticamente para nenhuma conta, evitando misturar históricos de alunos. Quem tiver backup anterior pode importá-lo com o menu **Meus dados**.
 - Não habilite o uso com dados reais antes de executar e testar a migração RLS com contas distintas.
 
 ## Desenvolvimento

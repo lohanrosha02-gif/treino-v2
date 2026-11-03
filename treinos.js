@@ -331,7 +331,7 @@
       +'<div class="workout-actions"><button class="save" type="button" data-action="save">Salvar</button>'
       +'<button class="finish" type="button" data-action="finish">'+(r.complete?'✓ Sessão concluída':'Concluir sessão')+'</button>'
       +'<button class="clear" type="button" data-action="clear">Limpar</button></div>'
-      +'<p class="workout-last">Salvo neste navegador. Use “Meus dados” para baixar um backup.</p>'
+      +'<p class="workout-last">Registros sincronizados com sua conta. Use “Meus dados” para baixar um backup.</p>'
       +'</div></details></section>'
       +'</div>';
     window.dispatchEvent(new CustomEvent('meutreino:render'));

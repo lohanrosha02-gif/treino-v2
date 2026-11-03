@@ -105,7 +105,7 @@
       html+='</div></section>';
     });
     el('measureFields').innerHTML=html;
-    el('saveStatusText').textContent='Os dados são salvos automaticamente neste navegador.';
+    el('saveStatusText').textContent='Registros salvos no navegador e sincronizados com a sua conta.';
     updateProgress();
   }
   function measurement(id){
